@@ -1,0 +1,158 @@
+{
+    "Pages":{
+        "App": {
+            "name": "Home Page",
+            "slogan": "Hello"
+        },
+        "Login": {
+            "title": "Fazer login",
+            "username": "E-mail",
+            "password": "Senha",
+            "signin-button": "Entrar",
+            "forgot-password": "Esqueceu a senha?",
+            "create-account": "Criar conta",
+            "msg": {
+                "invalid-credentials": "Credenciais inválidas",
+                "required-username": "E-mail é obrigatório",
+                "required-password": "Senha é obrigatória",
+                "user-deactivated": "Usuário desativado."
+            }
+        },
+        "NewUser": {
+            "title": "Criar uma nova conta",
+            "name": "Nome",
+            "email": "E-mail",
+            "password": "Senha",
+            "cpassword": "Confirmar senha",
+            "signin-button": "Cria conta",
+            "forgot-password": "Esqueceu a senha?",
+            "login-page": "Fazer login",
+            "msg": {
+                "required-name": "Informe seu nome completo",
+                "required-email": "Um E-mail válido é obrigatório",
+                "required-password": "Senha é obrigatória",
+                "required-strong-password": "A senha deve ter pelo menos 8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial",
+                "create-error": "Error ao criar um novo usuário.",
+                "successfully-created": "Conta criada com sucesso."
+            }
+        },
+        
+        "AccountList":{
+            "title": "Contas",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "accountName": "Nome da conta",
+                    "types": "Tipo",
+                    "initialAmount": "Saldo inicial"
+                },
+                "actions":{
+                    "edit": "Nova conta",
+                    "delete": "Excluir conta(s)"
+                }
+            },
+            "alerts": {
+                "delete": {
+                    "title": "Excluir conta",
+                    "message": "Você tem certeza que deseja excluir a(s) conta(s) selecionada(s)?",
+                    "cancel": "Concelar",
+                    "delete": "Excluir conta(s)"
+                }
+            }
+        },
+        "AccountForm":{
+            "title": "Nova conta",
+            "name": "Nome da conta",
+            "type": "Tipo",
+            "initialAmount": "Saldo inicial",
+            "createButton": "Criar conta",
+            "backButton": "Voltar para a lista",
+            "msg": {
+                "requiredName": "Nome da conta é obrigatório",
+                "requireType": "Tipo da conta é obrigatório",
+                "requiredInitialAmount": "Saldo inicial é obrigatório",
+                "createError": "Erro ao criar uma nova conta.",
+                "successfullyCreated": "Conta criada com sucesso."
+            }
+        }
+    },
+    "Configs":{
+        "Currency": {
+            "symbol": "R$",
+            "name": "Real",
+            "decimal": ",",
+            "thousand": "."
+        },
+        "NavBarOptions": {
+            "main":{
+                "title":"Itens principais",
+                "dashboard":"Dashboard",
+                "accounts":"Contas"
+            },
+            "reports":{
+                "title":"Relatórios",
+                "expenses":"Despesas",
+                "incomes":"Receitas"
+            }
+        },
+        "Datagrid": {
+            "selected": "Linhas selecionadas",
+            "rowsPerPage": "Linhas por página",
+            "columnMenuUnsort": "Não classificado",
+            "columnMenuSortAsc": "Classificar por ordem crescente",
+            "columnMenuSortDesc": "Classificar por ordem decrescente",
+            "columnMenuFilter": "Filtro",
+            "columnMenuHideColumn": "Ocultar",
+            "columnMenuShowColumns": "Mostrar colunas",
+            "noRowsLabel": "Nenhum registro encontrado.",
+            "noResultsOverlayLabel": "Nenhum resultado encontrado",
+            "errorOverlayDefaultLabel": "Ocorreu um erro",
+            "toolbarDensity": "Densidade",
+            "toolbarDensityLabel": "Densidade",
+            "toolbarDensityCompact": "Compacto",
+            "toolbarDensityStandard": "Padrão",
+            "toolbarDensityComfortable": "Confortável",
+            "toolbarColumns": "Colunas",
+            "toolbarColumnsLabel": "Selecionar colunas",
+            "toolbarFilters": "Filtros",
+            "toolbarFiltersLabel": "Mostrar filtros",
+            "toolbarExport": "Exportar",
+            "toolbarExportLabel": "Exportar",
+            "toolbarExportCSV": "Baixar como CSV",
+            "toolbarExportPrint": "Imprimir",
+            "toolbarExportExcel": "Baixar como Excel",
+            "columnsPanelTextFieldLabel": "Encontrar coluna",
+            "columnsPanelTextFieldPlaceholder": "Título da coluna",
+            "columnsPanelDragIconLabel": "Reordenar coluna",
+            "columnsPanelShowAllButton": "Mostrar todas",
+            "columnsPanelHideAllButton": "Ocultar todas",
+            "filterPanelAddFilter": "Adicionar filtro",
+            "filterPanelDeleteIconLabel": "Excluir",
+            "filterPanelLinkOperator": "Operador lógico",
+            "filterPanelOperators": "Operadores",
+            "filterPanelOperatorAnd": "E",
+            "filterPanelOperatorOr": "OU",
+            "filterPanelColumns": "Colunas",
+            "filterPanelInputLabel": "Valor",
+            "filterPanelInputPlaceholder": "Filtrar valor",
+            "filterOperatorContains": "contém",
+            "filterOperatorEquals": "igual a",
+            "filterOperatorStartsWith": "começa com",
+            "filterOperatorEndsWith": "termina com",
+            "filterOperatorIs": "é",
+            "filterOperatorNot": "não é",
+            "filterOperatorAfter": "depois",
+            "filterOperatorOnOrAfter": "em ou depois",
+            "filterOperatorBefore": "antes",
+            "filterOperatorOnOrBefore": "em ou antes",
+            "filterOperatorIsEmpty": "está vazio",
+            "filterOperatorIsNotEmpty": "não está vazio",
+            "filterOperatorIsAnyOf": "é qualquer um de"
+        },
+        "DatagridPagination":{
+            "pagination": { 
+                "labelRowsPerPage": "Linhas por página" 
+            }
+        }
+    }
+}

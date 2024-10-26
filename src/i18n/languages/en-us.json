@@ -1,0 +1,157 @@
+{
+    "Pages": {
+        "App": {
+            "name": "Personal finance",
+            "slogan": "Take Control, Achieve More"
+        },
+        "Login": {
+            "title": "Sign in",
+            "username": "E-mail",
+            "password": "Password",
+            "signin-button": "Sign in",
+            "forgot-password": "Forgot password?",
+            "create-account": "Create account",
+            "msg": {
+                "invalid-credentials": "Invalid credentials",
+                "required-username": "A valid e-mail is required",
+                "required-password": "Password is required",
+                "user-deactivated": "User deactivated."
+            }
+        },
+        "NewUser": {
+            "title": "Create a new account",
+            "name": "Name",
+            "email": "E-mail",
+            "password": "Password",
+            "cpassword": "Confirm password",
+            "signin-button": "Create account",
+            "forgot-password": "Forgot password?",
+            "login-page": "Sign in",
+            "msg": {
+                "required-name": "A valid name is required",
+                "required-email": "A valid e-mail is required",
+                "required-password": "Password is required",
+                "required-strong-password": "Password must have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+                "create-error": "Error creating a new account.",
+                "successfully-created": "Account successfully created."
+            }
+        },
+        "AccountList":{
+            "title": "Accounts",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "accountName": "Account name",
+                    "types": "Types",
+                    "initialAmount": "Iniciatl balance"
+                },
+                "actions":{
+                    "edit": "New account",
+                    "delete": "Delete account(s)"
+                }
+            },
+            "alerts": {
+                "delete": {
+                    "title": "Delete account",
+                    "message": "Are you sure you want to delete the account(s)?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
+                }
+            }
+        },
+        "AccountForm":{
+            "title": "New account",
+            "name": "Name",
+            "type": "Type",
+            "initialAmount": "Initial amount",
+            "createButton": "Create",
+            "backButton": "Back to the list",
+            "msg": {
+                "requiredName": "A valid name is required",
+                "requiredType": "A valid type is required",
+                "requiredInitialAmount": "A valid initial amount is required",
+                "createError": "Error creating a new account.",
+                "successfullyCreated": "Account successfully created."
+            }
+        }
+    },
+    "Configs": {
+        "Currency": {
+            "symbol": "$",
+            "name": "USD",
+            "decimal": ".",
+            "thousand": ","
+        },
+        "NavBarOptions": {
+            "main":{
+                "title":"Main items",
+                "dashboard":"Dashboard",
+                "accounts":"Accounts"
+            },
+            "reports":{
+                "title":"Reports",
+                "expenses":"Expenses",
+                "incomes":"Incomes"
+            }
+        },
+        "Datagrid": {
+            "selected": "Selected rows",
+            "rowsPerPage": "Rows per page",
+            "columnMenuUnsort": "Unsort",
+            "columnMenuSortAsc": "Sort by ascending order",
+            "columnMenuSortDesc": "Sort by descending order",
+            "columnMenuFilter": "Filter",
+            "columnMenuHideColumn": "Hide column",
+            "columnMenuShowColumns": "Show columns",
+            "noRowsLabel": "No rows",
+            "noResultsOverlayLabel": "No results found",
+            "errorOverlayDefaultLabel": "An error occurred",
+            "toolbarDensity": "Density",
+            "toolbarDensityLabel": "Density",
+            "toolbarDensityCompact": "Compact",
+            "toolbarDensityStandard": "Standard",
+            "toolbarDensityComfortable": "Comfortable",
+            "toolbarColumns": "Columns",
+            "toolbarColumnsLabel": "Select columns",
+            "toolbarFilters": "Filters",
+            "toolbarFiltersLabel": "Show filters",
+            "toolbarExport": "Export",
+            "toolbarExportLabel": "Export",
+            "toolbarExportCSV": "Download as CSV",
+            "toolbarExportPrint": "Print",
+            "toolbarExportExcel": "Download as Excel",
+            "columnsPanelTextFieldLabel": "Find column",
+            "columnsPanelTextFieldPlaceholder": "Column title",
+            "columnsPanelDragIconLabel": "Reorder column",
+            "columnsPanelShowAllButton": "Show all",
+            "columnsPanelHideAllButton": "Hide all",
+            "filterPanelAddFilter": "Add filter",
+            "filterPanelDeleteIconLabel": "Delete",
+            "filterPanelLinkOperator": "Logical operator",
+            "filterPanelOperators": "Operators",
+            "filterPanelOperatorAnd": "And",
+            "filterPanelOperatorOr": "Or",
+            "filterPanelColumns": "Columns",
+            "filterPanelInputLabel": "Value",
+            "filterPanelInputPlaceholder": "Filter value",
+            "filterOperatorContains": "contains",
+            "filterOperatorEquals": "equals",
+            "filterOperatorStartsWith": "starts with",
+            "filterOperatorEndsWith": "ends with",
+            "filterOperatorIs": "is",
+            "filterOperatorNot": "is not",
+            "filterOperatorAfter": "after",
+            "filterOperatorOnOrAfter": "on or after",
+            "filterOperatorBefore": "before",
+            "filterOperatorOnOrBefore": "on or before",
+            "filterOperatorIsEmpty": "is empty",
+            "filterOperatorIsNotEmpty": "is not empty",
+            "filterOperatorIsAnyOf": "is any of"
+        },
+        "DatagridPagination":{
+            "pagination": { 
+                "labelRowsPerPage": "Rows per page" 
+            }
+        }
+    }
+}
