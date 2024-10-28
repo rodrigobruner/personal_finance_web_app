@@ -7,6 +7,21 @@ import { useMessages } from 'next-intl';
 import { NumericFormat } from 'react-number-format';
 
 
+type FormField = {
+    value: string;
+    error: boolean;
+    helperText: string;
+};
+
+type FormState = {
+    uid: FormField;
+    name: FormField;
+    type: FormField;
+    initialAmount: FormField;
+    status: FormField;
+    [key: string]: FormField;
+};
+
 const initialFormState = {
     uid: { value: '', error: false, helperText: '' },
     name: { value: '', error: false, helperText: '' },
@@ -27,26 +42,15 @@ export default function CreateAccountPage(
         const currency = useMemo(() => (messages as any).Configs.Currency, [messages]);
 
 
-    const [formState, setFormState] = useState(initialFormState);
+    const [formState, setFormState] = useState<FormState>(initialFormState);
     const [types, setTypes] = useState([{id: 1, name: 'Conta Corrente'}, {id: 2, name: 'Conta Poupança'}]);
     const router = useRouter();
 
-    // Handle form input changes
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Handle form changes
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>): void => {
         const { name, value } = e.target;
         setFormState({
             ...formState,
-            // @ts-ignore
-            [name]: { ...formState[name], value },
-        });
-    };
-
-    // Handle select changes
-    const handleSelectChange = (event: SelectChangeEvent<string>) => {
-        const { name, value } = event.target;
-        setFormState({
-            ...formState,
-            // @ts-ignore
             [name]: { ...formState[name], value },
         });
     };
@@ -91,7 +95,7 @@ export default function CreateAccountPage(
         return isValid;
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>):void => {
         e.preventDefault(); //prevent default form submission
 
         if (validateForm()) {
@@ -100,6 +104,7 @@ export default function CreateAccountPage(
 
             //TODO: use axios to submit form data
 
+            
             // Redirect to account list
             router.push(`/${locale}/app/accounts`);
         }
@@ -129,7 +134,7 @@ export default function CreateAccountPage(
                             id="name"
                             name="name"
                             value={formState.name.value}
-                            onChange={handleSelectChange}
+                            onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
                             error={formState.name.error}
                             aria-describedby="name-helper-text"
                         />

@@ -38,6 +38,7 @@ export default function Login(
 
     const messages = useMessages();
     const t = (messages as any).Pages.Login;
+    const app = (messages as any).Pages.App;
 
     // Form state
     const [user, setUser] = useState<FieldValidationHelper>({
@@ -169,10 +170,10 @@ export default function Login(
                 width: '100%',
             }}>
                 <Typography variant="h3" component="h2">
-                    {messages.Pages.App.name}
+                    {app.name}
                 </Typography>
                 <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-                    {messages.Pages.App.slogan}
+                    {app.slogan}
                 </Typography>
                 <Paper elevation={3}
                     sx={{

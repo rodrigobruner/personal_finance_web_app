@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useMessages } from 'next-intl';
 import { FieldValidationHelper } from '@/types';
 import { POST } from '@/helpers/httpClient';
@@ -8,15 +8,14 @@ import { Alert, AlertTitle, Box, Button, Divider, FormControl, FormHelperText, I
 import Paper from '@mui/material/Paper';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import CheckIcon from '@mui/icons-material/Check';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { set } from 'lodash';
 
 export default function Login(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
     const messages = useMessages();
     const t = (messages as any).Pages.NewUser;
+    const app = (messages as any).Pages.App;
+
 
     // Form state
     const [user, setUser] = React.useState<FieldValidationHelper>({
@@ -154,10 +153,10 @@ export default function Login(
                 width: '100%', // Garante que o contêiner ocupe 100% da largura
             }}>
                 <Typography variant="h3" component="h2">
-                    {messages.Pages.App.name}
+                    {app.name}
                 </Typography>
                 <Typography variant="h5" component="h3" sx={{ mb: 2 }}>
-                    {messages.Pages.App.slogan}
+                    {app.slogan}
                 </Typography>
                 <Paper elevation={3} 
                     sx={{ 
