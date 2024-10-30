@@ -2,10 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 //Types and helpers
-import { UserSession } from "@/types/User";
-import { checkUserSession } from "@/helpers/userSession";
-//Material UI
-import { Link } from "@mui/material";
+import { UserSession } from "@/types/UserSession";
+import { checkUserSession, getSession } from "@/helpers/userSession";
 
 
 export default function IndexPage(
@@ -15,14 +13,10 @@ export default function IndexPage(
     const router = useRouter();
 
     useEffect(() => {
-        checkUserSession()
-            .then((sessionData) => {
-                setSession(sessionData);
-            })
-            .catch((error) => {
-                console.error("Error getting user session:", error);
-                router.push(`/${locale}/`);
-            });
+        if(!checkUserSession()){
+            router.push(`/${locale}/`);
+        }
+        setSession(getSession());
     }, []);
 
     useEffect(() => {

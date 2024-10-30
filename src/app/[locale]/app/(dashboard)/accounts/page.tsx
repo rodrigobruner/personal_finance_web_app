@@ -11,7 +11,10 @@ import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { useMessages } from "next-intl";
 import { useRouter } from "next/navigation";
 //Axios
-import axios from "@/helpers/axiosInstance";
+import axios from 'axios';
+
+import { UserSession } from "@/types/UserSession";
+import { checkUserSession, getSession } from "@/helpers/userSession";
 
 // Define the columns for the datagrid
 function getDatagridColumns(t: any) {
@@ -56,11 +59,23 @@ export default function ListAccountPage(
     const translationForDatagrid = useMemo(() => configs.Datagrid, [configs]);
     const translationForPagination = useMemo(() => configs.DatagridPagination, [configs]);
 
+    //Get the user session
+    const [session, setSession] = useState<UserSession | null>(null);
+
+    
     //Create a dialog instance
     const dialogs = useDialogs();
 
     //Get the router instance
-    const router = typeof window !== 'undefined' ? useRouter() : null;
+    const router = useRouter();
+
+    useEffect(() => {
+        if(!checkUserSession()){
+            router.push(`/${locale}/`);
+        }
+        setSession(getSession());
+    }, []);
+
 
     //Sample data
     // const [rows, setRows] = useState([
@@ -77,16 +92,28 @@ export default function ListAccountPage(
 
     
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('/api/accounts');
-                setRows(response.data);
-            } catch (error) {
-                console.error('Erro ao buscar dados:', error);
+        const fetchAccounts = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/Accounts/user/${session?.uid}`);
+            const accounts = response.data.map((account: any) => ({
+                id: account.id,
+                name: account.name,
+                accountType: account.accountType.type,
+                initialAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: configs.Currency.name }).format(account.initialAmount)
+            }));
+            setRows(accounts);
+        } catch (error) {
+            console.error('Error fetching accounts:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Response data:', error.response.data);
+                console.error('Response status:', error.response.status);
+                console.error('Response headers:', error.response.headers);
             }
+        }
         };
-        fetchData();
-    }, []);
+    
+        fetchAccounts();
+    }, [session, locale, configs]);
 
     // Save selected rows
     const [rowSelectionModel, setRowSelectionModel] = useState<GridRowSelectionModel>([]);

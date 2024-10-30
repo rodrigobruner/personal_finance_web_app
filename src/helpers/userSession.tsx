@@ -1,50 +1,22 @@
-import { UserSession } from '../types/User';
+import { UserSession } from '../types/UserSession';
 
 // WARNING: This implementation is insecure
 // TODO: implement JWT to perform the authorization and authentication process.
 
-const SESSION_NAME = process.env.NEXT_PUBLIC_SESSION_NAME || "userSession";
 
+export const saveSession = (user: UserSession) => {
+    localStorage.setItem('user', JSON.stringify(user));
+};
 
+export const getSession = (): UserSession | null => {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+};
 
-function isBrowser() {
-    return typeof window !== 'undefined';
-}
+export const clearSession = () => {
+    localStorage.removeItem('user');
+};
 
-export function setUserSession(user: UserSession) {
-    localStorage.setItem(SESSION_NAME, JSON.stringify(user));
-}
-
-export function getUserSession(): Promise<UserSession | null> {
-    return new Promise((resolve, reject) => {
-        if (isBrowser()) {
-            localStorage.getItem(SESSION_NAME);
-        } else {
-            resolve(null);
-        }
-    });
-}
-
-export function removeUserSession() {
-    localStorage.removeItem(SESSION_NAME);
-}
-
-export async function isUserSessionValid(): Promise<boolean> {
-    if (isBrowser()) {
-        const user = await getUserSession();
-        if (user) {
-            return user.expiration > new Date();
-        }
-    }
-    return false;
-}
-
-export async function checkUserSession(): Promise<UserSession | null> {
-    try {
-        const session = await getUserSession();
-        return session;
-    } catch (error) {
-        console.error("Error checking user session:", error);
-        return null;
-    }
-}
+export const checkUserSession = () => {
+    return getSession() !== null;
+};

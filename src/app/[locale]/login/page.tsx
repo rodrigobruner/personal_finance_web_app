@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
-import { UserSession } from '@/types/User';
+import { UserSession } from '@/types/UserSession';
 //Types and helpers
 import { FieldValidationHelper } from '@/types';
 import { POST } from '@/helpers/httpClient';
-import { checkUserSession, setUserSession } from '@/helpers/userSession';
+import { getSession, saveSession } from '@/helpers/userSession';
 //Material UI components
 import { Box, Button, Divider, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel, Link, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -17,24 +17,21 @@ export default function Login(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
     // Redirect to the app if the user is already logged in
-    const [session, setSession] = useState<UserSession | null>(null);
+    const [sessionState, setSessionState] = useState<UserSession | null>(null);
     const router = useRouter();
 
     useEffect(() => {
-        checkUserSession()
-            .then((sessionData) => {
-                setSession(sessionData);
-            })
-            .catch((error) => {
-                console.error("Error checking user session:", error);
-            });
+        if (getSession) {
+            const sessionData = getSession();
+            setSessionState(sessionData);
+        }
     }, []);
 
     useEffect(() => {
-        if (session) {
+        if (sessionState) {
             router.push(`/${locale}/app/`);
         }
-    }, [session, locale, router]);
+    }, [sessionState, locale, router]);
 
     const messages = useMessages();
     const t = (messages as any).Pages.Login;
@@ -119,8 +116,8 @@ export default function Login(
                         if (userData["status"] === "Active") {
                             delete userData["password"];
                             delete userData["status"];
-                            setUserSession(userData);
-                            setSession(userData);
+                            saveSession(userData);
+                            setSessionState(userData);
                         } else {
                             const newUser = { ...user };
                             newUser.password.error = true;

@@ -70,7 +70,7 @@
                 "requiredName": "A valid name is required",
                 "requiredType": "A valid type is required",
                 "requiredInitialAmount": "A valid initial amount is required",
-                "createError": "Error creating a new account.",
+                "createError": "Server error creating an account. Contact admin.",
                 "successfullyCreated": "Account successfully created."
             }
         }

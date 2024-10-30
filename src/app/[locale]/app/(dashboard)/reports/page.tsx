@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 //Types and helpers
-import { UserSession } from "@/types/User";
+import { UserSession } from "@/types/UserSession";
 import { checkUserSession } from "@/helpers/userSession";
 //Material UI
 import { Link } from "@mui/material";

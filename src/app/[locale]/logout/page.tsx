@@ -2,12 +2,12 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
 //Helpers
-import { removeUserSession } from '@/helpers/userSession';
+import { clearSession } from '@/helpers/userSession';
 
 export default function Login(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
-    removeUserSession();
+    clearSession();
     redirect(`/${locale}/login`);
     return (
         <div>
