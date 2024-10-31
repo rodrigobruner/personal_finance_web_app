@@ -1,13 +1,21 @@
 import { Currency } from "@/types/Currency";
 import React from "react";
 import { FormTransactionMessage, FormTransactionState, initialFormTransactionState } from "@/types/From";
-import { Button, FormControl, FormHelperText, Input, InputLabel, MenuItem, Select, Stack } from "@mui/material";
+import { Button, FormControl, FormHelperText, Input, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { NumericFormat } from "react-number-format";
 
 
 export function NewTransactionForm(messages: FormTransactionMessage) {
     const [formState, setFormState] = React.useState<FormTransactionState>(initialFormTransactionState);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>): void => {
+        const { name, value } = e.target;
+        setFormState({
+            ...formState,
+            [name]: { ...formState[name], value },
+        });
+    };
 
     return (
     <div>
@@ -18,7 +26,7 @@ export function NewTransactionForm(messages: FormTransactionMessage) {
                     labelId="income"
                     id="income"
                     value=""
-                    onChange=""
+                    onChange={handleChange}
                     label="Income"
                 >
                     <MenuItem value=""></MenuItem>
@@ -31,7 +39,7 @@ export function NewTransactionForm(messages: FormTransactionMessage) {
                     labelId="income"
                     id="income"
                     value=""
-                    onChange=""
+                    onChange={handleChange}
                     label="Income"
                 >
                     <MenuItem value=""></MenuItem>

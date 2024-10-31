@@ -56,7 +56,7 @@ export default function NewTransactionWidget() {
     };
 
     return (
-        <WidgetCard sx={{width:'48%', margin:'1%', float:'left'}}>
+        <WidgetCard>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs   value={value} 
