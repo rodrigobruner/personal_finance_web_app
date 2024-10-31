@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 //Types and helpers
 import { UserSession } from "@/types/UserSession";
-import { checkUserSession } from "@/helpers/userSession";
+import { checkUserSession, getSession } from "@/helpers/userSession";
 //Material UI
-import { Link } from "@mui/material";
+import DescriptionIcon from '@mui/icons-material/Description';
+
 
 
 export default function IndexPage(
@@ -15,25 +16,15 @@ export default function IndexPage(
     const router = useRouter();
 
     useEffect(() => {
-        checkUserSession()
-            .then((sessionData) => {
-                setSession(sessionData);
-            })
-            .catch((error) => {
-                console.error("Error getting user session:", error);
-                router.push(`/${locale}/`);
-            });
-    }, []);
-
-    useEffect(() => {
-        if (session) {
-            // router.push(`/${locale}/`);
+        if(!checkUserSession()){
+            router.push(`/${locale}/`);
         }
-    }, [session, locale, router]);
+        setSession(getSession());
+    }, []);
 
     return (
         <div>
-            <h1>Incomes</h1>
+            <h1><DescriptionIcon />  All reports</h1>
         </div>
     );
 }

@@ -37,7 +37,7 @@ export function UserProfileMenu() {
             <Avatar
                 sx={{ bgcolor: blue[100], color: blue[600] }}
                 alt="Rodrigo Bruner"
-                src="/bruner.png"
+                src=""
                 onClick={handleClick}
             ></Avatar>
             <Menu

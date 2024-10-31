@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 //Material UI
+import DescriptionIcon from '@mui/icons-material/Description';
 
 
 export default function IndexPage(
@@ -22,7 +23,7 @@ export default function IndexPage(
 
     return (
         <div>
-            <h1>Expenses</h1>
+            <h1> <DescriptionIcon /> Expenses</h1>
         </div>
     );
 }

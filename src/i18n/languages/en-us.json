@@ -75,6 +75,57 @@
             }
         }
     },
+    "Components":{
+        "NewTransactionWidget":{
+            "addIncomes": {
+                "title": "Add incomes",
+                "from": "Account",
+                "amount": "Amount",
+                "to": "Category",
+                "description": "Description",
+                "button": "Create",
+                "msg": {
+                    "requiredFrom": "A valid category is required",
+                    "requiredAmount": "A valid amount is required",
+                    "requiredTo": "A valid account is required",
+                    "createError": "Server error creating an income. Contact admin.",
+                    "successfullyCreated": "Income successfully created."
+                }
+            },
+            "addExpenses": {
+                "title": "Add expenses",
+                "from": "Account",
+                "amount": "Amount",
+                "to": "Category",
+                "description": "Description",
+                "button": "Create",
+                "msg": {
+                    "requiredFrom": "A valid category is required",
+                    "requiredAmount": "A valid amount is required",
+                    "requiredTo": "A valid account is required",
+                    "createError": "Server error creating an expense. Contact admin.",
+                    "successfullyCreated": "Expense successfully created."
+                }
+            },
+            "transfer": {
+                "title": "Transfer",
+                "from": "From",
+                "amount": "Amount",
+                "to": "To",
+                "description": "Description",
+                "button": "Create",
+                "msg": {
+                    "requiredFrom": "A valid account is required",
+                    "requiredAmount": "A valid amount is required",
+                    "requiredTo": "A valid account is required",
+                    "createError": "Server error creating a transfer. Contact admin.",
+                    "successfullyCreated": "Transfer successfully created."
+                }
+            }
+        }
+    },
+
+
     "Configs": {
         "Currency": {
             "symbol": "$",

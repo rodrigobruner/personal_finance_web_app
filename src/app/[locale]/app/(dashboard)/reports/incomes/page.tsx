@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import DescriptionIcon from '@mui/icons-material/Description';
 import { useRouter } from 'next/navigation';
 //Types and helpers
 import { UserSession } from "@/types/UserSession";
@@ -20,7 +21,7 @@ export default function IndexPage(
 
     return (
         <div>
-            <h1>Incomes</h1>
+            <h1><DescriptionIcon /> Incomes</h1>
         </div>
     );
 }

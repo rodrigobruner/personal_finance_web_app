@@ -9,7 +9,6 @@ import { PageContainer } from '@toolpad/core/PageContainer';
 import { UserProfileMenu } from '@/components/Layout/userProfileMenu';
 import { SidebarFooter } from '@/components/Layout/sidebarFooter';
 
-
 export default function Layout(props: { children: React.ReactNode }) {
     return (
         <DashboardLayout

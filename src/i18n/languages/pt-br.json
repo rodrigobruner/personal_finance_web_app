@@ -76,6 +76,53 @@
             }
         }
     },
+    "Components":{
+        "addIncomes": {
+            "title": "Adicionar receitas",
+            "from": "Conta",
+            "amount": "Quantia",
+            "to": "Categoria",
+            "description": "Descrição",
+            "button": "Criar",
+            "msg": {
+                "requiredFrom": "Uma categoria válida é obrigatória",
+                "requiredAmount": "Uma quantia válida é obrigatória",
+                "requiredTo": "Uma conta válida é obrigatória",
+                "createError": "Erro no servidor ao criar uma receita. Contate o administrador.",
+                "successfullyCreated": "Receita criada com sucesso."
+            }
+        },
+        "addExpenses": {
+            "title": "Adicionar despesas",
+            "from": "Conta",
+            "amount": "Quantia",
+            "to": "Categoria",
+            "description": "Descrição",
+            "button": "Criar",
+            "msg": {
+                "requiredFrom": "Uma categoria válida é obrigatória",
+                "requiredAmount": "Uma quantia válida é obrigatória",
+                "requiredTo": "Uma conta válida é obrigatória",
+                "createError": "Erro no servidor ao criar uma despesa. Contate o administrador.",
+                "successfullyCreated": "Despesa criada com sucesso."
+            }
+        },
+        "transfer": {
+            "title": "Transferir",
+            "from": "De",
+            "amount": "Quantia",
+            "to": "Para",
+            "description": "Descrição",
+            "button": "Criar",
+            "msg": {
+                "requiredFrom": "Uma conta válida é obrigatória",
+                "requiredAmount": "Uma quantia válida é obrigatória",
+                "requiredTo": "Uma conta válida é obrigatória",
+                "createError": "Erro no servidor ao criar uma transferência. Contate o administrador.",
+                "successfullyCreated": "Transferência criada com sucesso."
+            }
+        }
+    },
     "Configs":{
         "Currency": {
             "symbol": "R$",

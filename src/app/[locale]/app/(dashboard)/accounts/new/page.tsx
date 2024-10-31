@@ -2,12 +2,15 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, Box, Button, Divider, FormControl, FormHelperText, Input, InputAdornment, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Typography } from '@mui/material';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
 import { NumericFormat } from 'react-number-format';
 import axios from 'axios';
 import { checkUserSession, getSession } from '@/helpers/userSession';
 import { UserSession } from '@/types/UserSession';
+import { FormField } from '@/types/From';
+import { SnackbarInitialState, SnackbarState } from '@/types/SnackbarState';
 
 
 type AccountType = {
@@ -15,13 +18,7 @@ type AccountType = {
     type: string;
 };
 
-type FormField = {
-    value: string;
-    error: boolean;
-    helperText: string;
-};
-
-type FormState = {
+type FormAccountState = {
     uid: FormField;
     name: FormField;
     type: FormField;
@@ -30,7 +27,7 @@ type FormState = {
     [key: string]: FormField;
 };
 
-const initialFormState = {
+const initialFormAccountState = {
     uid: { value: '', error: false, helperText: '' },
     name: { value: '', error: false, helperText: '' },
     type: { value: '', error: false, helperText: '' },
@@ -52,9 +49,9 @@ export default function CreateAccountPage(
     const currency = useMemo(() => (messages as any).Configs.Currency, [messages]);
 
     const [session, setSession] = useState<UserSession | null>(null);
-    const [formState, setFormState] = useState<FormState>(initialFormState);
+    const [formState, setFormState] = useState<FormAccountState>(initialFormAccountState);
     const [types, setTypes] = useState<AccountType[]>([]);
-    const [snackbar, setSnackbar] = useState<SnackbarState>({ open: false, message: '', severity: 'success' });
+    const [snackbar, setSnackbar] = useState<SnackbarState>(SnackbarInitialState);
     const router = useRouter();
 
     useEffect(() => {
@@ -182,7 +179,7 @@ export default function CreateAccountPage(
 
     return (
         <Box sx={{ p: 2 }}>
-            <h1>{t.title}</h1>
+            <h1><AccountBalanceIcon /> {t.title}</h1>
             <Divider sx={{marginBottom:3}}/>
             <Button
                 variant="contained"

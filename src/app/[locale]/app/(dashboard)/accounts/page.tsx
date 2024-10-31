@@ -4,6 +4,7 @@
 import { Box, Button, Divider, Paper } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { DataGrid, GridColDef, GridRowSelectionModel, GridToolbarContainer, GridToolbarExport } from '@mui/x-data-grid';
 import { useDialogs } from '@toolpad/core/useDialogs';
 //React & Next
@@ -61,7 +62,6 @@ export default function ListAccountPage(
 
     //Get the user session
     const [session, setSession] = useState<UserSession | null>(null);
-
     
     //Create a dialog instance
     const dialogs = useDialogs();
@@ -75,18 +75,6 @@ export default function ListAccountPage(
         }
         setSession(getSession());
     }, []);
-
-
-    //Sample data
-    // const [rows, setRows] = useState([
-    //     { id: 1, name: 'Nu Bank', accountType: 'Chequing', initialAmount: '$ 495.000,01' },
-    //     { id: 2, name: 'Simply', accountType: 'Chequing', initialAmount: '$ 496.000,01' },
-    //     { id: 3, name: 'CIBC', accountType: 'GIC', initialAmount: '$ 494.000,01' },
-    //     { id: 4, name: 'Simply', accountType: 'Credit Card', initialAmount: '$ 492.000,01' },
-    //     { id: 5, name: 'Simply', accountType: 'Credit Card', initialAmount: '$ 492.000,01' },
-    //     { id: 6, name: 'Simply', accountType: 'Credit Card', initialAmount: '$ 492.000,01' },
-    //     { id: 7, name: 'Simply', accountType: 'Credit Card', initialAmount: '$ 492.000,01' },
-    // ]);
 
     const [rows, setRows] = useState<GridRowSelectionModel>([]);
 
@@ -162,7 +150,7 @@ export default function ListAccountPage(
 
     return (
         <Box>
-            <h1>{t.title}</h1>
+            <h1><AccountBalanceIcon /> {t.title}</h1>
             <Divider sx={{marginBottom:3}}/>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                 <Button 
