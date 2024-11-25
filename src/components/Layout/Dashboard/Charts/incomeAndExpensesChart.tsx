@@ -19,7 +19,7 @@ export default function IncomeAndExpensesChart(incomeAndExpensesChartData:Income
         <WidgetCard>
             <Typography align='center' variant='h5'>Income and Expenses Chart</Typography>
             <LineChart
-            width={500}
+            width={570}
             height={350}
             series={[
                 { data: incomes, label: labels[0], color: 'green' },

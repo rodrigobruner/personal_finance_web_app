@@ -21,26 +21,26 @@ export function NewTransactionForm(messages: FormTransactionMessage) {
     <div>
         <Stack alignItems="center" direction="row" gap={2}>
             <FormControl variant="standard" sx={{ m: 1, width: "40%" }}>
-                <InputLabel id="incomel">{messages.to}</InputLabel>
+                <InputLabel id="from">{messages.from}</InputLabel>
                 <Select
-                    labelId="income"
-                    id="income"
+                    labelId="from"
+                    id="from"
                     value=""
                     onChange={handleChange}
-                    label="Income"
+                    label={messages.from}
                 >
                     <MenuItem value=""></MenuItem>
                 </Select>
             </FormControl>
             <ChevronRightIcon sx={{m:1, width:"5%"}}/>
             <FormControl variant="standard" sx={{ m: 1, width: "40%" }}>
-                <InputLabel id="incomel">{messages.from}</InputLabel>
+                <InputLabel id="to">{messages.to}</InputLabel>
                 <Select
-                    labelId="income"
-                    id="income"
+                    labelId="to"
+                    id="to"
                     value=""
                     onChange={handleChange}
-                    label="Income"
+                    label={messages.to}
                 >
                     <MenuItem value=""></MenuItem>
 

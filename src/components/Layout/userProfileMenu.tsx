@@ -1,14 +1,24 @@
+import { getSession } from "@/helpers/userSession";
+import { UserSession } from "@/types/UserSession";
 import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
-import { Avatar, ListItemIcon, Menu, MenuItem } from "@mui/material";
+import { Avatar, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 
 export function UserProfileMenu() {
     
+    const [sessionState, setSessionState] = useState<UserSession | null>(null);
+    useEffect(() => {
+        if (getSession) {
+            const sessionData = getSession();
+            setSessionState(sessionData);
+        }
+    }, []);
+
     const router = useRouter();
     const pathname = usePathname();
     const locale = pathname.split('/')[1];
@@ -34,12 +44,14 @@ export function UserProfileMenu() {
 
     return (
         <>
-            <Avatar
-                sx={{ bgcolor: blue[100], color: blue[600] }}
-                alt="Rodrigo Bruner"
-                src=""
-                onClick={handleClick}
-            ></Avatar>
+            <Tooltip title={`${sessionState?.name} ( ${sessionState?.email} )`} placement="left">
+                <Avatar
+                    sx={{ bgcolor: blue[100], color: blue[600] }}
+                    alt={sessionState?.name}
+                    src={sessionState ? `/images/${sessionState.image}` : ""}
+                    onClick={handleClick}
+                ></Avatar>
+            </Tooltip>
             <Menu
                 anchorEl={anchorEl}
                 id="account-menu"

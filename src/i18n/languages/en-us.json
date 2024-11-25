@@ -47,31 +47,71 @@
                 },
                 "actions":{
                     "edit": "New account",
-                    "delete": "Delete account(s)"
+                    "delete": "Disable account(s)"
                 }
             },
             "alerts": {
-                "delete": {
-                    "title": "Delete account",
-                    "message": "Are you sure you want to delete the account(s)?",
+                "updateStatus": {
+                    "title": "Update account",
+                    "message": "Are you sure you want update the status of this account?",
                     "cancel": "Cancel",
-                    "delete": "Delete"
+                    "delete": "Change status"
                 }
             }
         },
         "AccountForm":{
-            "title": "New account",
+            "titleCreate": "New account",
+            "titleUpdate": "Update an account",
             "name": "Name",
             "type": "Type",
             "initialAmount": "Initial amount",
-            "createButton": "Create",
+            "saveButton": "Save",
             "backButton": "Back to the list",
             "msg": {
                 "requiredName": "A valid name is required",
                 "requiredType": "A valid type is required",
                 "requiredInitialAmount": "A valid initial amount is required",
                 "createError": "Server error creating an account. Contact admin.",
-                "successfullyCreated": "Account successfully created."
+                "updatedError": "Server error updating an account. Contact admin.",
+                "successfullyCreated": "Account successfully created.",
+                 "successfullyUpdated": "Account successfully updated."
+            }
+        },
+        "CategoryList":{
+            "title": "Categories",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "categoryName": "Category name",
+                    "categoryType": "Type"
+                },
+                "actions":{
+                    "edit": "New category",
+                    "delete": "Disable category(s)"
+                }
+            },
+            "alerts": {
+                "delete": {
+                    "title": "Delete category",
+                    "message": "Are you sure you want to delete the category(s)?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
+                }
+            }
+        },
+        "CategoriesForm":{
+            "title": "New category",
+            "name": "Name",
+            "type": "Type",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
+            "msg": {
+                "requiredName": "A valid name is required",
+                "requiredType": "A valid type is required",
+                "createError": "Server error creating a category. Contact admin.",
+                "updateError": "Server error updating a category. Contact admin.",
+                "successfullyCreated": "Category successfully created.",
+                "successfullyUpdated": "Category successfully updated."
             }
         }
     },
@@ -79,9 +119,9 @@
         "NewTransactionWidget":{
             "addIncomes": {
                 "title": "Add incomes",
-                "from": "Account",
+                "from": "Category",
                 "amount": "Amount",
-                "to": "Category",
+                "to": "Account",
                 "description": "Description",
                 "button": "Create",
                 "msg": {
@@ -137,7 +177,8 @@
             "main":{
                 "title":"Main items",
                 "dashboard":"Dashboard",
-                "accounts":"Accounts"
+                "accounts":"Accounts",
+                "categories":"Categories"
             },
             "reports":{
                 "title":"Reports",

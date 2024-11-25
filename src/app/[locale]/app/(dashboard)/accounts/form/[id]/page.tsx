@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useMemo, useState } from 'react';
-import { Alert, Box, Button, Divider, FormControl, FormHelperText, Input, InputAdornment, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Typography } from '@mui/material';
+import { Alert, Box, Button, Divider, FormControl, FormHelperText, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar } from '@mui/material';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { useRouter } from 'next/navigation';
@@ -11,7 +11,7 @@ import { checkUserSession, getSession } from '@/helpers/userSession';
 import { UserSession } from '@/types/UserSession';
 import { FormField } from '@/types/From';
 import { SnackbarInitialState, SnackbarState } from '@/types/SnackbarState';
-
+import Loading from '@/components/Layout/loading';
 
 type AccountType = {
     id: number;
@@ -35,11 +35,14 @@ const initialFormAccountState = {
     status: { value: '', error: false, helperText: '' },
 };
 
-
-
 export default function CreateAccountPage(
-    { params: { locale } }: Readonly<{ params: { locale: string } }>
+    { params: { locale, id: initialId } }: Readonly<{ params: { locale: string, id?: string } }>
 ) {
+    //Loading
+    const [loading, setLoading] = React.useState(true);
+
+    //Account ID
+    const [id, setId] = useState<string | null>(initialId || null);
 
     //Get translations
     const messages = useMessages();
@@ -48,12 +51,16 @@ export default function CreateAccountPage(
     const t = useMemo(() => (messages as any).Pages.AccountForm, [messages]);
     const currency = useMemo(() => (messages as any).Configs.Currency, [messages]);
 
-    const [session, setSession] = useState<UserSession | null>(null);
-    const [formState, setFormState] = useState<FormAccountState>(initialFormAccountState);
-    const [types, setTypes] = useState<AccountType[]>([]);
-    const [snackbar, setSnackbar] = useState<SnackbarState>(SnackbarInitialState);
+    //Get the router instance
     const router = useRouter();
 
+    //Snackbar state
+    const [snackbar, setSnackbar] = useState<SnackbarState>(SnackbarInitialState);
+
+    //Get the user session
+    const [session, setSession] = useState<UserSession | null>(null);
+
+    //Check if the user is logged in
     useEffect(() => {
         if(!checkUserSession()){
             router.push(`/${locale}/`);
@@ -61,19 +68,52 @@ export default function CreateAccountPage(
         setSession(getSession());
     }, []);
 
+
+    //Account types
+    const [types, setTypes] = useState<AccountType[]>([]);
+
+    //Fetch account types
     useEffect(() => {
         const fetchAccountTypes = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/AccountTypes/?locale=${locale}`);
-                console.log(response.data);
                 setTypes(response.data);
             } catch (error) {
                 console.error('Error fetching account types:', error);
+            } finally {
+                setLoading(false);
             }
         };
-    
+        
         fetchAccountTypes();
     }, []);
+
+
+    //Form state
+    const [formState, setFormState] = useState<FormAccountState>(initialFormAccountState);
+
+    //Fetch account data if id is provided
+    useEffect(() => {
+        if (id) {
+            const fetchAccountData = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:8080/Accounts/${id}`);
+                    const accountData = response.data;
+                    setFormState({
+                        uid: { value: accountData.user.uid, error: false, helperText: '' },
+                        name: { value: accountData.name, error: false, helperText: '' },
+                        type: { value: accountData.accountType.id, error: false, helperText: '' },
+                        initialAmount: { value: accountData.initialAmount, error: false, helperText: '' },
+                        status: { value: accountData.status, error: false, helperText: '' },
+                    });
+                } catch (error) {
+                    console.error('Error fetching account data:', error);
+                }
+            };
+
+            fetchAccountData();
+        }
+    }, [id]);
 
     // Handle form changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>): void => {
@@ -127,11 +167,10 @@ export default function CreateAccountPage(
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
         e.preventDefault(); //prevent default form submission
 
+        setLoading(true);
         if (validateForm()) {
             // Submit form data
-            console.log('Form submitted:', formState);
-            try{
-
+            try {
                 const data = {
                     "user": {
                         "uid": session?.uid
@@ -140,30 +179,42 @@ export default function CreateAccountPage(
                     "accountType": {
                         "id": formState.type.value
                     },
+                    "status": "Active",
                     "initialAmount": formState.initialAmount.value,
                     "updatedAmount": formState.initialAmount.value,
-                }
-                console.log(data);
+                };
 
-                //TODO: use axios to submit form data
-                const response = await axios.post('http://localhost:8080/Accounts/', data);
-                
-                setSnackbar({ open: true, message: t.msg.successfullyCreated, severity: 'success' });
+                if (id && parseInt(id) > 0) {
+                    // Update existing account
+                    await axios.put(`http://localhost:8080/Accounts/${id}`, data);
+                    setSnackbar({ open: true, message: t.msg.successfullyUpdated, severity: 'success' });
+                } else {
+                    // Create new account
+                    await axios.post('http://localhost:8080/Accounts/', data);
+                    setSnackbar({ open: true, message: t.msg.successfullyCreated, severity: 'success' });
+                }
 
                 // Redirect to account list after a short delay
                 setTimeout(() => {
                     router.push(`/${locale}/app/accounts`);
                 }, 2000);
             } catch (error) {
-                console.error('Error creating account:', error);
+                console.error('Error saving account:', error);
                 if (axios.isAxiosError(error) && error.response) {
                     console.error('Response data:', error.response.data);
                     console.error('Response status:', error.response.status);
                     console.error('Response headers:', error.response.headers);
                 }
+                if(id){
+                    setSnackbar({ open: true, message: t.msg.updateError, severity: 'error' });
+                    return;
+                }
                 setSnackbar({ open: true, message: t.msg.createError, severity: 'error' });
+            } finally {
+                setLoading(false);
             }
         }
+        setLoading(false);
     };
 
     const handleBackToAccountList = () => {
@@ -177,9 +228,13 @@ export default function CreateAccountPage(
         setSnackbar({ ...snackbar, open: false });
     };
 
+    if (loading) {
+        return (<Loading />);
+    }
+
     return (
         <Box sx={{ p: 2 }}>
-            <h1><AccountBalanceIcon /> {t.title}</h1>
+            <h1><AccountBalanceIcon /> { (id && parseInt(id) > 0) ? t.titleUpdate : t.titleCreate}</h1>
             <Divider sx={{marginBottom:3}}/>
             <Button
                 variant="contained"
@@ -254,7 +309,7 @@ export default function CreateAccountPage(
                     </FormControl>
 
                     <Button variant="contained" color="primary" type="submit">
-                        {t.createButton}
+                        {t.saveButton}
                     </Button>
                 </Box>
             </Paper>

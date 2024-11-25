@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Navigation } from '@toolpad/core/AppProvider';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import CategoryIcon from '@mui/icons-material/Category';
 
 
 export const appBranding = { 
@@ -26,6 +26,11 @@ export function getMenuNavigation(navBarOptions: any, locale: string): Navigatio
             title: navBarOptions.main.accounts,
             segment: `./${locale}/app/accounts/`,
             icon: <AccountBalanceIcon />,
+        },
+        {
+            title: navBarOptions.main.categories,
+            segment: `./${locale}/app/categories/`,
+            icon: <CategoryIcon />,
         },
         {
             kind: 'divider',

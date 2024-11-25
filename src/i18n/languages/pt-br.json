@@ -48,15 +48,15 @@
                 },
                 "actions":{
                     "edit": "Nova conta",
-                    "delete": "Excluir conta(s)"
+                    "delete": "Desabilitar conta(s)"
                 }
             },
             "alerts": {
-                "delete": {
-                    "title": "Excluir conta",
-                    "message": "Você tem certeza que deseja excluir a(s) conta(s) selecionada(s)?",
+                "updateStatus": {
+                    "title": "Atualizar conta",
+                    "message": "Você tem certeza que deseja alterar o status dessa conta?",
                     "cancel": "Concelar",
-                    "delete": "Excluir conta(s)"
+                    "delete": "Alterar status"
                 }
             }
         },
@@ -72,7 +72,47 @@
                 "requireType": "Tipo da conta é obrigatório",
                 "requiredInitialAmount": "Saldo inicial é obrigatório",
                 "createError": "Erro ao criar uma nova conta.",
-                "successfullyCreated": "Conta criada com sucesso."
+                "updateError": "Erro ao atualizar a conta.",
+                "successfullyCreated": "Conta criada com sucesso.",
+                "successfullyUpdated": "Conta atualizada com sucesso."
+
+            }
+        },
+        "CategoryList":{
+            "title": "Categorias",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "categoryName": "Nome da categoria",
+                    "categoryType": "Tipo"
+                },
+                "actions":{
+                    "edit": "Nova categoria",
+                    "delete": "Desabilitar categoria(s)"
+                }
+            },
+            "alerts": {
+                "delete": {
+                    "title": "Excluir categoria",
+                    "message": "Você tem certeza que deseja excluir a(s) categoria(s) selecionada(s)?",
+                    "cancel": "Concelar",
+                    "delete": "Excluir categoria(s)"
+                }
+            }
+        },
+        "CategoriesForm":{
+            "title": "Nova categoria",
+            "name": "Nome",
+            "type": "Tipo",
+            "saveButton": "Salvar",
+            "backButton": "Voltar para a lista",
+            "msg": {
+                "requiredName": "Nome da categoria é obrigatório",
+                "requiredType": "Tipo da categoria é obrigatório",
+                "createError": "Erro ao criar uma nova categoria.",
+                "updateError": "Erro ao atualizar a categoria.",
+                "successfullyCreated": "Categoria criada com sucesso.",
+                "successfullyUpdated": "Categoria atualizada com sucesso."
             }
         }
     },
@@ -134,7 +174,8 @@
             "main":{
                 "title":"Itens principais",
                 "dashboard":"Dashboard",
-                "accounts":"Contas"
+                "accounts":"Contas",
+                "categories":"Categorias"
             },
             "reports":{
                 "title":"Relatórios",

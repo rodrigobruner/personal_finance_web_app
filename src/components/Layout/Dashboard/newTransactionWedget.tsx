@@ -12,6 +12,7 @@ import { MdLocalAtm, MdOutlineReceipt, MdOutlineRepeat } from 'react-icons/md';
 import { NewTransactionForm } from '../Transactions/Form';
 import { FormTransactionType } from '@/types/From';
 import WidgetCard from '@/components/Layout/Dashboard/widgetCard';
+import CustomTab from './customTab';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -45,7 +46,7 @@ function a11yProps(index: number) {
 
 //New transaction widget
 export default function NewTransactionWidget() {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(1);    
 
     const messages = useMessages();
     var t = useMemo(() => (messages as any)?.Components?.NewTransactionWidget || {}, [messages]);
@@ -60,12 +61,31 @@ export default function NewTransactionWidget() {
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs   value={value} 
+                            indicatorColor="secondary"
                             onChange={handleChange} 
                             variant="fullWidth" 
                             aria-label="basic tabs example">
-                        <Tab icon={<MdLocalAtm />} iconPosition="start"  label={t.addIncomes.title} {...a11yProps(0)} />
-                        <Tab icon={<MdOutlineReceipt />} iconPosition="start"  label={t.addExpenses.title} {...a11yProps(1)} />
-                        <Tab icon={<MdOutlineRepeat />} iconPosition="start"  label={t.transfer.title} {...a11yProps(2)} />
+                        <CustomTab 
+                            selected={false} 
+                            icon={<MdLocalAtm />} 
+                            iconPosition="start" 
+                            label={t.addIncomes.title} 
+                            {...a11yProps(0)} 
+                            color='green'/>
+                        <CustomTab 
+                            color='red' 
+                            selected={true} 
+                            icon={<MdOutlineReceipt />} 
+                            iconPosition="start" 
+                            label={t.addExpenses.title} 
+                            {...a11yProps(1)} />
+                        <CustomTab 
+                            color='blue' 
+                            selected={false} 
+                            icon={<MdOutlineRepeat />} 
+                            iconPosition="start" 
+                            label={t.transfer.title} 
+                            {...a11yProps(2)} />
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={value} index={0}>

@@ -116,6 +116,7 @@ export default function Login(
                         if (userData["status"] === "Active") {
                             delete userData["password"];
                             delete userData["status"];
+                            userData["image"] = "default-user.png";
                             saveSession(userData);
                             setSessionState(userData);
                         } else {
