@@ -43,7 +43,8 @@
                     "id": "ID",
                     "accountName": "Account name",
                     "types": "Types",
-                    "initialAmount": "Iniciatl balance"
+                    "initialAmount": "Iniciatl balance",
+                    "updatedAmount": "Current balance"
                 },
                 "actions":{
                     "edit": "New account",
@@ -159,7 +160,8 @@
                     "requiredAmount": "A valid amount is required",
                     "requiredTo": "A valid account is required",
                     "createError": "Server error creating a transfer. Contact admin.",
-                    "successfullyCreated": "Transfer successfully created."
+                    "successfullyCreated": "Transfer successfully created.",
+                    "differentAccounts": "The accounts must be different."
                 }
             }
         }

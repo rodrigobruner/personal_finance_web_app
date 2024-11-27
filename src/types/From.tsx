@@ -25,6 +25,7 @@ export const initialFormTransactionState = {
     description: { value: '', error: false, helperText: '' }
 };
 
+
 // Type definitions for the transactions(income, expenses and transfer) form messages
 export enum FormTransactionType {
     INCOME = 'INCOME',
@@ -32,16 +33,20 @@ export enum FormTransactionType {
     TRANSFER = 'TRANSFER'
 }
 
+
 // Type definitions for the transactions(income, expenses and transfer) form messages
 export type FormTransactionMessage = {
     type: FormTransactionType;
     title: string;
     from: string;
-    amount: string;
+    fromOptions: any[];
     to: string;
+    toOptions: any[];
+    amount: string;
     description: string;
     button: string;
     msg: {
+        differentAccounts: string;
         requiredFrom: string;
         requiredAmount: string;
         requiredTo: string;

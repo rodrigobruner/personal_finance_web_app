@@ -112,7 +112,6 @@ export default function FormCategoriesPage(
         
         // Validate name field and set error state
         if (!formState.name.value) {
-            alert('validateForm'+t.msg.requiredName+"|||"+formState.name.value);
             newForm.name.error = true;
             newForm.name.helperText = t.msg.requiredName;
             isValid = false;

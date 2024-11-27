@@ -47,6 +47,11 @@ export default function getDatagridColumns({
             width: 150,
         },
         {
+            field: 'updatedAmount',
+            headerName: t.datagrid.columns.updatedAmount,
+            width: 150,
+        },
+        {
             field: 'status',
             headerName: t.datagrid.columns.status,
             width: 150,

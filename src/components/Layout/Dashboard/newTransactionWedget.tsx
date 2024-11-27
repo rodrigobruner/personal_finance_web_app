@@ -4,15 +4,17 @@ import { useMessages } from 'next-intl';
 import { useMemo } from 'react';
 //MUI
 import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 //React Icons
 import { MdLocalAtm, MdOutlineReceipt, MdOutlineRepeat } from 'react-icons/md';
 //Custom Components
 import { NewTransactionForm } from '../Transactions/Form';
-import { FormTransactionType } from '@/types/From';
+import { FormField, FormTransactionType } from '@/types/From';
 import WidgetCard from '@/components/Layout/Dashboard/widgetCard';
 import CustomTab from './customTab';
+import axios from 'axios';
+import { UserSession } from '@/types/UserSession';
+import { getSession } from '@/helpers/userSession';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -43,24 +45,63 @@ function a11yProps(index: number) {
     };
 }
 
-
 //New transaction widget
 export default function NewTransactionWidget() {
-    const [value, setValue] = React.useState(1);    
 
+    const [tabValue, setTabValue] = React.useState(1);    
+
+    //Get translations
     const messages = useMessages();
-    var t = useMemo(() => (messages as any)?.Components?.NewTransactionWidget || {}, [messages]);
+    var t = useMemo(() => (messages as any)?.Components?.NewTransactionWidget || {}, 
+    [messages]);
+    
     const currency = useMemo(() => (messages as any)?.Configs?.Currency || {}, [messages]);
 
+    //Handle tab change
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+        setTabValue(newValue);
     };
+
+    const [categories, setCategories] = React.useState<{ expenses: [], incomes: [] }>({ expenses: [], incomes: [] });
+    const [accounts, setAccounts] = React.useState<AccountRow[]>([]);
+
+    const fetchCategories = async (session: UserSession | null) => {
+        if (!session) return;
+        try {
+            const response = await axios.get(`http://localhost:8080/Categories/user/${session?.uid}`);
+            const expenses = response.data.filter((category: any) => category.categoryType == 'Expense');
+            const incomes = response.data.filter((category: any) => category.categoryType == 'Income');
+            setCategories({ expenses, incomes });
+        } catch (error) {
+            console.error('Error fetching account types:', error);
+        } finally {
+            // setLoading(false);
+        }
+    };
+
+    const fetchAccount = async (session: UserSession | null) => {
+        if (!session) return;
+        try {
+            const response = await axios.get(`http://localhost:8080/Accounts/user/${session?.uid}`);
+            setAccounts(response.data);
+        } catch (error) {
+            console.error('Error fetching account types:', error);
+        } finally {
+            // setLoading(false);
+        }
+    }
+
+    React.useEffect(() => {
+        const session = getSession();
+        fetchCategories(session);
+        fetchAccount(session);
+    }, []);
 
     return (
         <WidgetCard>
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs   value={value} 
+                    <Tabs   value={tabValue} 
                             indicatorColor="secondary"
                             onChange={handleChange} 
                             variant="fullWidth" 
@@ -88,13 +129,15 @@ export default function NewTransactionWidget() {
                             {...a11yProps(2)} />
                     </Tabs>
                 </Box>
-                <CustomTabPanel value={value} index={0}>
+                <CustomTabPanel value={tabValue} index={0}>
                     <NewTransactionForm 
                         type={FormTransactionType.INCOME}
                         title={t.addIncomes.title}
                         from={t.addIncomes.from}
+                        fromOptions={categories.incomes}
                         amount={t.addIncomes.amount}
                         to={t.addIncomes.to}
+                        toOptions={accounts}
                         description={t.addIncomes.description}
                         button={t.addIncomes.button}
                         msg={t.addIncomes.msg}
@@ -104,13 +147,15 @@ export default function NewTransactionWidget() {
                         currencyThousand={currency.thousand}
                     />
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={1}>
+                <CustomTabPanel value={tabValue} index={1}>
                     <NewTransactionForm 
                         type={FormTransactionType.EXPENSE}
                         title={t.addExpenses.title}
                         from={t.addExpenses.from}
+                        fromOptions={accounts}
                         amount={t.addExpenses.amount}
                         to={t.addExpenses.to}
+                        toOptions={categories.expenses}
                         description={t.addExpenses.description}
                         button={t.addExpenses.button}
                         msg={t.addExpenses.msg}
@@ -120,13 +165,15 @@ export default function NewTransactionWidget() {
                         currencyThousand={currency.thousand}
                     />
                 </CustomTabPanel>
-                <CustomTabPanel value={value} index={2}>
+                <CustomTabPanel value={tabValue} index={2}>
                     <NewTransactionForm 
                         type={FormTransactionType.TRANSFER}
                         title={t.transfer.title}
                         from={t.transfer.from}
+                        fromOptions={accounts}
                         amount={t.transfer.amount}
                         to={t.transfer.to}
+                        toOptions={accounts}
                         description={t.transfer.description}
                         button={t.transfer.button}
                         msg={t.transfer.msg}

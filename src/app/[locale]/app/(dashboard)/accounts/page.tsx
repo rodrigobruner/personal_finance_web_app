@@ -61,6 +61,7 @@ export default function ListAccountPage(
         accountType: string;
         status: string;
         initialAmount: string;
+        updatedAmount: string;
     }
 
     // Fetch all accounts
@@ -75,7 +76,8 @@ export default function ListAccountPage(
                 name: account.name,
                 accountType: account.accountType.type,
                 status: account.status,
-                initialAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(account.initialAmount)
+                initialAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(account.initialAmount),
+                updatedAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(account.updatedAmount)
             }));
             setRows(accounts);
         } catch (error) {

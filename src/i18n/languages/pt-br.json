@@ -44,7 +44,8 @@
                     "id": "ID",
                     "accountName": "Nome da conta",
                     "types": "Tipo",
-                    "initialAmount": "Saldo inicial"
+                    "initialAmount": "Saldo inicial",
+                    "updatedAmount": "Saldo atual"
                 },
                 "actions":{
                     "edit": "Nova conta",
@@ -159,7 +160,8 @@
                 "requiredAmount": "Uma quantia válida é obrigatória",
                 "requiredTo": "Uma conta válida é obrigatória",
                 "createError": "Erro no servidor ao criar uma transferência. Contate o administrador.",
-                "successfullyCreated": "Transferência criada com sucesso."
+                "successfullyCreated": "Transferência criada com sucesso.",
+                "differentAccounts": "As contas de origem e destino devem ser diferentes."
             }
         }
     },
