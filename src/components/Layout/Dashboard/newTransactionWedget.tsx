@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { MdLocalAtm, MdOutlineReceipt, MdOutlineRepeat } from 'react-icons/md';
 //Custom Components
 import { NewTransactionForm } from '../Transactions/Form';
-import { FormField, FormTransactionType } from '@/types/From';
+import { FormTransactionType } from '@/types/From';
 import WidgetCard from '@/components/Layout/Dashboard/widgetCard';
 import CustomTab from './customTab';
 import axios from 'axios';
@@ -83,6 +83,7 @@ export default function NewTransactionWidget() {
         if (!session) return;
         try {
             const response = await axios.get(`http://localhost:8080/Accounts/user/${session?.uid}`);
+            console.log(response.data);
             setAccounts(response.data);
         } catch (error) {
             console.error('Error fetching account types:', error);
@@ -141,6 +142,7 @@ export default function NewTransactionWidget() {
                         description={t.addIncomes.description}
                         button={t.addIncomes.button}
                         msg={t.addIncomes.msg}
+                        locale={currency.locale}
                         currencyName={currency.name}
                         currencySymbol={currency.symbol}
                         currencyDecimal={currency.decimal}
@@ -159,6 +161,7 @@ export default function NewTransactionWidget() {
                         description={t.addExpenses.description}
                         button={t.addExpenses.button}
                         msg={t.addExpenses.msg}
+                        locale={currency.locale}
                         currencyName={currency.name}
                         currencySymbol={currency.symbol}
                         currencyDecimal={currency.decimal}
@@ -177,6 +180,7 @@ export default function NewTransactionWidget() {
                         description={t.transfer.description}
                         button={t.transfer.button}
                         msg={t.transfer.msg}
+                        locale={currency.locale}
                         currencyName={currency.name}
                         currencySymbol={currency.symbol}
                         currencyDecimal={currency.decimal}

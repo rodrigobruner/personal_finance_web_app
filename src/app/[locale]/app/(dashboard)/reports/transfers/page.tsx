@@ -5,20 +5,19 @@ import { useRouter } from 'next/navigation';
 import { useMessages } from "next-intl";
 //Material UI
 import DescriptionIcon from '@mui/icons-material/Description';
-import { useDialogs } from "@toolpad/core/useDialogs";
-import getDatagridColumns from "./datagrid";
-import { Box, Divider, Paper } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-//Axios
-import axios from "axios";
 //Types, components and helpers
 import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
+import { useDialogs } from "@toolpad/core/useDialogs";
+import axios from "axios";
+import getDatagridColumns from "./datagrid";
 import { AddButton } from "@/components/Layout/Datagrid/addButton";
+import { Box, Divider, Paper } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 
 
-export default function IncomeListPage(
+export default function TransferListPage(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
     //Loading
@@ -28,7 +27,7 @@ export default function IncomeListPage(
     const messages = useMessages();
 
     //Translate the page components
-    const t = useMemo(() => (messages as any).Pages.ExpensesReport, [messages]);
+    const t = useMemo(() => (messages as any).Pages.TransferReport, [messages]);
 
     // Translate the datagrid components
     const configs = useMemo(() => (messages as any).Configs, [messages]);
@@ -53,6 +52,7 @@ export default function IncomeListPage(
         setSession(getSession());
     }, []);
 
+
     //Define the row interface
     interface Row {
         id: number;
@@ -66,26 +66,24 @@ export default function IncomeListPage(
     //Define the rows state
     const [rows, setRows] = useState<Row[]>([]);
 
-    //Fetch all the incomes method
+    //Fetch all the transfers method
     const fetchAll = async (): Promise<void> => {
         try {
-            //Get the incomes from the API
-            if (!session) return;
-            //Get the incomes from the API
-            const response = await axios.get(`http://localhost:8080/Transactions/user/${session?.uid}/category/Expense`);
-            //Map the incomes to the rows state
-            const incomes = response.data.map((data: any) => ({
-                id: data.id,
-                from: data.category.name,
-                to: data.account.name,
-                amount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(data.value),
-                date: data.date,
-                description: data.notes,
+            //Get all the transfers from the API
+            const response = await axios.get(`http://localhost:8080/Transfers/user/${session?.uid}`);
+            //Map the transfers to the rows state
+            const transfers = response.data.map((transfer: any) => ({
+                id: transfer.id,
+                fromAccount: transfer.fromAccount.name,
+                toAccount: transfer.toAccount.name,
+                amount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(transfer.value),
+                date: transfer.date,
+                description: transfer.notes,
             }));
             //Set the rows state
-            setRows(incomes);
+            setRows(transfers);
         } catch (error) {
-            //Log the error
+            //Handle the error
             console.error('Error insert:', error);
             if (axios.isAxiosError(error) && error.response) {
                 console.error('Response data:', error.response.data);
@@ -93,13 +91,12 @@ export default function IncomeListPage(
                 console.error('Response headers:', error.response.headers);
             }
         } finally {
-            //Set loading to false
+            //Stop the loading
             setLoading(false);
         }
     };
 
-
-    //Fetch all the incomes
+    //Fetch all the transfers
     useEffect(() => {        
         fetchAll();
     }, [session, locale, configs]);
@@ -107,13 +104,13 @@ export default function IncomeListPage(
     // Handle add account
     const handleAddButton = useCallback(() => {
         // Redirect to the new account page
-        router?.push(`/${locale}/app/reports/expenses/form/0`);
+        router?.push(`/${locale}/app/reports/transfers/form/0`);
     }, [router, locale]);
 
     // Handle edit account
     const handleEditButton = useCallback((id: number) => {
         // Redirect to the edit account page
-        router?.push(`/${locale}/app/reports/expenses/form/${id}`);
+        router?.push(`/${locale}/app/reports/transfers/form/${id}`);
     }, [router, locale]);
 
     // Handle delete 
@@ -126,7 +123,6 @@ export default function IncomeListPage(
             cancelText: t.alerts.delete.cancel,
         });
 
-        // If the user not confirmed the action, abort the operation
         if (!confirmed) {
             return;
         }
@@ -134,13 +130,12 @@ export default function IncomeListPage(
         if (id) {
             try{
                 //Delete the category through the API
-                await axios.delete(`http://localhost:8080/Transactions/${id}`);
+                await axios.delete(`http://localhost:8080/Transfers/${id}`);
                 //Remove the row from the datagrid
                 setRows(prevRows => prevRows.filter(row => row.id !== id));
                 //Fetch all the categories again
                 fetchAll();
             } catch (error) {
-                //Log the error
                 console.error('Error delete:', error);
                 if (axios.isAxiosError(error) && error.response) {
                     console.error('Response data:', error.response.data);
@@ -149,7 +144,6 @@ export default function IncomeListPage(
                 }
             }
         } else {
-            //Log the error
             console.error('Category not found');
         }
     }, [dialogs, t, rows]);

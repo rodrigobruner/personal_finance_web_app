@@ -10,7 +10,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
-import { Button, Divider, Paper } from "@mui/material";
+import { Box, Button, Divider, Paper } from "@mui/material";
 import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModes, GridRowModesModel, GridRowSelectionModel, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import getDatagridColumns from "./datagrid";
 import axios from "axios";
@@ -155,7 +155,7 @@ export default function IndexPage(
     
     //Render the page
     return (
-        <div>
+        <Box>
             <h1><CategoryIcon /> { t.title }</h1>
 
             <Divider sx={{margin:"20px"}} />
@@ -175,7 +175,7 @@ export default function IndexPage(
                 />
             </Paper>
 
-        </div>
+        </Box>
     );
 }
 

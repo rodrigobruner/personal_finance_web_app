@@ -23,6 +23,14 @@ export default function getDatagridColumns({
         );
     };
 
+    const formatColor = (value: number) => {
+        return (
+            <div style={{ color: value.toString()[0] === '-' ? 'red' : 'green' }}>
+                {value}
+            </div>
+        );
+    };
+
     return useMemo(() => [
         { 
             field: 'id', 
@@ -49,6 +57,7 @@ export default function getDatagridColumns({
         {
             field: 'updatedAmount',
             headerName: t.datagrid.columns.updatedAmount,
+            renderCell: (params) => formatColor(params.value),
             width: 150,
         },
         {

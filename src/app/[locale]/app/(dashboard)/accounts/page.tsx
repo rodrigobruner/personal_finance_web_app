@@ -144,6 +144,7 @@ export default function ListAccountPage(
 
     // Get datagrid columns
     const columns = getDatagridColumns({ t, editAction: handleEditButton, deleteAction: handleDeleteButton });
+    // Custom toolbar
     const CustomToolbar = () => {
         return <AddButton onClick={handleAddButton} text={t.datagrid.actions.edit} />;
     };

@@ -1,4 +1,6 @@
+// React & Next
 import { useMemo } from 'react';
+//Material UI
 import { GridActionsCellItem, GridColDef } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,32 +12,47 @@ export default function getDatagridColumns({
         editAction: (id: number) => void, 
         deleteAction: (id: number) => void }) {
 
-    const formatColor = (value: string) => {
+    //Format the color of the amount
+    const formatColor = (value: number) => {
         return (
-            <div style={{ color: value.toUpperCase() == 'EXPENSE' ? 'red' : 'green' }}>
-                {value}
-            </div>
+            <span style={{ color: 'red' }}>{value}</span>
         );
     };
-
+        
+    //Return the columns
     return useMemo(() => [
         { 
             field: 'id', 
             headerName: t.datagrid.columns.id, 
             type: 'number',
-            width: 70,
+            width: 50,
             align: 'center'
         },
         { 
-            field: 'name', 
-            headerName: t.datagrid.columns.accountName, 
-            width: 200
+            field: 'from', 
+            headerName: t.datagrid.columns.from, 
+            width: 150
         },
         { 
-            field: 'categoryType', 
-            headerName: t.datagrid.columns.categoryType, 
+            field: 'to', 
+            headerName: t.datagrid.columns.to, 
+            width: 150
+        },
+        { 
+            field: 'amount', 
+            headerName: t.datagrid.columns.amount, 
             renderCell: (params) => formatColor(params.value),
-            width: 200
+            width: 100
+        },
+        {
+            field: 'date',
+            headerName: t.datagrid.columns.date,
+            width: 100
+        },
+        {
+            field: 'description',
+            headerName: t.datagrid.columns.description,
+            width: 400
         },
         {
             field: 'actions',

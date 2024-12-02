@@ -48,7 +48,7 @@
                 },
                 "actions":{
                     "edit": "New account",
-                    "delete": "Disable account(s)"
+                    "delete": "Disable account"
                 }
             },
             "alerts": {
@@ -114,6 +114,120 @@
                 "successfullyCreated": "Category successfully created.",
                 "successfullyUpdated": "Category successfully updated."
             }
+        },
+        "TransferReport":{
+            "title": "Transfer report",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "from": "From",
+                    "to": "To",
+                    "amount": "Amount",
+                    "description": "Description",
+                    "date": "Date"
+                },
+                "actions":{
+                    "edit":"Add transfer",
+                    "delete":"Delete"
+                }
+            },  
+            "alerts": {
+                "delete": {
+                    "title": "Delete transfer",
+                    "message": "Are you sure you want to delete the transfer(s)?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
+                }
+            }          
+        },
+        "TransferForm":{
+            "title": "New transfer",
+            "from": "From",
+            "amount": "Amount",
+            "to": "To",
+            "description": "Description",
+            "date": "Date",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
+            "msg": {
+                "requiredFrom": "A valid account is required",
+                "requiredAmount": "A valid amount is required",
+                "requiredTo": "A valid account is required",
+                "requiredDate": "A valid date is required",
+                "createError": "Server error creating a transfer. Contact admin.",
+                "successfullyCreated": "Transfer successfully created.",
+                "updateError":"Server error updating a category. Contact admin.",
+                "successfullyUpdated": "Transfer successfully updated."
+            }
+        },
+        "IncomesReport":{
+            "title": "Incomes report",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "from": "Category",
+                    "to": "Account",
+                    "amount": "Amount",
+                    "description": "Description",
+                    "date": "Date"
+                },
+                "actions":{
+                    "edit":"Add income",
+                    "delete":"Delete"
+                }
+            },
+            "alerts": {
+                "delete": {
+                    "title": "Delete income",
+                    "message": "Are you sure you want to delete the income(s)?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
+                }
+            }
+        },
+        "IncomesForm":{
+            "title": "New income",
+            "from": "Category",
+            "amount": "Amount",
+            "to": "Account",
+            "description": "Description",
+            "date": "Date",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
+            "msg": {
+                "requiredFrom": "A valid category is required",
+                "requiredAmount": "A valid amount is required",
+                "requiredTo": "A valid account is required",
+                "requiredDate": "A valid date is required",
+                "createError": "Server error creating an income. Contact admin.",
+                "successfullyCreated": "Income successfully created.",
+                "updateError":"Server error updating a category. Contact admin.",
+                "successfullyUpdated": "Income successfully updated."
+            }
+        },
+        "ExpensesReport":{
+            "title": "Expenses report",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "from": "Account",
+                    "to": "Category",
+                    "amount": "Amount",
+                    "description": "Description",
+                    "date": "Date"
+                },
+                "actions":{
+                    "edit":"Add expense"
+                }
+            },
+            "alerts": {
+                "delete": {
+                    "title": "Delete expense",
+                    "message": "Are you sure you want to delete the expense?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
+                }
+            }
         }
     },
     "Components":{
@@ -170,6 +284,7 @@
 
     "Configs": {
         "Currency": {
+            "locale": "en-US",
             "symbol": "$",
             "name": "USD",
             "decimal": ".",
@@ -185,7 +300,8 @@
             "reports":{
                 "title":"Reports",
                 "expenses":"Expenses",
-                "incomes":"Incomes"
+                "incomes":"Incomes",
+                "transfers":"Transfers"
             }
         },
         "Datagrid": {

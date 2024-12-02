@@ -115,7 +115,66 @@
                 "successfullyCreated": "Categoria criada com sucesso.",
                 "successfullyUpdated": "Categoria atualizada com sucesso."
             }
+        },
+        "TransferReport":{
+            "title": "Transferências",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "from": "De",
+                    "to": "Para",
+                    "amount": "Quantia",
+                    "description": "Descrição",
+                    "date": "Data"
+                }
+            }
+        },
+        "IncomeReport":{
+            "title": "Receitas",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "from": "Conta",
+                    "to": "Categoria",
+                    "amount": "Quantia",
+                    "description": "Descrição",
+                    "date": "Data"
+                }
+            }
+        },
+        "IncomesForm":{
+            "title": "Nova receita",
+            "from": "Conta",
+            "amount": "Quantia",
+            "to": "Categoria",
+            "description": "Descrição",
+            "date": "Data",
+            "saveButton": "Salvar",
+            "backButton": "Voltar para a lista",
+            "msg": {
+                "requiredFrom": "Uma categoria válida é obrigatória",
+                "requiredAmount": "Uma quantia válida é obrigatória",
+                "requiredTo": "Uma conta válida é obrigatória",
+                "createError": "Erro no servidor ao criar uma receita. Contate o administrador.",
+                "successfullyCreated": "Receita criada com sucesso.",
+                "updateError": "Erro ao atualizar a receita.",
+                "successfullyUpdated": "Receita atualizada com sucesso."
+            }
+        },
+        "ExpenseReport":{
+            "title": "Despesas",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "from": "Conta",
+                    "to": "Categoria",
+                    "amount": "Quantia",
+                    "description": "Descrição",
+                    "date": "Data"
+                }
+            }
         }
+
     },
     "Components":{
         "addIncomes": {
@@ -167,6 +226,7 @@
     },
     "Configs":{
         "Currency": {
+            "locale": "pt-BR",
             "symbol": "R$",
             "name": "Real",
             "decimal": ",",
@@ -182,7 +242,8 @@
             "reports":{
                 "title":"Relatórios",
                 "expenses":"Despesas",
-                "incomes":"Receitas"
+                "incomes":"Receitas",
+                "transfers":"Transferências"
             }
         },
         "Datagrid": {

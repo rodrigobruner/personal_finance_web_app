@@ -1,9 +1,8 @@
-import * as React from 'react';
 import { Navigation } from '@toolpad/core/AppProvider';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import DescriptionIcon from '@mui/icons-material/Description';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CategoryIcon from '@mui/icons-material/Category';
+import { MdLocalAtm, MdOutlineReceipt, MdOutlineRepeat } from 'react-icons/md';
 
 
 export const appBranding = { 
@@ -42,12 +41,17 @@ export function getMenuNavigation(navBarOptions: any, locale: string): Navigatio
         {
             title:  navBarOptions.reports.expenses,
             segment: `./${locale}/app/reports/expenses/`,
-            icon: <DescriptionIcon />,
+            icon: <MdOutlineReceipt />,
         },
         {
             title: navBarOptions.reports.incomes,
             segment: `./${locale}/app/reports/incomes/`,
-            icon: <DescriptionIcon />,
+            icon: <MdLocalAtm />,
+        },
+        {
+            title: navBarOptions.reports.transfers,
+            segment: `./${locale}/app/reports/transfers/`,
+            icon: <MdOutlineRepeat />,
         },
     ];
 }

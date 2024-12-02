@@ -36,6 +36,7 @@ export enum FormTransactionType {
 
 // Type definitions for the transactions(income, expenses and transfer) form messages
 export type FormTransactionMessage = {
+    locale: LocalesArgument;
     type: FormTransactionType;
     title: string;
     from: string;

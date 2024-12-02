@@ -4,7 +4,6 @@ import { Alert, Box, Button, FormControl, FormHelperText, Input, InputLabel, Men
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { NumericFormat } from "react-number-format";
 import Loading from "../loading";
-import { set } from "lodash";
 import { SnackbarInitialState, SnackbarState } from "@/types/SnackbarState";
 import axios from "axios";
 
@@ -44,18 +43,31 @@ export function NewTransactionForm(params: FormTransactionMessage) {
     const [snackbar, setSnackbar] = useState<SnackbarState>(SnackbarInitialState);
 
     const [fromOptions, setFromOptions] = useState<JSX.Element[]>(
-        params.fromOptions.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-                {option.name}
-            </MenuItem>
-        ))  
+        params.fromOptions.map((option) => {
+            var value = new Intl.NumberFormat(params.locale, { style: 'currency', currency: params.currencyName }).format(option.updatedAmount);
+            return (
+                <MenuItem key={option.id} value={option.id}>
+                    <Box sx={{display: 'block'}}>
+                        {option.name}
+                        {option?.updatedAmount && <span style={{color: option.updatedAmount < 0 ? 'red':'green',display: 'block'}}>{value}</span>}
+                    </Box>
+                </MenuItem>
+            );
+        })  
     );
+
     const [toOptions, setToOptions] = useState<JSX.Element[]>(
-        params.toOptions.map((option) => (
-            <MenuItem key={option.id} value={option.id}>
-                {option.name}
-            </MenuItem>
-        ))  
+        params.toOptions.map((option) => {
+            var value = new Intl.NumberFormat(params.locale, { style: 'currency', currency: params.currencyName }).format(option.updatedAmount);
+            return (
+                <MenuItem key={option.id} value={option.id}>
+                    <Box sx={{display: 'block'}}>
+                        {option.name} 
+                        {option?.updatedAmount && <span style={{color: option.updatedAmount < 0 ? 'red':'green',display: 'block'}}>{value}</span>}
+                    </Box>
+                </MenuItem>
+            );
+        })  
     );
 
     //Form state
@@ -112,8 +124,10 @@ export function NewTransactionForm(params: FormTransactionMessage) {
         e.preventDefault(); //prevent default form submission
         setLoading(true);
         if (validateForm()) {
-            // Submit form data
+
             try {
+                var value = parseFloat(formState.amount.value.replace(params.currencySymbol, '').replace(params.currencyThousand, '').replace(params.currencyDecimal, '.'));
+
                 if(formState.from.value === formState.to.value){
                     setSnackbar({ open: true, message: params.msg.differentAccounts, severity: 'error' });
                     return;
@@ -126,7 +140,7 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                         "toAccount": {
                             "id": formState.to.value
                         },
-                        "value": formState.amount.value,
+                        "value": value,
                         "notes": formState.description.value,
                         "date": new Date().toISOString()
                     };
@@ -134,7 +148,31 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                     await axios.post(`http://localhost:8080/Transfers`, data);
                     setSnackbar({ open: true, message: params.msg.successfullyCreated, severity: 'success' });
                 } else {
-                    alert('Not implemented yet');
+                    let account = formState.from.value;
+                    let category = formState.to.value
+
+                    if (params.type == FormTransactionType.INCOME) {   
+                        account = formState.to.value;
+                        category = formState.from.value
+                    }
+
+                    value = (params.type != FormTransactionType.INCOME && value > 0) ? value * -1 : value;
+
+                    const data = {
+                        "account": {
+                            "id": account
+                        },
+                        "category": {
+                            "id": category
+                        },
+                        "value": value,
+                        "notes": formState.description.value,
+                        "date": new Date().toISOString()
+                    }
+
+                    const type = params.type === FormTransactionType.INCOME ? 'Income' : 'Expense';
+                    await axios.post(`http://localhost:8080/Transactions/category/${type}`, data);
+                    setSnackbar({ open: true, message: params.msg.successfullyCreated, severity: 'success' });
                 }
             } catch (error) {
                 console.error('Error saving account:', error);
