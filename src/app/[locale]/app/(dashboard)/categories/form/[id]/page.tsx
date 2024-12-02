@@ -16,6 +16,7 @@ import { FormField } from "@/types/From";
 import axios from "axios";
 import { SnackbarInitialState, SnackbarState } from "@/types/SnackbarState";
 import { green, red } from "@mui/material/colors";
+import { createInitialFormState } from "@/helpers/forms";
 
 type FormCategoriesState = {
     uid: FormField;
@@ -24,12 +25,7 @@ type FormCategoriesState = {
     [key: string]: FormField;
 };
 
-const initialFormCategories = {
-    uid: { value: '', error: false, helperText: '' },
-    name: { value: '', error: false, helperText: '' },
-    categoryType: { value: '', error: false, helperText: '' },
-};
-
+const initialFormCategories: FormCategoriesState = createInitialFormState(['uid', 'name', 'categoryType']) as FormCategoriesState;
 
 export default function FormCategoriesPage(
     { params: { locale, id: initialId } }: Readonly<{ params: { locale: string, id?: string } }>

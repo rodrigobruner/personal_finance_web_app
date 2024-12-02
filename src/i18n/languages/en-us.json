@@ -278,6 +278,20 @@
                     "differentAccounts": "The accounts must be different."
                 }
             }
+        },
+        "ExpensesByCategory":{
+            "title": "Expenses by category",
+            "start": "Start",
+            "end": "End"
+        },
+        "IncomesByCategory":{
+            "title": "Incomes by category",
+            "start": "Start",
+            "end": "End"
+        },
+        "IncomeAndExpensesChart":{
+            "title": "Income and expenses chart",
+            "labels": ["Incomes", "Expenses"]
         }
     },
 

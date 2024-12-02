@@ -6,21 +6,22 @@ import axios from 'axios';
 import { getSession } from '@/helpers/userSession';
 import Loading from '../../loading';
 import { UserSession } from '@/types/UserSession';
+import { valueFormatter } from '@/helpers/valueFormatter';
 
-
-type IncomeAndExpensesChartData = {
+type IncomeAndExpensesChartProps = {
     locale: string;
+    currency: string;
+    title: string;
     labels: string[];
 };
 
-export default function IncomeAndExpensesChart(incomeAndExpensesChartData:IncomeAndExpensesChartData){
+export default function IncomeAndExpensesChart(props:IncomeAndExpensesChartProps){
     //Loading
     const [loading, setLoading] = React.useState(false);
     const [session, setSession] = React.useState<UserSession | null>(null);
 
-    const { locale, labels } = incomeAndExpensesChartData;
+    const {labels, title, currency, locale } = props;
     const [rows, setRows] = React.useState<{ incomes: [], expenses: [], months: [] }>({ incomes: [], expenses: [], months: [] });
-
 
     React.useEffect(() => {
         setSession(getSession());
@@ -52,17 +53,28 @@ export default function IncomeAndExpensesChart(incomeAndExpensesChartData:Income
         return (<Loading />);
     }
 
+    function formatter(value: number | null): string {
+        return valueFormatter({ value: value, locale: locale, currency: currency });
+    }
+
     return (
         <WidgetCard>
-            <Typography align='center' variant='h5'>Income and Expenses Chart</Typography>
+            <Typography align='center' variant='h5'>
+                {title}
+            </Typography>
             <LineChart
             width={570}
             height={350}
             series={[
-                { data: rows.incomes, label: labels[0], color: 'green' },
-                { data: rows.expenses, label: labels[1], color: 'red' },
+                { data: rows.incomes, label: labels[0], color: 'green', valueFormatter: formatter },
+                { data: rows.expenses, label: labels[1], color: 'red', valueFormatter: formatter},
             ]}
-            xAxis={[{ scaleType: 'point', data: rows.months }]}
+            xAxis={[{ 
+                scaleType: 'point', 
+                data: rows.months,
+                
+            }]}
+            
             />
         </WidgetCard>
     );

@@ -78,7 +78,7 @@ export default function IncomeListPage(
                 id: data.id,
                 from: data.category.name,
                 to: data.account.name,
-                amount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(data.value),
+                amount: new Intl.NumberFormat(locale, { style: 'currency', currency: configs.Currency.name }).format(data.value),
                 date: data.date,
                 description: data.notes,
             }));

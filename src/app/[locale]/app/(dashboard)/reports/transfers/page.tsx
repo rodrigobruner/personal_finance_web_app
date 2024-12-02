@@ -76,7 +76,7 @@ export default function TransferListPage(
                 id: transfer.id,
                 fromAccount: transfer.fromAccount.name,
                 toAccount: transfer.toAccount.name,
-                amount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(transfer.value),
+                amount: new Intl.NumberFormat(locale, { style: 'currency', currency: configs.Currency.name }).format(transfer.value),
                 date: transfer.date,
                 description: transfer.notes,
             }));

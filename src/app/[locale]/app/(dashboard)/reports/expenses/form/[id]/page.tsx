@@ -21,6 +21,7 @@ import { UserSession } from '@/types/UserSession';
 import { FormField } from '@/types/From';
 import { SnackbarInitialState, SnackbarState } from '@/types/SnackbarState';
 import Loading from '@/components/Layout/loading';
+import { createInitialFormState } from '@/helpers/forms';
 
 
 //Type definitions for the account row
@@ -43,13 +44,7 @@ type FormTransactionState = {
 };
 
 // Initial form state
-const initialFormTransactionState = {
-    from: { value: '', error: false, helperText: '' },
-    to: { value: '', error: false, helperText: '' },
-    amount: { value: '', error: false, helperText: '' },
-    description: { value: '', error: false, helperText: '' },
-    date: { value: '', error: false, helperText: '' },
-};
+const initialFormTransactionState: FormTransactionState  = createInitialFormState(['from', 'to', 'amount', 'description', 'date']) as FormTransactionState;
 
 
 

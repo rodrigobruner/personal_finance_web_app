@@ -8,6 +8,9 @@ import { Alert, AlertTitle, Box, Button, Divider, FormControl, FormHelperText, I
 import Paper from '@mui/material/Paper';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { createInitialFormState } from '@/helpers/forms';
+
+const initialFormNewUser = createInitialFormState(['name', 'email', 'password']);
 
 export default function Login(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
@@ -16,25 +19,8 @@ export default function Login(
     const t = (messages as any).Pages.NewUser;
     const app = (messages as any).Pages.App;
 
-
     // Form state
-    const [user, setUser] = React.useState<FieldValidationHelper>({
-        name: {
-            value: '',
-            error: false,
-            helperText: t.msg["required-name"]
-        },
-        email: {
-            value: '',
-            error: false,
-            helperText: t.msg["required-email"]
-        },
-        password: {
-            value: '',
-            error: false,
-            helperText: t.msg["required-password"]
-        }
-    });
+    const [user, setUser] = React.useState<FieldValidationHelper>(initialFormNewUser);
 
     // User created
     const [showMsgUserWasCreated, setShowMsgUserWasCreated] = React.useState(false);

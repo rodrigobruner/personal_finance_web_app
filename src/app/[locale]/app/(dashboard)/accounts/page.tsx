@@ -76,8 +76,8 @@ export default function ListAccountPage(
                 name: account.name,
                 accountType: account.accountType.type,
                 status: account.status,
-                initialAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(account.initialAmount),
-                updatedAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD' }).format(account.updatedAmount)
+                initialAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: configs.Currency.name }).format(account.initialAmount),
+                updatedAmount: new Intl.NumberFormat(locale, { style: 'currency', currency: configs.Currency.name }).format(account.updatedAmount)
             }));
             setRows(accounts);
         } catch (error) {

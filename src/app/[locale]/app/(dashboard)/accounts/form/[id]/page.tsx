@@ -12,6 +12,7 @@ import { UserSession } from '@/types/UserSession';
 import { FormField } from '@/types/From';
 import { SnackbarInitialState, SnackbarState } from '@/types/SnackbarState';
 import Loading from '@/components/Layout/loading';
+import { createInitialFormState } from '@/helpers/forms';
 
 type AccountType = {
     id: number;
@@ -27,13 +28,7 @@ type FormAccountState = {
     [key: string]: FormField;
 };
 
-const initialFormAccountState = {
-    uid: { value: '', error: false, helperText: '' },
-    name: { value: '', error: false, helperText: '' },
-    type: { value: '', error: false, helperText: '' },
-    initialAmount: { value: '', error: false, helperText: '' },
-    status: { value: '', error: false, helperText: '' },
-};
+const initialFormAccountState: FormAccountState = createInitialFormState(['uid', 'name', 'type', 'initialAmount', 'status']) as FormAccountState;
 
 export default function CreateAccountPage(
     { params: { locale, id: initialId } }: Readonly<{ params: { locale: string, id?: string } }>

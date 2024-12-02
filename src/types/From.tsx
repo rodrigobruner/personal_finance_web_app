@@ -5,6 +5,9 @@ export type FormField = {
     helperText: string;
 };
 
+// Define LocalesArgument type
+export type LocalesArgument = 'en-us' | 'fr-fr' | 'es-es' | 'pt-br'; // Add your locale options here
+
 
 // Type definitions for the transactions(income, expenses and transfer) form state
 export type FormTransactionState = {
