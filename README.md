@@ -1,4 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Personal finance
+
+This project allows users to manage their personal finances by providing features to create, read, update, and delete (CRUD) bank accounts, expense categories, and income categories. Additionally, users can record their incomes, expenses, and transfers between accounts.
+
+<p align="center">
+<img src="Screen_recording.gif" alt="Recording the screen."/>
+</p>
+
 
 ## Getting Started
 
