@@ -4,23 +4,33 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useMessages } from "next-intl";
 //Material UI
+import { Box, Divider, Paper } from "@mui/material";
+import { DataGrid, GridRowSelectionModel} from "@mui/x-data-grid";
 import CategoryIcon from '@mui/icons-material/Category';
-
+//Others
+import axios from "axios";
 //Types, components and helpers
 import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
-import { Box, Button, Divider, Paper } from "@mui/material";
-import { DataGrid, GridActionsCellItem, GridColDef, GridRowId, GridRowModes, GridRowModesModel, GridRowSelectionModel, GridToolbarContainer, GridToolbarExport } from "@mui/x-data-grid";
 import getDatagridColumns from "./datagrid";
-import axios from "axios";
 import { useDialogs } from "@toolpad/core/useDialogs";
 import { AddButton } from "@/components/Layout/Datagrid/addButton";
+import appConfig from "@/config";
 
+//Category Row interface
+interface CategoryRow {
+    id: number;
+    name: string;
+    categoryType: string;
+}
 
-export default function IndexPage(
+export default function CategoriesPage(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
+    //App Config
+    const config = useMemo(() => appConfig, []);
+        
     //Loading
     const [loading, setLoading] = useState(true);
 
@@ -46,35 +56,31 @@ export default function IndexPage(
 
     //Check if the user is logged in
     useEffect(() => {
-        fetchAll();
         if(!checkUserSession()){
             router.push(`/${locale}/`);
         }
         setSession(getSession());
     }, []);
 
-
-
-    interface CategoryRow {
-        id: number;
-        name: string;
-        categoryType: string;
-    }
-
     // Fetch all categories
     const [rows, setRows] = useState<CategoryRow[]>([]);
-
+    
+    // create a function to fetch all categories
     const fetchAll = async (): Promise<void> => {
         try {
-            if (!session) return;
-            const response = await axios.get(`http://localhost:8080/Categories/user/${session?.uid}`);
+            if (!session) return; // No session, no fetch
+            // Fetch all categories from the API
+            const response = await axios.get(`${config.api.url}/Categories/user/${session?.uid}`);
+            // Map the response data to the rows
             const categories = response.data.map((category: any) => ({
                 id: category.id,
                 name: category.name,
                 categoryType: category.categoryType,
             }));
+            // Set the rows
             setRows(categories);
         } catch (error) {
+            // Log the error
             console.error('Error insert:', error);
             if (axios.isAxiosError(error) && error.response) {
                 console.error('Response data:', error.response.data);
@@ -82,11 +88,13 @@ export default function IndexPage(
                 console.error('Response headers:', error.response.headers);
             }
         } finally {
+            //  Stop loading
             setLoading(false);
         }
     };
 
-    useEffect(() => {        
+    useEffect(() => {       
+        // Fetch all categories 
         fetchAll();
     }, [session, locale, configs]);
 
@@ -117,6 +125,7 @@ export default function IndexPage(
             cancelText: t.alerts.delete.cancel,
         });
 
+        // If the user not confirmed the action skip the delete
         if (!confirmed) {
             return;
         }
@@ -130,6 +139,7 @@ export default function IndexPage(
                 //Fetch all the categories again
                 fetchAll();
             } catch (error) {
+                // Log the error
                 console.error('Error delete:', error);
                 if (axios.isAxiosError(error) && error.response) {
                     console.error('Response data:', error.response.data);
@@ -138,12 +148,15 @@ export default function IndexPage(
                 }
             }
         } else {
+            // Log the error
             console.error('Category not found');
         }
     }, [dialogs, t, rows]);
 
     // Get datagrid columns
     const columns = getDatagridColumns({ t, editAction: handleEditButton, deleteAction: handleDeleteButton });
+    
+    // Custom toolbar for the datagrid
     const CustomToolbar = () => {
         return <AddButton onClick={handleAddButton} text={t.datagrid.actions.edit} />;
     };

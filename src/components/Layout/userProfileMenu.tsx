@@ -1,16 +1,18 @@
-import { getSession } from "@/helpers/userSession";
-import { UserSession } from "@/types/UserSession";
+//React & Next
+import React, { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+//Material UI
 import Logout from "@mui/icons-material/Logout";
 import Settings from "@mui/icons-material/Settings";
 import { Avatar, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+//Custom
+import { getSession } from "@/helpers/userSession";
+import { UserSession } from "@/types/UserSession";
 
-
-
+//User profile menu
 export function UserProfileMenu() {
-    
+    //Get user session
     const [sessionState, setSessionState] = useState<UserSession | null>(null);
     useEffect(() => {
         if (getSession) {
@@ -19,29 +21,36 @@ export function UserProfileMenu() {
         }
     }, []);
 
+    //Router
     const router = useRouter();
     const pathname = usePathname();
     const locale = pathname.split('/')[1];
 
+    //Menu state
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
+    //Handle click
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
+    //Handle close
     const handleClose = () => {
         setAnchorEl(null);
     };
 
+    //Handle logout option
     const handleLogout = () => {
         router?.push(`/${locale}/logout`);
     };
 
+    //Handle settings option
     const handleSettings = () => {
         router?.push(`/${locale}/app/profile`);
     };
 
+    //Return user profile menu
     return (
         <>
             <Tooltip title={`${sessionState?.name} ( ${sessionState?.email} )`} placement="left">

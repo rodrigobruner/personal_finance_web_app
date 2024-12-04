@@ -22,6 +22,8 @@ import { FormField } from '@/types/From';
 import { SnackbarInitialState, SnackbarState } from '@/types/SnackbarState';
 import Loading from '@/components/Layout/loading';
 import { createInitialFormState } from '@/helpers/forms';
+import { valueFormatter } from '@/helpers/valueFormatter';
+import appConfig from '@/config';
 
 
 //Type definitions for the account row
@@ -46,11 +48,11 @@ type FormTransactionState = {
 // Initial form state
 const initialFormTransactionState:FormTransactionState = createInitialFormState(['from', 'to', 'amount', 'description', 'date']) as FormTransactionState;
 
-
-
 export default function CreateTransferPage(
     { params: { locale, id: initialId } }: Readonly<{ params: { locale: string, id?: string } }>
 ) {
+    //App Config
+    const config = useMemo(() => appConfig, []);
 
     //Account ID
     const [id, setId] = useState<string | null>(initialId || null);
@@ -92,12 +94,15 @@ export default function CreateTransferPage(
         const fetchToOptions = async () => {
             try {
                 // Fetch account data
-                const response = await axios.get(`http://localhost:8080/Accounts/user/${session?.uid}`);
+                const response = await axios.get(`${config.api.url}/Accounts/user/${session?.uid}/active`);
                 // Set account options
                 const accounts = response.data;
                 const options = accounts.map((account: any) => (
                     <MenuItem key={account.id} value={account.id}>
-                        {account.name}
+                        <Box sx={{display: 'block'}}>
+                            {account.name} 
+                            {account?.updatedAmount && <span style={{color: account.updatedAmount < 0 ? 'red':'green',display: 'block'}}>{valueFormatter({ value: account.updatedAmount, locale: locale, currency: currency.name})} </span>}
+                        </Box>
                     </MenuItem>
                 ));
                 // Set account options
@@ -123,7 +128,7 @@ export default function CreateTransferPage(
             const fetchAccountData = async () => {
                 try {
                     // Fetch account data
-                    const response = await axios.get(`http://localhost:8080/Transfers/${id}`);
+                    const response = await axios.get(`${config.api.url}/Transfers/${id}`);
                     // Set form state with account data
                     const accountData = response.data;
                     setFormState({
@@ -169,6 +174,12 @@ export default function CreateTransferPage(
         let isValid = true;
         const newForm = { ...formState };
 
+        // Reset all error states and helper texts
+        Object.keys(newForm).forEach((key) => {
+            newForm[key].error = false;
+            newForm[key].helperText = '';
+        });
+
         // Validate form field
         if (!formState.from.value) {
             newForm.from.error = true; // Set error state to true
@@ -190,6 +201,16 @@ export default function CreateTransferPage(
             isValid = false;
         }
 
+        // Validate from and to fields are different
+        if(formState.from.value === formState.to.value){
+            newForm.from.error = true;
+            newForm.from.helperText = t.msg.differentAccounts;
+
+            newForm.to.error = true;
+            newForm.to.helperText = t.msg.differentAccounts;
+            isValid = false;
+        }
+
         // Validate date field
         if (!formState.date.value) {
             newForm.date.error = true;
@@ -202,9 +223,10 @@ export default function CreateTransferPage(
         return isValid;
     };
 
+    // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
         e.preventDefault(); //prevent default form submission
-
+        // Set loading to true
         setLoading(true);
         if (validateForm()) {
             // Submit form data
@@ -223,11 +245,11 @@ export default function CreateTransferPage(
                 // if id is provided, update the account, otherwise create a new account
                 if (id && parseInt(id) > 0) {
                     // Update existing account
-                    await axios.put(`http://localhost:8080/Transfers/${id}`, data);
+                    await axios.put(`${config.api.url}/Transfers/${id}`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyUpdated, severity: 'success' }); //show success message
                 } else {
                     // Create new account
-                    await axios.post('http://localhost:8080/Transfers', data);
+                    await axios.post(`${config.api.url}/Transfers`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyCreated, severity: 'success' });
                 }
 
@@ -256,7 +278,7 @@ export default function CreateTransferPage(
         setLoading(false); // Set loading to false
     };
 
-
+    // Handle back to account list
     const handleBackToAccountList = () => {
         router.push(`/${locale}/app/reports/incomes`);
     };
@@ -303,6 +325,9 @@ export default function CreateTransferPage(
                         >
                             {fromOptions}
                         </Select>
+                        <FormHelperText id="amount-helper-text" error={formState.from.error}>
+                            {formState.from.helperText}
+                        </FormHelperText>
                     </FormControl>
                     <ChevronRightIcon sx={{m:1, width:"5%"}}/>
                     <FormControl variant="standard" sx={{ m: 1, width: "40%" }}>
@@ -316,6 +341,9 @@ export default function CreateTransferPage(
                         >
                             {toOptions}
                         </Select>
+                        <FormHelperText id="amount-helper-text" error={formState.to.error}>
+                            {formState.to.helperText}
+                        </FormHelperText>
                     </FormControl>
                 </Stack>
                 <FormControl sx={{ width: '100%', mb: 2 }}>

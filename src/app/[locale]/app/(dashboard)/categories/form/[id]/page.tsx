@@ -1,23 +1,27 @@
 "use client";
+
 //React & Next
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useMessages } from "next-intl";
 //Material UI
+import { Alert, Box, Button, Divider, FormControl, FormControlLabel, FormHelperText, Grid, Input, InputLabel, Paper, Radio, RadioGroup, SelectChangeEvent, Snackbar } from "@mui/material";
 import CategoryIcon from '@mui/icons-material/Category';
 import ViewListIcon from '@mui/icons-material/ViewList';
-
+import { green, red } from "@mui/material/colors";
+//others
+import axios from "axios";
 //Types, components and helpers
 import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
-import { Alert, Box, Button, Divider, FormControl, FormControlLabel, FormHelperText, Grid, Input, InputLabel, Paper, Radio, RadioGroup, SelectChangeEvent, Snackbar } from "@mui/material";
 import { FormField } from "@/types/From";
-import axios from "axios";
 import { SnackbarInitialState, SnackbarState } from "@/types/SnackbarState";
-import { green, red } from "@mui/material/colors";
 import { createInitialFormState } from "@/helpers/forms";
+import appConfig from "@/config";
 
+
+//Form state
 type FormCategoriesState = {
     uid: FormField;
     name: FormField;
@@ -30,6 +34,9 @@ const initialFormCategories: FormCategoriesState = createInitialFormState(['uid'
 export default function FormCategoriesPage(
     { params: { locale, id: initialId } }: Readonly<{ params: { locale: string, id?: string } }>
 ) {
+    //App Config
+    const config = useMemo(() => appConfig, []);
+
     //Loading
     const [loading, setLoading] = useState(false);
 
@@ -67,7 +74,9 @@ export default function FormCategoriesPage(
         if (id) {
             const fetchAccountData = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/Categories/${id}`);
+                    // Fetch account data
+                    const response = await axios.get(`${config.api.url}/Categories/${id}`);
+                    // Set form state with fetched data
                     const data = response.data;
                     setFormState({
                         uid: { value: data.user.uid, error: false, helperText: '' },
@@ -85,6 +94,7 @@ export default function FormCategoriesPage(
 
     // Handle form changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string> | React.ChangeEvent<HTMLInputElement>): void => {
+        // Update form state with new value
         const { name, value } = e.target;
         setFormState({
             ...formState,
@@ -92,8 +102,10 @@ export default function FormCategoriesPage(
         });
     };
 
+    // Handle radio button changes
     const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target;
+        // Update form state with new value
         setFormState({
             ...formState,
             [name]: { ...formState[name], value },
@@ -105,15 +117,18 @@ export default function FormCategoriesPage(
     const validateForm = () => {
         let isValid = true;
         const newForm = { ...formState };
-        
+
+        // Reset all error states and helper texts
+        Object.keys(newForm).forEach((key) => {
+            newForm[key].error = false;
+            newForm[key].helperText = '';
+        });
+
         // Validate name field and set error state
         if (!formState.name.value) {
             newForm.name.error = true;
             newForm.name.helperText = t.msg.requiredName;
             isValid = false;
-        } else {
-            newForm.name.error = false;
-            newForm.name.helperText = '';
         }
 
         //Set default category type
@@ -126,14 +141,13 @@ export default function FormCategoriesPage(
         return isValid;
     };
 
-
+    // Handle form submission
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
         e.preventDefault(); //prevent default form submission
 
         setLoading(true);
         if (validateForm()) {
             // Submit form data
-            console.log('Form submitted:', formState);
             try{
                 const data = {
                     "user": {
@@ -142,13 +156,13 @@ export default function FormCategoriesPage(
                     "name": formState.name.value,
                     "categoryType": formState.categoryType.value
                 }
-                console.log(data);
-
-
+                // Create or update account
                 if (id && parseInt(id) > 0) {
+                    // Update account
                     await axios.put(`http://localhost:8080/Categories/${id}`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyUpdated, severity: 'success' });
                 } else {
+                    // Create account
                     await axios.post(`http://localhost:8080/Categories`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyCreated, severity: 'success' });
                 }
@@ -157,28 +171,34 @@ export default function FormCategoriesPage(
                     router.push(`/${locale}/app/categories`);
                 }, 2000);
             } catch (error) {
+                // Handle error
                 console.error('Error creating account:', error);
                 if (axios.isAxiosError(error) && error.response) {
                     console.error('Response data:', error.response.data);
                     console.error('Response status:', error.response.status);
                     console.error('Response headers:', error.response.headers);
                 }
+                // Show update error message 
                 if (id && parseInt(id) > 0) {
                     setSnackbar({ open: true, message: t.msg.updateError, severity: 'error' });
                     return;
                 }
+                // Show create error message
                 setSnackbar({ open: true, message: t.msg.createError, severity: 'error' });
             } finally {
+                // Reset loading state
                 setLoading(false);
             }
         }
         setLoading(false);
     };
 
+    // Handle back button
     const handleBackButton = () => {
         router.push(`/${locale}/app/categories`);
     };
 
+    // Handle close snackbar    
     const handleCloseSnackbar = (event: React.SyntheticEvent<any, Event> | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;

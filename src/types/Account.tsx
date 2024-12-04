@@ -1,3 +1,4 @@
+// Type definition for AccountRow
 interface AccountRow {
     id: number;
     name: string;

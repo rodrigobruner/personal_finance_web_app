@@ -1,27 +1,32 @@
 "use client";
 
+//React & Next
+import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { useMessages } from "next-intl";
+import { useRouter } from "next/navigation";
 // Material UI
 import { Box, Divider, Paper } from "@mui/material";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { DataGrid, GridRowSelectionModel } from '@mui/x-data-grid';
 import { useDialogs } from '@toolpad/core/useDialogs';
-//React & Next
-import React, { useState, useCallback, useMemo, useEffect } from "react";
-import { useMessages } from "next-intl";
-import { useRouter } from "next/navigation";
-//Axios
+//Othes
 import axios from 'axios';
-
+//Types and helpers
 import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
 import { AddButton } from "@/components/Layout/Datagrid/addButton";
 import getDatagridColumns from "./datagrid";
+import appConfig from "@/config";
 
 
 export default function ListAccountPage(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
+
+    //App Config
+    const config = useMemo(() => appConfig, []);
+
     //Loading
     const [loading, setLoading] = React.useState(true);
 
@@ -67,10 +72,13 @@ export default function ListAccountPage(
     // Fetch all accounts
     const [rows, setRows] = useState<AccountRow[]>([]);
 
+    // create a function to fetch all accounts
     const fetchAll = async () => {
         try {
-            if (!session) return;
-            const response = await axios.get(`http://localhost:8080/Accounts/user/${session?.uid}`);
+            if (!session) return; // No session, no fetch
+            // Fetch accounts
+            const response = await axios.get(`${config.api.url}/Accounts/user/${session?.uid}`);
+            // Map the response data to the rows state
             const accounts = response.data.map((account: any) => ({
                 id: account.id,
                 name: account.name,
@@ -81,6 +89,7 @@ export default function ListAccountPage(
             }));
             setRows(accounts);
         } catch (error) {
+            // Log the error
             console.error('Error fetching accounts:', error);
             if (axios.isAxiosError(error) && error.response) {
                 console.error('Response data:', error.response.data);
@@ -88,12 +97,13 @@ export default function ListAccountPage(
                 console.error('Response headers:', error.response.headers);
             }
         } finally {
+            // Stop loading
             setLoading(false);
         }
     };
 
     useEffect(() => {        
-        fetchAll();
+        fetchAll(); // Fetch accounts
     }, [session, locale, configs]);
 
     // Save selected rows
@@ -124,18 +134,19 @@ export default function ListAccountPage(
             cancelText: t.alerts.updateStatus.cancel,
         });
     
+        // If the user did not confirm, do nothing
         if (!confirmed) {
             return;
         }
 
-
+        // If the account is found
         if (account) {
-
+            // Update the account status
             const data = {
                 status: account.status === 'Active' ? 'Inactive' : 'Active'
             }
-
-            await axios.put(`http://localhost:8080/Accounts/${id}/status`, data);
+            // send for api to update the account status
+            await axios.put(`${config.api.url}/Accounts/${id}/status`, data);
             fetchAll();
         } else {
             console.error('Account not found');
@@ -149,10 +160,12 @@ export default function ListAccountPage(
         return <AddButton onClick={handleAddButton} text={t.datagrid.actions.edit} />;
     };
 
+    // If loading, show loading component
     if (loading) {
         return (<Loading />);
     }
 
+    // If not loading, show the page with datagrid
     return (
         <Box>
             <h1><AccountBalanceIcon /> { t.title }</h1>

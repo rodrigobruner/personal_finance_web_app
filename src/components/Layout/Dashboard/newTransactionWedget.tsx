@@ -5,26 +5,29 @@ import { useMemo } from 'react';
 //MUI
 import Tabs from '@mui/material/Tabs';
 import Box from '@mui/material/Box';
-//React Icons
+//Others
 import { MdLocalAtm, MdOutlineReceipt, MdOutlineRepeat } from 'react-icons/md';
+import axios from 'axios';
 //Custom Components
 import { NewTransactionForm } from '../Transactions/Form';
 import { FormTransactionType } from '@/types/From';
 import WidgetCard from '@/components/Layout/Dashboard/widgetCard';
 import CustomTab from './customTab';
-import axios from 'axios';
 import { UserSession } from '@/types/UserSession';
 import { getSession } from '@/helpers/userSession';
+import appConfig from '@/config';
 
+//Custom tab panel props
 interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
     value: number;
 }
 
+//Custom tab panel component
 function CustomTabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
-
+    //Return tab panel
     return (
         <div
             role="tabpanel"
@@ -38,6 +41,7 @@ function CustomTabPanel(props: TabPanelProps) {
     );
 }
 
+//Custom tab props
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
@@ -47,14 +51,24 @@ function a11yProps(index: number) {
 
 //New transaction widget
 export default function NewTransactionWidget() {
-
-    const [tabValue, setTabValue] = React.useState(1);    
+    //App Config
+    const config = React.useMemo(() => appConfig, []);
+    
+    //Tab value
+    const [tabValue, setTabValue] = React.useState(0);    
 
     //Get translations
     const messages = useMessages();
     var t = useMemo(() => (messages as any)?.Components?.NewTransactionWidget || {}, 
     [messages]);
-    
+    //Get user session
+    const [session, setSession] = React.useState<UserSession | null>(null);
+
+    React.useEffect(() => {
+        setSession(getSession());
+    }, []);
+
+    //Get currency
     const currency = useMemo(() => (messages as any)?.Configs?.Currency || {}, [messages]);
 
     //Handle tab change
@@ -62,42 +76,58 @@ export default function NewTransactionWidget() {
         setTabValue(newValue);
     };
 
+    //Categories and accounts
     const [categories, setCategories] = React.useState<{ expenses: [], incomes: [] }>({ expenses: [], incomes: [] });
+    //Accounts
     const [accounts, setAccounts] = React.useState<AccountRow[]>([]);
 
-    const fetchCategories = async (session: UserSession | null) => {
-        if (!session) return;
-        try {
-            const response = await axios.get(`http://localhost:8080/Categories/user/${session?.uid}`);
-            const expenses = response.data.filter((category: any) => category.categoryType == 'Expense');
-            const incomes = response.data.filter((category: any) => category.categoryType == 'Income');
-            setCategories({ expenses, incomes });
-        } catch (error) {
-            console.error('Error fetching account types:', error);
-        } finally {
-            // setLoading(false);
-        }
-    };
-
-    const fetchAccount = async (session: UserSession | null) => {
-        if (!session) return;
-        try {
-            const response = await axios.get(`http://localhost:8080/Accounts/user/${session?.uid}`);
-            console.log(response.data);
-            setAccounts(response.data);
-        } catch (error) {
-            console.error('Error fetching account types:', error);
-        } finally {
-            // setLoading(false);
-        }
-    }
-
+    //Fetch categories and accounts
     React.useEffect(() => {
-        const session = getSession();
-        fetchCategories(session);
-        fetchAccount(session);
-    }, []);
+        //Fetch categories
+        const fetchCategories = async (session: UserSession | null) => {
+            if (!session) return; //If there is no session, return
+            try {
+                //Get categories
+                const response = await axios.get(`${config.api.url}/Categories/user/${session?.uid}`);
+                //Filter expenses
+                const expenses = response.data.filter((category: any) => category.categoryType == 'Expense');
+                //Filter incomes
+                const incomes = response.data.filter((category: any) => category.categoryType == 'Income');
+                //Set categories
+                setCategories({ expenses, incomes });
+            } catch (error) {
+                //Error
+                console.error('Error fetching account types:', error);
+            } finally {
+                // setLoading(false);
+            }
+        };
 
+        //Fetch accounts
+        const fetchAccount = async (session: UserSession | null) => {
+            if (!session) return; //If there is no session, return
+            try {
+                //Get accounts
+                const response = await axios.get(`${config.api.url}/Accounts/user/${session?.uid}/active`);
+                //Set accounts
+                setAccounts(response.data);
+            } catch (error) {
+                console.error('Error fetching account types:', error);
+            } finally {
+                // setLoading(false);
+            }
+        }
+
+        fetchCategories(session); //Fetch categories
+        fetchAccount(session); //Fetch accounts
+    }, [session]);
+
+    //Set tab value
+    React.useEffect(() => {
+        if(categories.expenses.length > 0 && accounts.length > 0) setTabValue(1);
+    } , [categories, accounts]);
+    
+    //Return new transaction widget
     return (
         <WidgetCard>
             <Box sx={{ width: '100%' }}>

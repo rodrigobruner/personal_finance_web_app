@@ -14,7 +14,8 @@ export default function getDatagridColumns({
         t: any, 
         editAction: (id: number) => void, 
         deleteAction: (id: number) => void }) {
-
+        
+    // Define the status icon
     const statusIcon = (status: string) => {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'  }}>
@@ -23,6 +24,7 @@ export default function getDatagridColumns({
         );
     };
 
+    // Define the format color
     const formatColor = (value: number) => {
         return (
             <div style={{ color: value.toString()[0] === '-' ? 'red' : 'green' }}>
@@ -31,6 +33,7 @@ export default function getDatagridColumns({
         );
     };
 
+    // Return the columns
     return useMemo(() => [
         { 
             field: 'id', 

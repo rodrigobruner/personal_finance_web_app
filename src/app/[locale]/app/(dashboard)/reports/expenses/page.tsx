@@ -16,11 +16,24 @@ import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
 import { AddButton } from "@/components/Layout/Datagrid/addButton";
+import appConfig from "@/config";
 
+//Define the row interface
+interface Row {
+    id: number;
+    fromAccount: string;
+    toAccount: string;
+    amount: string;
+    date: string;
+    description: string;
+}
 
 export default function IncomeListPage(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
+    //App Config
+    const config = useMemo(() => appConfig, []);
+
     //Loading
     const [loading, setLoading] = useState(true);
 
@@ -44,7 +57,6 @@ export default function IncomeListPage(
     //Get the user session
     const [session, setSession] = useState<UserSession | null>(null);
 
-
     //Check if the user is logged in
     useEffect(() => {
         if(!checkUserSession()){
@@ -52,16 +64,6 @@ export default function IncomeListPage(
         }
         setSession(getSession());
     }, []);
-
-    //Define the row interface
-    interface Row {
-        id: number;
-        fromAccount: string;
-        toAccount: string;
-        amount: string;
-        date: string;
-        description: string;
-    }
 
     //Define the rows state
     const [rows, setRows] = useState<Row[]>([]);
@@ -72,7 +74,7 @@ export default function IncomeListPage(
             //Get the incomes from the API
             if (!session) return;
             //Get the incomes from the API
-            const response = await axios.get(`http://localhost:8080/Transactions/user/${session?.uid}/category/Expense`);
+            const response = await axios.get(`${config.api.url}/Transactions/user/${session?.uid}/category/Expense`);
             //Map the incomes to the rows state
             const incomes = response.data.map((data: any) => ({
                 id: data.id,
@@ -134,7 +136,7 @@ export default function IncomeListPage(
         if (id) {
             try{
                 //Delete the category through the API
-                await axios.delete(`http://localhost:8080/Transactions/${id}`);
+                await axios.delete(`${config.api.url}/Transactions/${id}`);
                 //Remove the row from the datagrid
                 setRows(prevRows => prevRows.filter(row => row.id !== id));
                 //Fetch all the categories again
@@ -170,9 +172,7 @@ export default function IncomeListPage(
     return (
         <Box>
             <h1><DescriptionIcon /> { t.title }</h1>
-
             <Divider sx={{margin:"20px"}} />
-
             <Paper sx={{ height: 500, width: '100%' }}>
                 <DataGrid
                     rows={rows}

@@ -15,11 +15,15 @@ import getDatagridColumns from "./datagrid";
 import { AddButton } from "@/components/Layout/Datagrid/addButton";
 import { Box, Divider, Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import appConfig from "@/config";
 
 
 export default function TransferListPage(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
+    //App Config
+    const config = useMemo(() => appConfig, []);
+    
     //Loading
     const [loading, setLoading] = useState(true);
 
@@ -70,7 +74,7 @@ export default function TransferListPage(
     const fetchAll = async (): Promise<void> => {
         try {
             //Get all the transfers from the API
-            const response = await axios.get(`http://localhost:8080/Transfers/user/${session?.uid}`);
+            const response = await axios.get(`${config.api.url}/Transfers/user/${session?.uid}`);
             //Map the transfers to the rows state
             const transfers = response.data.map((transfer: any) => ({
                 id: transfer.id,
@@ -130,7 +134,7 @@ export default function TransferListPage(
         if (id) {
             try{
                 //Delete the category through the API
-                await axios.delete(`http://localhost:8080/Transfers/${id}`);
+                await axios.delete(`${config.api.url}/Transfers/${id}`);
                 //Remove the row from the datagrid
                 setRows(prevRows => prevRows.filter(row => row.id !== id));
                 //Fetch all the categories again
@@ -164,9 +168,7 @@ export default function TransferListPage(
     return (
         <Box>
             <h1><DescriptionIcon /> { t.title }</h1>
-
             <Divider sx={{margin:"20px"}} />
-
             <Paper sx={{ height: 500, width: '100%' }}>
                 <DataGrid
                     rows={rows}

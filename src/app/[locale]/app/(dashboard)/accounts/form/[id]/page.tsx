@@ -1,19 +1,26 @@
 "use client";
+
+// React & next
 import React, { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useMessages } from 'next-intl';
+//Material UI
 import { Alert, Box, Button, Divider, FormControl, FormHelperText, Input, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar } from '@mui/material';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import { useRouter } from 'next/navigation';
-import { useMessages } from 'next-intl';
+//Others
 import { NumericFormat } from 'react-number-format';
 import axios from 'axios';
+//Helpers and types
 import { checkUserSession, getSession } from '@/helpers/userSession';
 import { UserSession } from '@/types/UserSession';
 import { FormField } from '@/types/From';
 import { SnackbarInitialState, SnackbarState } from '@/types/SnackbarState';
 import Loading from '@/components/Layout/loading';
 import { createInitialFormState } from '@/helpers/forms';
+import appConfig from '@/config';
 
+// Types
 type AccountType = {
     id: number;
     type: string;
@@ -28,11 +35,15 @@ type FormAccountState = {
     [key: string]: FormField;
 };
 
+// Initial form state
 const initialFormAccountState: FormAccountState = createInitialFormState(['uid', 'name', 'type', 'initialAmount', 'status']) as FormAccountState;
 
 export default function CreateAccountPage(
     { params: { locale, id: initialId } }: Readonly<{ params: { locale: string, id?: string } }>
 ) {
+    //App Config
+    const config = useMemo(() => appConfig, []);
+
     //Loading
     const [loading, setLoading] = React.useState(true);
 
@@ -58,7 +69,7 @@ export default function CreateAccountPage(
     //Check if the user is logged in
     useEffect(() => {
         if(!checkUserSession()){
-            router.push(`/${locale}/`);
+            router.push(`/${locale}/`); //Redirect to login page
         }
         setSession(getSession());
     }, []);
@@ -71,7 +82,7 @@ export default function CreateAccountPage(
     useEffect(() => {
         const fetchAccountTypes = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/AccountTypes/?locale=${locale}`);
+                const response = await axios.get(`${config.api.url}/AccountTypes/?locale=${locale}`);
                 setTypes(response.data);
             } catch (error) {
                 console.error('Error fetching account types:', error);
@@ -92,7 +103,7 @@ export default function CreateAccountPage(
         if (id) {
             const fetchAccountData = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/Accounts/${id}`);
+                    const response = await axios.get(`${config.api.url}/Accounts/${id}`);
                     const accountData = response.data;
                     setFormState({
                         uid: { value: accountData.user.uid, error: false, helperText: '' },
@@ -105,7 +116,7 @@ export default function CreateAccountPage(
                     console.error('Error fetching account data:', error);
                 }
             };
-
+            //call the fetchAccountData function
             fetchAccountData();
         }
     }, [id]);
@@ -124,14 +135,17 @@ export default function CreateAccountPage(
         let isValid = true;
         const newForm = { ...formState };
 
+        // Reset all error states and helper texts
+        Object.keys(newForm).forEach((key) => {
+            newForm[key].error = false;
+            newForm[key].helperText = '';
+        });
+
         // Validate name field and set error state
         if (!formState.name.value) {
             newForm.name.error = true;
             newForm.name.helperText = t.msg.requiredName;
             isValid = false;
-        } else {
-            newForm.name.error = false;
-            newForm.name.helperText = '';
         }
 
         // Validate initial amount field and set error state
@@ -139,9 +153,6 @@ export default function CreateAccountPage(
             newForm.initialAmount.error = true;
             newForm.initialAmount.helperText = t.msg.requiredInitialAmount;
             isValid = false;
-        } else {
-            newForm.initialAmount.error = false;
-            newForm.initialAmount.helperText = '';
         }
 
         // Validate type field and set error state
@@ -149,9 +160,6 @@ export default function CreateAccountPage(
             newForm.type.error = true;
             newForm.type.helperText = t.msg.requiredType;
             isValid = false;
-        } else {
-            newForm.type.error = false;
-            newForm.type.helperText = '';
         }
 
         // Update form state
@@ -166,6 +174,7 @@ export default function CreateAccountPage(
         if (validateForm()) {
             // Submit form data
             try {
+                // Prepare data to send
                 const data = {
                     "user": {
                         "uid": session?.uid
@@ -181,11 +190,11 @@ export default function CreateAccountPage(
 
                 if (id && parseInt(id) > 0) {
                     // Update existing account
-                    await axios.put(`http://localhost:8080/Accounts/${id}`, data);
+                    await axios.put(`${config.api.url}/Accounts/${id}`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyUpdated, severity: 'success' });
                 } else {
                     // Create new account
-                    await axios.post('http://localhost:8080/Accounts/', data);
+                    await axios.post(`${config.api.url}/Accounts/`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyCreated, severity: 'success' });
                 }
 
@@ -201,9 +210,11 @@ export default function CreateAccountPage(
                     console.error('Response headers:', error.response.headers);
                 }
                 if(id){
+                    // Update error, show snackbar
                     setSnackbar({ open: true, message: t.msg.updateError, severity: 'error' });
                     return;
                 }
+                // Create error, show snackbar
                 setSnackbar({ open: true, message: t.msg.createError, severity: 'error' });
             } finally {
                 setLoading(false);
@@ -212,10 +223,12 @@ export default function CreateAccountPage(
         setLoading(false);
     };
 
+    // Handle back button click
     const handleBackToAccountList = () => {
         router.push(`/${locale}/app/accounts`);
     };
 
+    // Handle close snackbar
     const handleCloseSnackbar = (event: React.SyntheticEvent<any, Event> | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -223,10 +236,12 @@ export default function CreateAccountPage(
         setSnackbar({ ...snackbar, open: false });
     };
 
+    // Render loading spinner
     if (loading) {
         return (<Loading />);
     }
 
+    // Render form
     return (
         <Box sx={{ p: 2 }}>
             <h1><AccountBalanceIcon /> { (id && parseInt(id) > 0) ? t.titleUpdate : t.titleCreate}</h1>
@@ -308,15 +323,16 @@ export default function CreateAccountPage(
                     </Button>
                 </Box>
             </Paper>
-            <Snackbar   open={snackbar.open} 
-                        autoHideDuration={10000} 
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        onClose={handleCloseSnackbar}>
-
-                <Alert  onClose={handleCloseSnackbar} 
-                        severity={snackbar.severity} 
-                        sx={{ width: '100%' }}>
-                {snackbar.message}
+            <Snackbar   
+                open={snackbar.open} 
+                autoHideDuration={10000} 
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                onClose={handleCloseSnackbar}>
+                <Alert  
+                    onClose={handleCloseSnackbar} 
+                    severity={snackbar.severity} 
+                    sx={{ width: '100%' }}>
+                    {snackbar.message}
                 </Alert>
             </Snackbar>
         </Box>

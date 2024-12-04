@@ -1,15 +1,23 @@
+//React
+import React, { useEffect } from "react";
+//Material UI
 import { PieChart } from '@mui/x-charts/PieChart';
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { Box, Typography } from '@mui/material';
+//Others
 import moment from "moment";
-import React, { useEffect } from "react";
 import axios from "axios";
-import WidgetCard from '../widgetCard';
 import { MdChevronRight } from 'react-icons/md';
+//Custom
+import WidgetCard from '../widgetCard';
 import { valueFormatter } from '@/helpers/valueFormatter';
+import { UserSession } from '@/types/UserSession';
+import { getSession } from '@/helpers/userSession';
+import appConfig from "@/config";
 
+//Types
 type FormField = {
     value: moment.Moment;
     error: boolean;
@@ -21,11 +29,13 @@ type FormDates = {
     end: FormField;
 };
 
+//Initial dates
 const initialDates = {
-    start: { value: moment(), error: false, helperText: '' },
+    start: { value: moment().startOf('month'), error: false, helperText: '' },
     end: { value: moment(), error: false, helperText: '' },
 };
 
+// Props
 type IncomesByCategoryProps = {
     locale: string;
     currency: string;
@@ -33,18 +43,27 @@ type IncomesByCategoryProps = {
     start: string;
     end: string;
 }
-
+//Incomes by category component
 export default function IncomesByCategory(props: IncomesByCategoryProps) {
-
+    //App Config
+    const config = React.useMemo(() => appConfig, []);
+    //Form state
     const [formState, setFormState] = React.useState<FormDates>(initialDates);
+    //Data
     const [data, setData] = React.useState<any[]>([]);
+    //Get props
     const {locale, currency, title, start, end} = props;
+    //Get user session
+    const [session, setSession] = React.useState<UserSession | null>(null);
 
-
+    React.useEffect(() => {
+        setSession(getSession());
+    }, []);
 
     // Handle date changes
     const handleDateChange = (field: 'start' | 'end', date: moment.Moment | null): void => {
         if (date) {
+            // Set the date
             setFormState({
                 ...formState,
                 [field]: {
@@ -59,7 +78,10 @@ export default function IncomesByCategory(props: IncomesByCategoryProps) {
     // Fetch all expenses
     const fetchAll = async (): Promise<void> => {
         try {
-            const response = await axios.get(`http://localhost:8080/Transactions/category-summary/Income/${formState.start.value.format('YYYY-MM-DD')}/${formState.end.value.format('YYYY-MM-DD')}`);
+            if (!session) return; // If there is no session, return
+            // Get data
+            const response = await axios.get(`${config.api.url}/Transactions/category-summary/${session?.uid}/Income/${formState.start.value.format('YYYY-MM-DD')}/${formState.end.value.format('YYYY-MM-DD')}`);
+            // Set data
             setData(response.data);
         } catch (error) {
             // Log the error
@@ -70,16 +92,18 @@ export default function IncomesByCategory(props: IncomesByCategoryProps) {
             }
         }
     };
-
+    // Fetch data
     useEffect(() => {
         fetchAll();
-    }, [formState.start.value, formState.end.value]);
+    }, [formState.start.value, formState.end.value, session]);
 
+    // formatter function for the chart
     function formatter(obj: Object| null): string {
         var value = obj ? (obj as any).value : null;
         return valueFormatter({ value: value ?? null, locale: locale, currency: currency });
     }
 
+    // Render
     return (
         <LocalizationProvider dateAdapter={AdapterMoment}>
             <WidgetCard>

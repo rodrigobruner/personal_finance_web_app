@@ -1,3 +1,4 @@
+// Type definition for currency
 export type Currency = {
     currencySymbol: string;
     currencyName: string;

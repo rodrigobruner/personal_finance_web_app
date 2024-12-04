@@ -1,5 +1,8 @@
+//DEPRECATED - USE AXIOS SERVICE INSTEAD
+
 import axios, { AxiosError } from 'axios';
 
+// Get the API URL from the environment variable or use the default value
 const BASE_URL = process.env.API_URL ?
   process.env.API_URL :
   'http://localhost:8080';

@@ -157,7 +157,8 @@
                 "createError": "Server error creating a transfer. Contact admin.",
                 "successfullyCreated": "Transfer successfully created.",
                 "updateError":"Server error updating a category. Contact admin.",
-                "successfullyUpdated": "Transfer successfully updated."
+                "successfullyUpdated": "Transfer successfully updated.",
+                "differentAccounts": "The accounts must be different."
             }
         },
         "IncomesReport":{
@@ -227,6 +228,26 @@
                     "cancel": "Cancel",
                     "delete": "Delete"
                 }
+            }
+        },
+        "ExpenseForm":{
+            "title": "New expense",
+            "from": "Account",
+            "amount": "Amount",
+            "to": "Category",
+            "description": "Description",
+            "date": "Date",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
+            "msg": {
+                "requiredFrom": "A valid account is required",
+                "requiredAmount": "A valid amount is required",
+                "requiredTo": "A valid category is required",
+                "requiredDate": "A valid date is required",
+                "createError": "Server error creating an expense. Contact admin.",
+                "successfullyCreated": "Expense successfully created.",
+                "updateError":"Server error updating a category. Contact admin.",
+                "successfullyUpdated": "Expense successfully updated."
             }
         }
     },

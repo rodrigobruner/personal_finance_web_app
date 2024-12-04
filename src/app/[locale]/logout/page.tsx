@@ -1,13 +1,14 @@
 "use client";
-import React from 'react';
+//React
 import { redirect } from 'next/navigation';
 //Helpers
 import { clearSession } from '@/helpers/userSession';
 
-export default function Login(
+export default function Logout(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
-    clearSession();
+    clearSession(); //Clear the session
+    //Redirect to the login page
     redirect(`/${locale}/login`);
     return (
         <div>

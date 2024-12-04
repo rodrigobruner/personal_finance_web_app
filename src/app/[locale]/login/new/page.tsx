@@ -1,15 +1,17 @@
 "use client";
+
+// React & Next
 import React from 'react';
 import { useMessages } from 'next-intl';
-import { FieldValidationHelper } from '@/types';
-import { POST } from '@/helpers/httpClient';
-
+// Material UI
 import { Alert, AlertTitle, Box, Button, Divider, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel, Link, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+// Types, components and helpers
+import { FieldValidationHelper } from '@/types';
+import { POST } from '@/helpers/httpClient';
 import { createInitialFormState } from '@/helpers/forms';
-
 const initialFormNewUser = createInitialFormState(['name', 'email', 'password']);
 
 export default function Login(
@@ -68,21 +70,21 @@ export default function Login(
             newUser.name.helperText = t.msg["required-name"];
             error = true;
         }
-        
+        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (user.email.value === "" || !emailRegex.test(user.email.value)) {
             newUser.email.error = true;
             newUser.email.helperText = t.msg["required-email"];
             error = true;
         }
-
+        // Password validation
         const regexStrongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$!%*?&])[A-Za-z\d@$#!%*?&]{8,}$/; 
         if (user.password.value === "" || !regexStrongPassword.test(user.password.value)) {
             newUser.password.error = true;
             newUser.password.helperText = t.msg["required-strong-password"];
             error = true;
         }
-
+        // If there is an error, set the new user state and return
         if (!error) {
             const objUser = {
                 name: user.name.value,
@@ -90,27 +92,31 @@ export default function Login(
                 password: user.password.value,
                 status:"Active"
             };
-
+            // Create a new user
             POST('/Users/', objUser)
                 .then((response) => {
+                    // If the user was created successfully, show a success message
                     if (response && (response.status === 200 || response.status === 201)) {
                         setShowMsgUserWasCreated(true);
                     }else {
+                        // If there was an error, show the error message
                         const newUser = { ...user };
                         newUser.password.error = true;
                         newUser.password.helperText = `${t.msg["create-error"]} ${response?.data}`;
                         setUser(newUser);
                     }
                 }).catch((error) => {
+                    // If there was an error, show the error message
                     console.error('Error creating a new account:', error);
                 });
         } else {
+            // Set the new user state
             setUser(newUser);
         }
     };
 
+    // Return the component
     return (
-        
         <Box
         sx={{
             display: 'flex',

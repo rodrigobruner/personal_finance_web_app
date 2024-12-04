@@ -6,6 +6,8 @@ import { NumericFormat } from "react-number-format";
 import Loading from "../loading";
 import { SnackbarInitialState, SnackbarState } from "@/types/SnackbarState";
 import axios from "axios";
+import { valueFormatter } from "@/helpers/valueFormatter";
+import appConfig from "@/config";
 
 //Type definitions for the account row
 interface AccountRow {
@@ -16,6 +18,7 @@ interface AccountRow {
     initialAmount: string;
 }
 
+//Type definitions for the category row
 type FormTransactionState = {
     uid: FormField;
     from: FormField;
@@ -25,6 +28,7 @@ type FormTransactionState = {
     [key: string]: FormField;
 };
 
+//Initial form state
 const initialFormTransactionState = {
     uid: { value: '', error: false, helperText: '' },
     from: { value: '', error: false, helperText: '' },
@@ -33,18 +37,21 @@ const initialFormTransactionState = {
     description: { value: '', error: false, helperText: '' },
 };
 
-
+//New transaction form component
 export function NewTransactionForm(params: FormTransactionMessage) {
-
+    //App Config
+    const config = React.useMemo(() => appConfig, []);
+    
     //Loading
     const [loading, setLoading] = React.useState(false);
 
     //Snackbar state
     const [snackbar, setSnackbar] = useState<SnackbarState>(SnackbarInitialState);
 
+    //Options
     const [fromOptions, setFromOptions] = useState<JSX.Element[]>(
         params.fromOptions.map((option) => {
-            var value = new Intl.NumberFormat(params.locale, { style: 'currency', currency: params.currencyName }).format(option.updatedAmount);
+            var value = valueFormatter({ value: option.updatedAmount, locale: params.locale, currency: params.currencyName });
             return (
                 <MenuItem key={option.id} value={option.id}>
                     <Box sx={{display: 'block'}}>
@@ -56,6 +63,7 @@ export function NewTransactionForm(params: FormTransactionMessage) {
         })  
     );
 
+    //Options
     const [toOptions, setToOptions] = useState<JSX.Element[]>(
         params.toOptions.map((option) => {
             var value = new Intl.NumberFormat(params.locale, { style: 'currency', currency: params.currencyName }).format(option.updatedAmount);
@@ -73,6 +81,7 @@ export function NewTransactionForm(params: FormTransactionMessage) {
     //Form state
     const [formState, setFormState] = React.useState<FormTransactionState>(initialFormTransactionState);
 
+    //Handle change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | SelectChangeEvent<string>): void => {
         const { name, value } = e.target;
         setFormState({
@@ -81,58 +90,57 @@ export function NewTransactionForm(params: FormTransactionMessage) {
         });
     };
 
-
     // Validate form fields
     const validateForm = () => {
         let isValid = true;
         const newForm = { ...formState };
 
+        // Reset all error states and helper texts
+        Object.keys(newForm).forEach((key) => {
+            newForm[key].error = false;
+            newForm[key].helperText = '';
+        });
+        // Validate from field
         if (!formState.from.value) {
             newForm.from.error = true;
             newForm.from.helperText = params.msg.requiredFrom;
             isValid = false;
-        } else {
-            newForm.from.error = false;
-            newForm.from.helperText = '';
         }
-
+        // Validate to field
         if (!formState.to.value) {
             newForm.to.error = true;
             newForm.to.helperText = params.msg.requiredTo;
             isValid = false;
-        } else {
-            newForm.to.error = false;
-            newForm.to.helperText = '';
         }
-
+        // Validate amount field
         if (!formState.amount.value) {
             newForm.amount.error = true;
             newForm.amount.helperText = params.msg.requiredAmount;
             isValid = false;
-        } else {
-            newForm.amount.error = false;
-            newForm.amount.helperText = '';
         }
-
         // Update form state
         setFormState(newForm);
         return isValid;
     };
 
-
+    //Handle submit
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>):Promise<void> => {
         e.preventDefault(); //prevent default form submission
-        setLoading(true);
+        setLoading(true);//set loading
         if (validateForm()) {
 
             try {
+                // Get the value from the amount field and remove currency symbols
                 var value = parseFloat(formState.amount.value.replace(params.currencySymbol, '').replace(params.currencyThousand, '').replace(params.currencyDecimal, '.'));
-
+                // Check if the from and to fields are the same
                 if(formState.from.value === formState.to.value){
+                    // Show error message
                     setSnackbar({ open: true, message: params.msg.differentAccounts, severity: 'error' });
                     return;
                 }
+                // Is a transfer
                 if (params.type === FormTransactionType.TRANSFER) {
+                    // Create transfer data
                     const data = {
                         "fromAccount": {
                             "id": formState.from.value
@@ -144,20 +152,22 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                         "notes": formState.description.value,
                         "date": new Date().toISOString()
                     };
-
-                    await axios.post(`http://localhost:8080/Transfers`, data);
+                    // Save transfer
+                    await axios.post(`${config.api.url}/Transfers`, data);
+                    // Show success message
                     setSnackbar({ open: true, message: params.msg.successfullyCreated, severity: 'success' });
                 } else {
+                    // Is an expense
                     let account = formState.from.value;
                     let category = formState.to.value
 
+                    //Or is an income
                     if (params.type == FormTransactionType.INCOME) {   
                         account = formState.to.value;
                         category = formState.from.value
                     }
 
-                    value = (params.type != FormTransactionType.INCOME && value > 0) ? value * -1 : value;
-
+                    // Create transaction data
                     const data = {
                         "account": {
                             "id": account
@@ -170,26 +180,32 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                         "date": new Date().toISOString()
                     }
 
-                    const type = params.type === FormTransactionType.INCOME ? 'Income' : 'Expense';
-                    await axios.post(`http://localhost:8080/Transactions/category/${type}`, data);
+                    const type = params.type === FormTransactionType.INCOME ? 'Income' : 'Expense'; // get type
+                    // Save transaction
+                    await axios.post(`${config.api.url}/Transactions/category/${type}`, data); 
+                    // Show success message
                     setSnackbar({ open: true, message: params.msg.successfullyCreated, severity: 'success' });
                 }
             } catch (error) {
+                // Error
                 console.error('Error saving account:', error);
                 if (axios.isAxiosError(error) && error.response) {
                     console.error('Response data:', error.response.data);
                     console.error('Response status:', error.response.status);
                     console.error('Response headers:', error.response.headers);
                 }
+                // Show error message
                 setSnackbar({ open: true, message: params.msg.createError, severity: 'error' });
             } finally {
+                // Set loading
                 setLoading(false);
             }
         }
+        // Set loading
         setLoading(false);
     };
 
-
+    //Handle close snackbar
     const handleCloseSnackbar = (event: React.SyntheticEvent<any, Event> | Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
@@ -197,10 +213,11 @@ export function NewTransactionForm(params: FormTransactionMessage) {
         setSnackbar({ ...snackbar, open: false });
     };
 
+    //Loading
     if (loading) {
         return (<Loading />);
     }
-    
+    //Return new transaction form
     return (
     <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
         <Stack alignItems="center" direction="row" gap={2}>
@@ -216,6 +233,9 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                 >
                     {fromOptions}
                 </Select>
+                <FormHelperText id="amount-helper-text" error={formState.from.error}>
+                    {formState.from.helperText}
+                </FormHelperText>
             </FormControl>
             <ChevronRightIcon sx={{m:1, width:"5%"}}/>
             <FormControl variant="standard" sx={{ m: 1, width: "40%" }}>
@@ -229,6 +249,9 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                 >
                     {toOptions}
                 </Select>
+                <FormHelperText id="amount-helper-text" error={formState.to.error}>
+                    {formState.to.helperText}
+                </FormHelperText>
             </FormControl>
         </Stack>
         <FormControl sx={{ width: '100%', mb: 2 }}>

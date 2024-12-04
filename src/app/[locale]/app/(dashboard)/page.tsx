@@ -24,6 +24,7 @@ export default function IndexPage(
     const configs = useMemo(() => (messages as any).Configs, [messages]);
     const components = useMemo(() => (messages as any).Components, [messages]);
 
+    //Check if the user is logged in
     useEffect(() => {
         if(!checkUserSession()){
             router.push(`/${locale}/`);
@@ -35,7 +36,6 @@ export default function IndexPage(
         <div>
             <h1><DashboardIcon /> Dashboard</h1>
             <NewTransactionWidgets/>
-
             <IncomeAndExpensesChart
                 title={components.IncomeAndExpensesChart.title}
                 locale={locale}

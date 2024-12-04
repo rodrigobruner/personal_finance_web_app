@@ -22,6 +22,8 @@ import { FormField } from '@/types/From';
 import { SnackbarInitialState, SnackbarState } from '@/types/SnackbarState';
 import Loading from '@/components/Layout/loading';
 import { createInitialFormState } from '@/helpers/forms';
+import { valueFormatter } from '@/helpers/valueFormatter';
+import appConfig from '@/config';
 
 
 //Type definitions for the account row
@@ -46,11 +48,11 @@ type FormTransactionState = {
 // Initial form state
 const initialFormTransactionState: FormTransactionState = createInitialFormState(['from', 'to', 'amount', 'description', 'date']) as FormTransactionState;
 
-
-
 export default function CreateIncomePage(
     { params: { locale, id: initialId } }: Readonly<{ params: { locale: string, id?: string } }>
 ) {
+    //App Config
+    const config = useMemo(() => appConfig, []);
 
     //Account ID
     const [id, setId] = useState<string | null>(initialId || null);
@@ -89,19 +91,24 @@ export default function CreateIncomePage(
     useEffect(() => {
         const fetchFromOptions = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/Categories/user/${session?.uid}`);
+                // Fetch categories
+                const response = await axios.get(`${config.api.url}/Categories/user/${session?.uid}`);
+                // Filter income categories
                 const incomes = response.data.filter((category: any) => category.categoryType === 'Income');
+                // Create options
                 const options = incomes.map((category: any) => (
                     <MenuItem key={category.id} value={category.id}>
                         {category.name}
                     </MenuItem>
                 ));
+                // Set from options
                 setFromOptions(options);
             } catch (error) {
+                // Log error
                 console.error('Error fetching from options:', error);
             }
         };
-
+        // Fetch from options if session is available
         if (session) {
             fetchFromOptions();
         }
@@ -111,21 +118,29 @@ export default function CreateIncomePage(
     const [toOptions, setToOptions] = useState<JSX.Element[]>([]);
     //Fetch to options
     useEffect(() => {
+        // Create a function to fetch to options
         const fetchToOptions = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/Accounts/user/${session?.uid}`);
+                // Fetch accounts
+                const response = await axios.get(`${config.api.url}/Accounts/user/${session?.uid}/active`);
+                // Create options
                 const accounts = response.data;
                 const options = accounts.map((account: any) => (
                     <MenuItem key={account.id} value={account.id}>
-                        {account.name}
+                        <Box sx={{display: 'block'}}>
+                            {account.name} 
+                            {account?.updatedAmount && <span style={{color: account.updatedAmount < 0 ? 'red':'green',display: 'block'}}>{valueFormatter({ value: account.updatedAmount, locale: locale, currency: currency.name})} </span>}
+                        </Box>
                     </MenuItem>
                 ));
+                // Set to options
                 setToOptions(options);
             } catch (error) {
+                // Log error
                 console.error('Error fetching to options:', error);
             }
         };
-
+        // Fetch to options if session is available
         if (session) {
             fetchToOptions();
         }
@@ -141,7 +156,7 @@ export default function CreateIncomePage(
             const fetchAccountData = async () => {
                 try {
                     // Fetch account data
-                    const response = await axios.get(`http://localhost:8080/Transactions/${id}`);
+                    const response = await axios.get(`${config.api.url}/Transactions/${id}`);
                     // Set form state with account data
                     const accountData = response.data;
                     setFormState({
@@ -186,6 +201,12 @@ export default function CreateIncomePage(
     const validateForm = () => {
         let isValid = true;
         const newForm = { ...formState };
+
+        // Reset all error states and helper texts
+        Object.keys(newForm).forEach((key) => {
+            newForm[key].error = false;
+            newForm[key].helperText = '';
+        });
 
         // Validate form field
         if (!formState.from.value) {
@@ -241,11 +262,11 @@ export default function CreateIncomePage(
                 // if id is provided, update the account, otherwise create a new account
                 if (id && parseInt(id) > 0) {
                     // Update existing account
-                    await axios.put(`http://localhost:8080/Transactions/${id}/category/Income`, data);
+                    await axios.put(`${config.api.url}/Transactions/${id}/category/Income`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyUpdated, severity: 'success' }); //show success message
                 } else {
                     // Create new account
-                    await axios.post('http://localhost:8080/Transactions/category/Income', data);
+                    await axios.post(`${config.api.url}/Transactions/category/Income`, data);
                     setSnackbar({ open: true, message: t.msg.successfullyCreated, severity: 'success' });
                 }
 
@@ -321,6 +342,9 @@ export default function CreateIncomePage(
                         >
                             {fromOptions}
                         </Select>
+                        <FormHelperText id="amount-helper-text" error={formState.from.error}>
+                            {formState.from.helperText}
+                        </FormHelperText>
                     </FormControl>
                     <ChevronRightIcon sx={{m:1, width:"5%"}}/>
                     <FormControl variant="standard" sx={{ m: 1, width: "40%" }}>
@@ -334,6 +358,9 @@ export default function CreateIncomePage(
                         >
                             {toOptions}
                         </Select>
+                        <FormHelperText id="amount-helper-text" error={formState.to.error}>
+                            {formState.to.helperText}
+                        </FormHelperText>
                     </FormControl>
                 </Stack>
                 <FormControl sx={{ width: '100%', mb: 2 }}>

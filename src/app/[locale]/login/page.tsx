@@ -1,38 +1,42 @@
 "use client";
+//React & Next
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMessages } from 'next-intl';
-import { UserSession } from '@/types/UserSession';
-//Types and helpers
-import { FieldValidationHelper } from '@/types';
-import { POST } from '@/helpers/httpClient';
-import { getSession, saveSession } from '@/helpers/userSession';
 //Material UI components
 import { Box, Button, Divider, FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel, Link, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+//Types and helpers
+import { FieldValidationHelper } from '@/types';
+import { POST } from '@/helpers/httpClient';
+import { checkUserSession, getSession, saveSession } from '@/helpers/userSession';
+import { UserSession } from '@/types/UserSession';
 
 export default function Login(
     { params: { locale } }: Readonly<{ params: { locale: string } }>
 ) {
     // Redirect to the app if the user is already logged in
-    const [sessionState, setSessionState] = useState<UserSession | null>(null);
+    const [sessionState, setSession] = useState<UserSession | null>(null);
     const router = useRouter();
 
+    //Check if the user is logged in
     useEffect(() => {
         if (getSession) {
             const sessionData = getSession();
-            setSessionState(sessionData);
+            setSession(sessionData);
         }
     }, []);
 
+    //Redirect to the app if the user is already logged in
     useEffect(() => {
         if (sessionState) {
             router.push(`/${locale}/app/`);
         }
     }, [sessionState, locale, router]);
 
+    //Get translations
     const messages = useMessages();
     const t = (messages as any).Pages.Login;
     const app = (messages as any).Pages.App;
@@ -54,12 +58,15 @@ export default function Login(
     // Password visibility
     const [showPassword, setShowPassword] = useState(false);
 
+    // Handle password visibility
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+    // Handle mouse down password
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
 
+    // Handle mouse up password
     const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
@@ -94,51 +101,57 @@ export default function Login(
             newUser.username.helperText = t.msg["required-username"];
             error = true;
         }
-
+        // Validate the password
         if (user.password.value === "") {
             newUser.password.error = true;
             newUser.password.helperText = t.msg["required-password"];
             error = true;
         }
-
+        //  Submit the form
         if (!error) {
-            console.log('submit');
-
+            // Call the API to login
             const objUser = {
                 email: user.username.value,
                 password: user.password.value
             };
-
+            // Call the API to login
             POST('/Users/login', objUser)
                 .then((response) => {
+                    // Check if the user is active
                     if (response && response.status === 200) {
+                        // Save the user session
                         const userData = response?.data;
                         if (userData["status"] === "Active") {
                             delete userData["password"];
                             delete userData["status"];
                             userData["image"] = "default-user.png";
                             saveSession(userData);
-                            setSessionState(userData);
+                            setSession(userData);
                         } else {
+                            // User is deactivated
                             const newUser = { ...user };
                             newUser.password.error = true;
                             newUser.password.helperText = t.msg["user-deactivated"];
                             setUser(newUser);
                         }
                     } else {
+                        // Invalid credentials
                         const newUser = { ...user };
                         newUser.password.error = true;
                         newUser.password.helperText = t.msg["invalid-credentials"];
                         setUser(newUser);
                     }
                 }).catch((error) => {
+                    // Handle the error
                     console.error('Error during login:', error);
                 });
         } else {
+            // Set the new user state
             setUser(newUser);
         }
     };
 
+    // Render the login page
     return (
         <Box
             sx={{

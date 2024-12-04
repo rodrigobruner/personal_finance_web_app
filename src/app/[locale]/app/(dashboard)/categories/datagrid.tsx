@@ -10,6 +10,7 @@ export default function getDatagridColumns({
         editAction: (id: number) => void, 
         deleteAction: (id: number) => void }) {
 
+    // Format the color of the category type
     const formatColor = (value: string) => {
         return (
             <div style={{ color: value.toUpperCase() == 'EXPENSE' ? 'red' : 'green' }}>
@@ -18,6 +19,7 @@ export default function getDatagridColumns({
         );
     };
 
+    // Return the columns
     return useMemo(() => [
         { 
             field: 'id', 

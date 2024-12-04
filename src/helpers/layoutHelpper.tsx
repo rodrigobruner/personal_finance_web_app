@@ -1,15 +1,18 @@
+//Matirial UI
 import { Navigation } from '@toolpad/core/AppProvider';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CategoryIcon from '@mui/icons-material/Category';
+//React Icons
 import { MdLocalAtm, MdOutlineReceipt, MdOutlineRepeat } from 'react-icons/md';
 
-
+//App branding
 export const appBranding = { 
     title: 'Personal finance', 
     logo: <img src="/images/logo.png" alt="Personal Finance"/>
 };
 
+//Get the navigation menu
 export function getMenuNavigation(navBarOptions: any, locale: string): Navigation {
     return [
         {

@@ -1,19 +1,23 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import type { Metadata } from "next";
-import "./globals.css";
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import theme from '../../theme';
-import { NextIntlClientProvider, useMessages } from 'next-intl';
-import { AppProvider, Navigation } from '@toolpad/core/AppProvider';
+// React & Next
 import React from 'react';
+import { NextIntlClientProvider, useMessages } from 'next-intl';
+import type { Metadata } from "next";
+// MUI
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { AppProvider, Navigation } from '@toolpad/core/AppProvider';
+// Custom
 import { appBranding, getMenuNavigation } from '@/helpers/layoutHelpper';
+import theme from '../../theme';
+import "./globals.css";
+import appConfig from '@/config';
 
-
+//Metadata
 export const metadata: Metadata = {
-  title: process.env.APP_NAME,
-  description: process.env.APP_DESCRIPTION,
+  title: appConfig.app.name,
+  description: appConfig.app.description,
 };
-
+//Component
 export default function RootLayout({
   children,
   params: {locale}
@@ -29,9 +33,6 @@ export default function RootLayout({
   const navBarOptions = React.useMemo(() => (messages as any).Configs.NavBarOptions, [messages]);
   const menuNavegation =  getMenuNavigation(navBarOptions, locale) as Navigation;
 
-  //TODO: Get the user session from the server
-  const session = { user: { email: "rodrigo@bruner.net.br", id: "1", image: "image/bruner.png", name: "Rodrigo Bruner" } }
-
   return (
     <html lang="en">
       <body>
@@ -43,7 +44,6 @@ export default function RootLayout({
               <AppProvider 
                 navigation={menuNavegation}
                 branding={appBranding}
-                session={session}
               >
                 {children}
               </AppProvider>
