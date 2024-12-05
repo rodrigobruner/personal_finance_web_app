@@ -44,7 +44,8 @@
                     "accountName": "Account name",
                     "types": "Types",
                     "initialAmount": "Iniciatl balance",
-                    "updatedAmount": "Current balance"
+                    "updatedAmount": "Current balance",
+                    "status": "Status"
                 },
                 "actions":{
                     "edit": "New account",

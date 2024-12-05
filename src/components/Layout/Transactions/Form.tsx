@@ -56,7 +56,11 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                 <MenuItem key={option.id} value={option.id}>
                     <Box sx={{display: 'block'}}>
                         {option.name}
-                        {option?.updatedAmount && <span style={{color: option.updatedAmount < 0 ? 'red':'green',display: 'block'}}>{value}</span>}
+                        {option?.updatedAmount !== null && option?.updatedAmount !== undefined && (
+                            <span style={{ color: option.updatedAmount <= 0 ? 'red' : 'green', display: 'block' }}>
+                                {value}
+                            </span>
+                        )}
                     </Box>
                 </MenuItem>
             );

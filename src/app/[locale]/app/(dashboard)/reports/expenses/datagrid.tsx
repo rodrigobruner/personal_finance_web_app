@@ -19,6 +19,10 @@ export default function getDatagridColumns({
         );
     };
         
+    const formatDate = (date: string) => {
+        return new Date(date).toLocaleDateString();
+    }
+
     //Return the columns
     return useMemo(() => [
         { 
@@ -47,6 +51,7 @@ export default function getDatagridColumns({
         {
             field: 'date',
             headerName: t.datagrid.columns.date,
+            renderCell: (params) => formatDate(params.value),
             width: 100
         },
         {

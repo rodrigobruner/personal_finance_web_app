@@ -82,6 +82,13 @@ export default function CreateIncomePage(
             router.push(`/${locale}/`);
         }
         setSession(getSession());
+
+        //Set the date to today if it is empty
+        if(formState.date.value === ''){
+            const newForm = { ...formState };
+            newForm.date.value = moment().toISOString();
+            setFormState(newForm);
+        }
     }, []);
 
     //From options
@@ -129,7 +136,11 @@ export default function CreateIncomePage(
                     <MenuItem key={account.id} value={account.id}>
                         <Box sx={{display: 'block'}}>
                             {account.name} 
-                            {account?.updatedAmount && <span style={{color: account.updatedAmount < 0 ? 'red':'green',display: 'block'}}>{valueFormatter({ value: account.updatedAmount, locale: locale, currency: currency.name})} </span>}
+                            {account?.updatedAmount !== null && account?.updatedAmount !== undefined && (
+                                <span style={{ color: account.updatedAmount <= 0 ? 'red' : 'green', display: 'block' }}>
+                                    {valueFormatter({ value: account.updatedAmount, locale: locale, currency: currency.name })}
+                                </span>
+                            )}
                         </Box>
                     </MenuItem>
                 ));

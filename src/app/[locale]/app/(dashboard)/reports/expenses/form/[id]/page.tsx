@@ -84,6 +84,13 @@ export default function CreateExpensePage(
             router.push(`/${locale}/`);
         }
         setSession(getSession());
+
+        //Set the date to today if it is empty
+        if(formState.date.value === ''){
+            const newForm = { ...formState };
+            newForm.date.value = moment().toISOString();
+            setFormState(newForm);
+        }
     }, []);
 
     //From options
@@ -132,7 +139,11 @@ export default function CreateExpensePage(
                     <MenuItem key={account.id} value={account.id}>
                         <Box sx={{display: 'block'}}>
                             {account.name} 
-                            {account?.updatedAmount && <span style={{color: account.updatedAmount < 0 ? 'red':'green',display: 'block'}}>{valueFormatter({ value: account.updatedAmount, locale: locale, currency: currency.name})} </span>}
+                            {account?.updatedAmount !== null && account?.updatedAmount !== undefined && (
+                                <span style={{ color: account.updatedAmount <= 0 ? 'red' : 'green', display: 'block' }}>
+                                    {valueFormatter({ value: account.updatedAmount, locale: locale, currency: currency.name })}
+                                </span>
+                            )}
                         </Box>
                     </MenuItem>
                 ));
@@ -164,8 +175,8 @@ export default function CreateExpensePage(
                     const accountData = response.data;
                     // Set form state with account data
                     setFormState({
-                        from: { value: accountData.category.id, error: false, helperText: '' },
-                        to: { value: accountData.account.id, error: false, helperText: '' },
+                        from: { value: accountData.account.id, error: false, helperText: '' },
+                        to: { value: accountData.category.id, error: false, helperText: '' },
                         amount: { value: accountData.value, error: false, helperText: '' },
                         description: { value: accountData.notes, error: false, helperText: '' },
                         date: { value: accountData.date, error: false, helperText: '' },

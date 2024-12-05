@@ -1,399 +1,402 @@
 {
     "Pages": {
         "App": {
-            "name": "Finanças Pessoais",
-            "slogan": "Assuma o Controle, Conquiste Mais"
+            "name": "Personal finance",
+            "slogan": "Take Control, Achieve More"
         },
         "Login": {
-            "title": "Entrar",
+            "title": "Sign in",
             "username": "E-mail",
-            "password": "Senha",
-            "signin-button": "Entrar",
-            "forgot-password": "Esqueceu a senha?",
-            "create-account": "Criar conta",
+            "password": "Password",
+            "signin-button": "Sign in",
+            "forgot-password": "Forgot password?",
+            "create-account": "Create account",
             "msg": {
-                "invalid-credentials": "Credenciais inválidas",
-                "required-username": "Um e-mail válido é necessário",
-                "required-password": "A senha é necessária",
-                "user-deactivated": "Usuário desativado."
+                "invalid-credentials": "Invalid credentials",
+                "required-username": "A valid e-mail is required",
+                "required-password": "Password is required",
+                "user-deactivated": "User deactivated."
             }
         },
         "NewUser": {
-            "title": "Criar uma nova conta",
-            "name": "Nome",
+            "title": "Create a new account",
+            "name": "Name",
             "email": "E-mail",
-            "password": "Senha",
-            "cpassword": "Confirmar senha",
-            "signin-button": "Criar conta",
-            "forgot-password": "Esqueceu a senha?",
-            "login-page": "Entrar",
+            "password": "Password",
+            "cpassword": "Confirm password",
+            "signin-button": "Create account",
+            "forgot-password": "Forgot password?",
+            "login-page": "Sign in",
             "msg": {
-                "required-name": "Um nome válido é necessário",
-                "required-email": "Um e-mail válido é necessário",
-                "required-password": "A senha é necessária",
-                "required-strong-password": "A senha deve ter pelo menos 8 caracteres, 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial",
-                "create-error": "Erro ao criar uma nova conta.",
-                "successfully-created": "Conta criada com sucesso."
+                "required-name": "A valid name is required",
+                "required-email": "A valid e-mail is required",
+                "required-password": "Password is required",
+                "required-strong-password": "Password must have at least 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
+                "create-error": "Error creating a new account.",
+                "successfully-created": "Account successfully created."
             }
         },
-        "AccountList": {
-            "title": "Contas",
-            "datagrid": {
-                "columns": {
+        "AccountList":{
+            "title": "Accounts",
+            "datagrid":{
+                "columns":{
                     "id": "ID",
-                    "accountName": "Nome da conta",
-                    "types": "Tipos",
-                    "initialAmount": "Saldo inicial",
-                    "updatedAmount": "Saldo atual"
+                    "accountName": "Account name",
+                    "types": "Types",
+                    "initialAmount": "Iniciatl balance",
+                    "updatedAmount": "Current balance",
+                    "status": "Status"
                 },
-                "actions": {
-                    "edit": "Nova conta",
-                    "delete": "Desativar conta"
+                "actions":{
+                    "edit": "New account",
+                    "delete": "Disable account"
                 }
             },
             "alerts": {
                 "updateStatus": {
-                    "title": "Atualizar conta",
-                    "message": "Tem certeza de que deseja atualizar o status desta conta?",
-                    "cancel": "Cancelar",
-                    "delete": "Alterar status"
+                    "title": "Update account",
+                    "message": "Are you sure you want update the status of this account?",
+                    "cancel": "Cancel",
+                    "delete": "Change status"
                 }
             }
         },
-        "AccountForm": {
-            "titleCreate": "Nova conta",
-            "titleUpdate": "Atualizar uma conta",
-            "name": "Nome",
-            "type": "Tipo",
-            "initialAmount": "Valor inicial",
-            "saveButton": "Salvar",
-            "backButton": "Voltar para a lista",
+        "AccountForm":{
+            "titleCreate": "New account",
+            "titleUpdate": "Update an account",
+            "name": "Name",
+            "type": "Type",
+            "initialAmount": "Initial amount",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
             "msg": {
-                "requiredName": "Um nome válido é necessário",
-                "requiredType": "Um tipo válido é necessário",
-                "requiredInitialAmount": "Um valor inicial válido é necessário",
-                "createError": "Erro no servidor ao criar uma conta. Contate o administrador.",
-                "updatedError": "Erro no servidor ao atualizar uma conta. Contate o administrador.",
-                "successfullyCreated": "Conta criada com sucesso.",
-                "successfullyUpdated": "Conta atualizada com sucesso."
+                "requiredName": "A valid name is required",
+                "requiredType": "A valid type is required",
+                "requiredInitialAmount": "A valid initial amount is required",
+                "createError": "Server error creating an account. Contact admin.",
+                "updatedError": "Server error updating an account. Contact admin.",
+                "successfullyCreated": "Account successfully created.",
+                 "successfullyUpdated": "Account successfully updated."
             }
         },
-        "CategoryList": {
-            "title": "Categorias",
-            "datagrid": {
-                "columns": {
+        "CategoryList":{
+            "title": "Categories",
+            "datagrid":{
+                "columns":{
                     "id": "ID",
-                    "categoryName": "Nome da categoria",
-                    "categoryType": "Tipo"
+                    "categoryName": "Category name",
+                    "categoryType": "Type"
                 },
-                "actions": {
-                    "edit": "Nova categoria",
-                    "delete": "Desativar categoria(s)"
+                "actions":{
+                    "edit": "New category",
+                    "delete": "Disable category(s)"
                 }
             },
             "alerts": {
                 "delete": {
-                    "title": "Excluir categoria",
-                    "message": "Tem certeza de que deseja excluir a(s) categoria(s)?",
-                    "cancel": "Cancelar",
-                    "delete": "Excluir"
+                    "title": "Delete category",
+                    "message": "Are you sure you want to delete the category(s)?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
                 }
             }
         },
-        "CategoriesForm": {
-            "title": "Nova categoria",
-            "name": "Nome",
-            "type": "Tipo",
-            "saveButton": "Salvar",
-            "backButton": "Voltar para a lista",
+        "CategoriesForm":{
+            "title": "New category",
+            "name": "Name",
+            "type": "Type",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
             "msg": {
-                "requiredName": "Um nome válido é necessário",
-                "requiredType": "Um tipo válido é necessário",
-                "createError": "Erro no servidor ao criar uma categoria. Contate o administrador.",
-                "updateError": "Erro no servidor ao atualizar uma categoria. Contate o administrador.",
-                "successfullyCreated": "Categoria criada com sucesso.",
-                "successfullyUpdated": "Categoria atualizada com sucesso."
+                "requiredName": "A valid name is required",
+                "requiredType": "A valid type is required",
+                "createError": "Server error creating a category. Contact admin.",
+                "updateError": "Server error updating a category. Contact admin.",
+                "successfullyCreated": "Category successfully created.",
+                "successfullyUpdated": "Category successfully updated."
             }
         },
-        "TransferReport": {
-            "title": "Relatório de transferências",
-            "datagrid": {
-                "columns": {
+        "TransferReport":{
+            "title": "Transfer report",
+            "datagrid":{
+                "columns":{
                     "id": "ID",
-                    "from": "De",
-                    "to": "Para",
-                    "amount": "Valor",
-                    "description": "Descrição",
-                    "date": "Data"
+                    "from": "From",
+                    "to": "To",
+                    "amount": "Amount",
+                    "description": "Description",
+                    "date": "Date"
                 },
-                "actions": {
-                    "edit": "Adicionar transferência",
-                    "delete": "Excluir"
+                "actions":{
+                    "edit":"Add transfer",
+                    "delete":"Delete"
+                }
+            },  
+            "alerts": {
+                "delete": {
+                    "title": "Delete transfer",
+                    "message": "Are you sure you want to delete the transfer(s)?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
+                }
+            }          
+        },
+        "TransferForm":{
+            "title": "New transfer",
+            "from": "From",
+            "amount": "Amount",
+            "to": "To",
+            "description": "Description",
+            "date": "Date",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
+            "msg": {
+                "requiredFrom": "A valid account is required",
+                "requiredAmount": "A valid amount is required",
+                "requiredTo": "A valid account is required",
+                "requiredDate": "A valid date is required",
+                "createError": "Server error creating a transfer. Contact admin.",
+                "successfullyCreated": "Transfer successfully created.",
+                "updateError":"Server error updating a category. Contact admin.",
+                "successfullyUpdated": "Transfer successfully updated.",
+                "differentAccounts": "The accounts must be different."
+            }
+        },
+        "IncomesReport":{
+            "title": "Incomes report",
+            "datagrid":{
+                "columns":{
+                    "id": "ID",
+                    "from": "Category",
+                    "to": "Account",
+                    "amount": "Amount",
+                    "description": "Description",
+                    "date": "Date"
+                },
+                "actions":{
+                    "edit":"Add income",
+                    "delete":"Delete"
                 }
             },
             "alerts": {
                 "delete": {
-                    "title": "Excluir transferência",
-                    "message": "Tem certeza de que deseja excluir a(s) transferência(s)?",
-                    "cancel": "Cancelar",
-                    "delete": "Excluir"
+                    "title": "Delete income",
+                    "message": "Are you sure you want to delete the income(s)?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
                 }
             }
         },
-        "TransferForm": {
-            "title": "Nova transferência",
-            "from": "De",
-            "amount": "Valor",
-            "to": "Para",
-            "description": "Descrição",
-            "date": "Data",
-            "saveButton": "Salvar",
-            "backButton": "Voltar para a lista",
+        "IncomesForm":{
+            "title": "New income",
+            "from": "Category",
+            "amount": "Amount",
+            "to": "Account",
+            "description": "Description",
+            "date": "Date",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
             "msg": {
-                "requiredFrom": "Uma conta válida é necessária",
-                "requiredAmount": "Um valor válido é necessário",
-                "requiredTo": "Uma conta válida é necessária",
-                "requiredDate": "Uma data válida é necessária",
-                "createError": "Erro no servidor ao criar uma transferência. Contate o administrador.",
-                "successfullyCreated": "Transferência criada com sucesso.",
-                "updateError": "Erro no servidor ao atualizar uma categoria. Contate o administrador.",
-                "successfullyUpdated": "Transferência atualizada com sucesso.",
-                "differentAccounts": "As contas devem ser diferentes."
+                "requiredFrom": "A valid category is required",
+                "requiredAmount": "A valid amount is required",
+                "requiredTo": "A valid account is required",
+                "requiredDate": "A valid date is required",
+                "createError": "Server error creating an income. Contact admin.",
+                "successfullyCreated": "Income successfully created.",
+                "updateError":"Server error updating a category. Contact admin.",
+                "successfullyUpdated": "Income successfully updated."
             }
         },
-        "IncomesReport": {
-            "title": "Relatório de receitas",
-            "datagrid": {
-                "columns": {
+        "ExpensesReport":{
+            "title": "Expenses report",
+            "datagrid":{
+                "columns":{
                     "id": "ID",
-                    "from": "Categoria",
-                    "to": "Conta",
-                    "amount": "Valor",
-                    "description": "Descrição",
-                    "date": "Data"
+                    "from": "Account",
+                    "to": "Category",
+                    "amount": "Amount",
+                    "description": "Description",
+                    "date": "Date"
                 },
-                "actions": {
-                    "edit": "Adicionar receita",
-                    "delete": "Excluir"
+                "actions":{
+                    "edit":"Add expense"
                 }
             },
             "alerts": {
                 "delete": {
-                    "title": "Excluir receita",
-                    "message": "Tem certeza de que deseja excluir a(s) receita(s)?",
-                    "cancel": "Cancelar",
-                    "delete": "Excluir"
+                    "title": "Delete expense",
+                    "message": "Are you sure you want to delete the expense?",
+                    "cancel": "Cancel",
+                    "delete": "Delete"
                 }
             }
         },
-        "IncomesForm": {
-            "title": "Nova receita",
-            "from": "Categoria",
-            "amount": "Valor",
-            "to": "Conta",
-            "description": "Descrição",
-            "date": "Data",
-            "saveButton": "Salvar",
-            "backButton": "Voltar para a lista",
+        "ExpenseForm":{
+            "title": "New expense",
+            "from": "Account",
+            "amount": "Amount",
+            "to": "Category",
+            "description": "Description",
+            "date": "Date",
+            "saveButton": "Save",
+            "backButton": "Back to the list",
             "msg": {
-                "requiredFrom": "Uma categoria válida é necessária",
-                "requiredAmount": "Um valor válido é necessário",
-                "requiredTo": "Uma conta válida é necessária",
-                "requiredDate": "Uma data válida é necessária",
-                "createError": "Erro no servidor ao criar uma receita. Contate o administrador.",
-                "successfullyCreated": "Receita criada com sucesso.",
-                "updateError": "Erro no servidor ao atualizar uma categoria. Contate o administrador.",
-                "successfullyUpdated": "Receita atualizada com sucesso."
-            }
-        },
-        "ExpensesReport": {
-            "title": "Relatório de despesas",
-            "datagrid": {
-                "columns": {
-                    "id": "ID",
-                    "from": "Conta",
-                    "to": "Categoria",
-                    "amount": "Valor",
-                    "description": "Descrição",
-                    "date": "Data"
-                },
-                "actions": {
-                    "edit": "Adicionar despesa"
-                }
-            },
-            "alerts": {
-                "delete": {
-                    "title": "Excluir despesa",
-                    "message": "Tem certeza de que deseja excluir a despesa?",
-                    "cancel": "Cancelar",
-                    "delete": "Excluir"
-                }
-            }
-        },
-        "ExpenseForm": {
-            "title": "Nova despesa",
-            "from": "Conta",
-            "amount": "Valor",
-            "to": "Categoria",
-            "description": "Descrição",
-            "date": "Data",
-            "saveButton": "Salvar",
-            "backButton": "Voltar para a lista",
-            "msg": {
-                "requiredFrom": "Uma conta válida é necessária",
-                "requiredAmount": "Um valor válido é necessário",
-                "requiredTo": "Uma categoria válida é necessária",
-                "requiredDate": "Uma data válida é necessária",
-                "createError": "Erro no servidor ao criar uma despesa. Contate o administrador.",
-                "successfullyCreated": "Despesa criada com sucesso.",
-                "updateError": "Erro no servidor ao atualizar uma categoria. Contate o administrador.",
-                "successfullyUpdated": "Despesa atualizada com sucesso."
+                "requiredFrom": "A valid account is required",
+                "requiredAmount": "A valid amount is required",
+                "requiredTo": "A valid category is required",
+                "requiredDate": "A valid date is required",
+                "createError": "Server error creating an expense. Contact admin.",
+                "successfullyCreated": "Expense successfully created.",
+                "updateError":"Server error updating a category. Contact admin.",
+                "successfullyUpdated": "Expense successfully updated."
             }
         }
     },
-    "Components": {
-        "NewTransactionWidget": {
+    "Components":{
+        "NewTransactionWidget":{
             "addIncomes": {
-                "title": "Adicionar receitas",
-                "from": "Categoria",
-                "amount": "Valor",
-                "to": "Conta",
-                "description": "Descrição",
-                "button": "Criar",
+                "title": "Add incomes",
+                "from": "Category",
+                "amount": "Amount",
+                "to": "Account",
+                "description": "Description",
+                "button": "Create",
                 "msg": {
-                    "requiredFrom": "Uma categoria válida é necessária",
-                    "requiredAmount": "Um valor válido é necessário",
-                    "requiredTo": "Uma conta válida é necessária",
-                    "createError": "Erro no servidor ao criar uma receita. Contate o administrador.",
-                    "successfullyCreated": "Receita criada com sucesso."
+                    "requiredFrom": "A valid category is required",
+                    "requiredAmount": "A valid amount is required",
+                    "requiredTo": "A valid account is required",
+                    "createError": "Server error creating an income. Contact admin.",
+                    "successfullyCreated": "Income successfully created."
                 }
             },
             "addExpenses": {
-                "title": "Adicionar despesas",
-                "from": "Conta",
-                "amount": "Valor",
-                "to": "Categoria",
-                "description": "Descrição",
-                "button": "Criar",
+                "title": "Add expenses",
+                "from": "Account",
+                "amount": "Amount",
+                "to": "Category",
+                "description": "Description",
+                "button": "Create",
                 "msg": {
-                    "requiredFrom": "Uma categoria válida é necessária",
-                    "requiredAmount": "Um valor válido é necessário",
-                    "requiredTo": "Uma conta válida é necessária",
-                    "createError": "Erro no servidor ao criar uma despesa. Contate o administrador.",
-                    "successfullyCreated": "Despesa criada com sucesso."
+                    "requiredFrom": "A valid category is required",
+                    "requiredAmount": "A valid amount is required",
+                    "requiredTo": "A valid account is required",
+                    "createError": "Server error creating an expense. Contact admin.",
+                    "successfullyCreated": "Expense successfully created."
                 }
             },
             "transfer": {
-                "title": "Transferência",
-                "from": "De",
-                "amount": "Valor",
-                "to": "Para",
-                "description": "Descrição",
-                "button": "Criar",
+                "title": "Transfer",
+                "from": "From",
+                "amount": "Amount",
+                "to": "To",
+                "description": "Description",
+                "button": "Create",
                 "msg": {
-                    "requiredFrom": "Uma conta válida é necessária",
-                    "requiredAmount": "Um valor válido é necessário",
-                    "requiredTo": "Uma conta válida é necessária",
-                    "createError": "Erro no servidor ao criar uma transferência. Contate o administrador.",
-                    "successfullyCreated": "Transferência criada com sucesso.",
-                    "differentAccounts": "As contas devem ser diferentes."
+                    "requiredFrom": "A valid account is required",
+                    "requiredAmount": "A valid amount is required",
+                    "requiredTo": "A valid account is required",
+                    "createError": "Server error creating a transfer. Contact admin.",
+                    "successfullyCreated": "Transfer successfully created.",
+                    "differentAccounts": "The accounts must be different."
                 }
             }
         },
-        "ExpensesByCategory": {
-            "title": "Despesas por categoria",
-            "start": "Início",
-            "end": "Fim"
+        "ExpensesByCategory":{
+            "title": "Expenses by category",
+            "start": "Start",
+            "end": "End"
         },
-        "IncomesByCategory": {
-            "title": "Receitas por categoria",
-            "start": "Início",
-            "end": "Fim"
+        "IncomesByCategory":{
+            "title": "Incomes by category",
+            "start": "Start",
+            "end": "End"
         },
-        "IncomeAndExpensesChart": {
-            "title": "Gráfico de receitas e despesas",
-            "labels": ["Receitas", "Despesas"]
+        "IncomeAndExpensesChart":{
+            "title": "Income and expenses chart",
+            "labels": ["Incomes", "Expenses"]
         }
     },
+
+
     "Configs": {
         "Currency": {
-            "locale": "pt-BR",
-            "symbol": "R$",
-            "name": "BRL",
-            "decimal": ",",
-            "thousand": "."
+            "locale": "en-CA",
+            "symbol": "C$",
+            "name": "CAD",
+            "decimal": ".",
+            "thousand": ","
         },
         "NavBarOptions": {
-            "main": {
-                "title": "Itens principais",
-                "dashboard": "Painel",
-                "accounts": "Contas",
-                "categories": "Categorias"
+            "main":{
+                "title":"Main items",
+                "dashboard":"Dashboard",
+                "accounts":"Accounts",
+                "categories":"Categories"
             },
-            "reports": {
-                "title": "Relatórios",
-                "expenses": "Despesas",
-                "incomes": "Receitas",
-                "transfers": "Transferências"
+            "reports":{
+                "title":"Reports",
+                "expenses":"Expenses",
+                "incomes":"Incomes",
+                "transfers":"Transfers"
             }
         },
         "Datagrid": {
-            "selected": "Linhas selecionadas",
-            "rowsPerPage": "Linhas por página",
-            "columnMenuUnsort": "Desordenar",
-            "columnMenuSortAsc": "Ordenar em ordem crescente",
-            "columnMenuSortDesc": "Ordenar em ordem decrescente",
-            "columnMenuFilter": "Filtrar",
-            "columnMenuHideColumn": "Ocultar coluna",
-            "columnMenuShowColumns": "Mostrar colunas",
-            "noRowsLabel": "Sem linhas",
-            "noResultsOverlayLabel": "Nenhum resultado encontrado",
-            "errorOverlayDefaultLabel": "Ocorreu um erro",
-            "toolbarDensity": "Densidade",
-            "toolbarDensityLabel": "Densidade",
-            "toolbarDensityCompact": "Compacto",
-            "toolbarDensityStandard": "Padrão",
-            "toolbarDensityComfortable": "Confortável",
-            "toolbarColumns": "Colunas",
-            "toolbarColumnsLabel": "Selecionar colunas",
-            "toolbarFilters": "Filtros",
-            "toolbarFiltersLabel": "Mostrar filtros",
-            "toolbarExport": "Exportar",
-            "toolbarExportLabel": "Exportar",
-            "toolbarExportCSV": "Baixar como CSV",
-            "toolbarExportPrint": "Imprimir",
-            "toolbarExportExcel": "Baixar como Excel",
-            "columnsPanelTextFieldLabel": "Encontrar coluna",
-            "columnsPanelTextFieldPlaceholder": "Título da coluna",
-            "columnsPanelDragIconLabel": "Reordenar coluna",
-            "columnsPanelShowAllButton": "Mostrar todas",
-            "columnsPanelHideAllButton": "Ocultar todas",
-            "filterPanelAddFilter": "Adicionar filtro",
-            "filterPanelDeleteIconLabel": "Excluir",
-            "filterPanelLinkOperator": "Operador lógico",
-            "filterPanelOperators": "Operadores",
-            "filterPanelOperatorAnd": "E",
-            "filterPanelOperatorOr": "Ou",
-            "filterPanelColumns": "Colunas",
-            "filterPanelInputLabel": "Valor",
-            "filterPanelInputPlaceholder": "Valor do filtro",
-            "filterOperatorContains": "contém",
-            "filterOperatorEquals": "igual a",
-            "filterOperatorStartsWith": "começa com",
-            "filterOperatorEndsWith": "termina com",
-            "filterOperatorIs": "é",
-            "filterOperatorNot": "não é",
-            "filterOperatorAfter": "depois",
-            "filterOperatorOnOrAfter": "em ou depois",
-            "filterOperatorBefore": "antes",
-            "filterOperatorOnOrBefore": "em ou antes",
-            "filterOperatorIsEmpty": "está vazio",
-            "filterOperatorIsNotEmpty": "não está vazio",
-            "filterOperatorIsAnyOf": "é qualquer um de"
+            "selected": "Selected rows",
+            "rowsPerPage": "Rows per page",
+            "columnMenuUnsort": "Unsort",
+            "columnMenuSortAsc": "Sort by ascending order",
+            "columnMenuSortDesc": "Sort by descending order",
+            "columnMenuFilter": "Filter",
+            "columnMenuHideColumn": "Hide column",
+            "columnMenuShowColumns": "Show columns",
+            "noRowsLabel": "No rows",
+            "noResultsOverlayLabel": "No results found",
+            "errorOverlayDefaultLabel": "An error occurred",
+            "toolbarDensity": "Density",
+            "toolbarDensityLabel": "Density",
+            "toolbarDensityCompact": "Compact",
+            "toolbarDensityStandard": "Standard",
+            "toolbarDensityComfortable": "Comfortable",
+            "toolbarColumns": "Columns",
+            "toolbarColumnsLabel": "Select columns",
+            "toolbarFilters": "Filters",
+            "toolbarFiltersLabel": "Show filters",
+            "toolbarExport": "Export",
+            "toolbarExportLabel": "Export",
+            "toolbarExportCSV": "Download as CSV",
+            "toolbarExportPrint": "Print",
+            "toolbarExportExcel": "Download as Excel",
+            "columnsPanelTextFieldLabel": "Find column",
+            "columnsPanelTextFieldPlaceholder": "Column title",
+            "columnsPanelDragIconLabel": "Reorder column",
+            "columnsPanelShowAllButton": "Show all",
+            "columnsPanelHideAllButton": "Hide all",
+            "filterPanelAddFilter": "Add filter",
+            "filterPanelDeleteIconLabel": "Delete",
+            "filterPanelLinkOperator": "Logical operator",
+            "filterPanelOperators": "Operators",
+            "filterPanelOperatorAnd": "And",
+            "filterPanelOperatorOr": "Or",
+            "filterPanelColumns": "Columns",
+            "filterPanelInputLabel": "Value",
+            "filterPanelInputPlaceholder": "Filter value",
+            "filterOperatorContains": "contains",
+            "filterOperatorEquals": "equals",
+            "filterOperatorStartsWith": "starts with",
+            "filterOperatorEndsWith": "ends with",
+            "filterOperatorIs": "is",
+            "filterOperatorNot": "is not",
+            "filterOperatorAfter": "after",
+            "filterOperatorOnOrAfter": "on or after",
+            "filterOperatorBefore": "before",
+            "filterOperatorOnOrBefore": "on or before",
+            "filterOperatorIsEmpty": "is empty",
+            "filterOperatorIsNotEmpty": "is not empty",
+            "filterOperatorIsAnyOf": "is any of"
         },
-        "DatagridPagination": {
-            "pagination": {
-                "labelRowsPerPage": "Linhas por página"
+        "DatagridPagination":{
+            "pagination": { 
+                "labelRowsPerPage": "Rows per page" 
             }
         }
     }

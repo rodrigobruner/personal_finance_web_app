@@ -44,7 +44,8 @@
                     "accountName": "Nome da conta",
                     "types": "Tipos",
                     "initialAmount": "Saldo inicial",
-                    "updatedAmount": "Saldo atual"
+                    "updatedAmount": "Saldo atual",
+                    "status": "Status"
                 },
                 "actions": {
                     "edit": "Nova conta",
