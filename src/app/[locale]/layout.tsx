@@ -1,7 +1,8 @@
+"use client";
+
 // React & Next
 import React from 'react';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
-import type { Metadata } from "next";
 // MUI
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
@@ -10,13 +11,8 @@ import { AppProvider, Navigation } from '@toolpad/core/AppProvider';
 import { appBranding, getMenuNavigation } from '@/helpers/layoutHelpper';
 import theme from '../../theme';
 import "./globals.css";
-import appConfig from '@/config';
+import { routerHelper } from '@/helpers/routerHelper';
 
-//Metadata
-export const metadata: Metadata = {
-  title: appConfig.app.name,
-  description: appConfig.app.description,
-};
 //Component
 export default function RootLayout({
   children,
@@ -27,11 +23,8 @@ export default function RootLayout({
 }>) {
 
   //Get translations
-  const messages = useMessages();
-
-  //Translate the page components
-  const navBarOptions = React.useMemo(() => (messages as any).Configs.NavBarOptions, [messages]);
-  const menuNavegation =  getMenuNavigation(navBarOptions, locale) as Navigation;
+  // const messages = useMessages();
+  const messages = require(`@/i18n/languages/${locale}.json`);
 
   return (
     <html lang="en">
@@ -41,16 +34,30 @@ export default function RootLayout({
             <NextIntlClientProvider 
               locale={locale} 
               messages={messages}>
+              <InnerLayout locale={locale}>
+                {children}  
+              </InnerLayout>
+            </NextIntlClientProvider>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
+      </body>
+    </html>
+  );
+}
+
+
+function InnerLayout({ children, locale }: { children: React.ReactNode, locale: string }) {
+  const messages = useMessages();
+
+  //Translate the page components
+  const navBarOptions = React.useMemo(() => (messages as any).Configs.NavBarOptions, [messages]);
+  const menuNavegation =  getMenuNavigation(navBarOptions, locale) as Navigation;
+  return (
               <AppProvider 
                 navigation={menuNavegation}
                 branding={appBranding}
               >
                 {children}
               </AppProvider>
-            </NextIntlClientProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-      </body>
-    </html>
   );
 }

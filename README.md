@@ -1,43 +1,34 @@
 ## Personal finance
 
-This project allows users to manage their personal finances by providing features to create, read, update, and delete (CRUD) bank accounts, expense categories, and income categories. Additionally, users can record their incomes, expenses, and transfers between accounts.
+This innovative project empowers users to take control of their personal finances, offering an array of features designed for comprehensive financial management. Users can easily create, read, update, and delete (CRUD) bank accounts, as well as manage expense and income categories. In addition, the platform allows users to meticulously record their incomes, expenses, and transfers between different accounts. To enhance understanding, it summarizes total income and employs visually engaging graphs to illustrate expenses and income categorized by type.
+
+
+The solution comprises two distinct projects: the back-end and the front-end. The back-end functions as a REST API built with Java Spring Boot, utilizing the Java Persistence API (JPA) to manage data in a MySQL database. Meanwhile, the front-end is crafted in TypeScript, employing Next.js as the framework and Material UI for the user interface components.
+
+<a href='https://github.com/rodrigobruner/personal_finance_backend'>Go to the back-end project</a>
+
+<hr>
 
 <p align="center">
 <img src="Screen_recording.gif" alt="Recording the screen."/>
 </p>
 
-
-## Getting Started
-
-First, run the development server:
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/rodrigobruner/personal_finance_web_app.git
+cd ./personal_finance_web_app
+````
+
+### 2. Baixe as dependencias
+
+```bash
+npm install
+```
+
+### 3. Start the server
+```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

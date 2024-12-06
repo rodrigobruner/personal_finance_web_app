@@ -5,7 +5,16 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import CategoryIcon from '@mui/icons-material/Category';
 //React Icons
 import { MdLocalAtm, MdOutlineReceipt, MdOutlineRepeat } from 'react-icons/md';
+import { Metadata } from 'next';
+import appConfig from '@/config';
 
+
+//Metadata
+export const metadata: Metadata = {
+    title: appConfig.app.name,
+    description: appConfig.app.description,
+  };
+  
 //App branding
 export const appBranding = { 
     title: 'Personal finance', 
