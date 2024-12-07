@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useMessages } from "next-intl";
 //Material UI
-import DescriptionIcon from '@mui/icons-material/Description';
 import { useDialogs } from "@toolpad/core/useDialogs";
 import getDatagridColumns from "./datagrid";
 import { Box, Divider, Paper } from "@mui/material";
@@ -17,6 +16,7 @@ import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
 import { AddButton } from "@/components/Layout/Datagrid/addButton";
 import appConfig from "@/config";
+import { MdLocalAtm } from "react-icons/md";
 
 //Define the row interface
 interface Row {
@@ -171,7 +171,7 @@ export default function IncomeListPage(
     //Render the page
     return (
         <Box>
-            <h1><DescriptionIcon /> { t.title }</h1>
+            <h1><MdLocalAtm /> { t.title }</h1>
 
             <Divider sx={{margin:"20px"}} />
 

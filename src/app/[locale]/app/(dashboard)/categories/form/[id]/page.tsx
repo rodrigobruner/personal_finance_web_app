@@ -215,7 +215,7 @@ export default function FormCategoriesPage(
     //Render the page
     return (
         <Box>
-            <h1><CategoryIcon /> { t.title }</h1>
+            <h1><CategoryIcon /> { (id && parseInt(id) > 0) ? t.titleUpdate : t.titleCreate}</h1>
             <Divider sx={{marginBottom:3}}/>
             <Button
                 variant="contained"

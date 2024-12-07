@@ -102,7 +102,8 @@
             }
         },
         "CategoriesForm":{
-            "title": "New category",
+            "titleCreate": "New category",
+            "titleUpdate": "Update a category",
             "name": "Name",
             "type": "Type",
             "saveButton": "Save",
@@ -142,7 +143,8 @@
             }          
         },
         "TransferForm":{
-            "title": "New transfer",
+            "titleCreate": "New transfer",
+            "titleUpdate": "Update a transfer",
             "from": "From",
             "amount": "Amount",
             "to": "To",
@@ -188,7 +190,8 @@
             }
         },
         "IncomesForm":{
-            "title": "New income",
+            "titleCreate": "New income",
+            "titleUpdate": "Update an income",
             "from": "Category",
             "amount": "Amount",
             "to": "Account",
@@ -232,7 +235,8 @@
             }
         },
         "ExpenseForm":{
-            "title": "New expense",
+            "titleCreate": "New expense",
+            "titleUpdate": "Update an expense",
             "from": "Account",
             "amount": "Amount",
             "to": "Category",
@@ -320,9 +324,9 @@
 
     "Configs": {
         "Currency": {
-            "locale": "en-CA",
-            "symbol": "C$",
-            "name": "CAD",
+            "locale": "en-US",
+            "symbol": "$",
+            "name": "USD",
             "decimal": ".",
             "thousand": ","
         },

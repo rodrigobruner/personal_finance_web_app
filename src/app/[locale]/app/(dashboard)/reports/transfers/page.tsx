@@ -4,18 +4,20 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { useMessages } from "next-intl";
 //Material UI
-import DescriptionIcon from '@mui/icons-material/Description';
+import { useDialogs } from "@toolpad/core/useDialogs";
+import { Box, Divider, Paper } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+//Others
+import { MdOutlineRepeat } from "react-icons/md";
 //Types, components and helpers
 import { UserSession } from "@/types/UserSession";
 import { checkUserSession, getSession } from "@/helpers/userSession";
 import Loading from "@/components/Layout/loading";
-import { useDialogs } from "@toolpad/core/useDialogs";
 import axios from "axios";
 import getDatagridColumns from "./datagrid";
 import { AddButton } from "@/components/Layout/Datagrid/addButton";
-import { Box, Divider, Paper } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import appConfig from "@/config";
+
 
 
 export default function TransferListPage(
@@ -167,7 +169,7 @@ export default function TransferListPage(
     //Render the page
     return (
         <Box>
-            <h1><DescriptionIcon /> { t.title }</h1>
+            <h1><MdOutlineRepeat /> { t.title }</h1>
             <Divider sx={{margin:"20px"}} />
             <Paper sx={{ height: 500, width: '100%' }}>
                 <DataGrid

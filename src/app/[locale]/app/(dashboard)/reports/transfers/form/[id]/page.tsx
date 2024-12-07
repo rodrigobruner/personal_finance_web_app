@@ -11,6 +11,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ViewListIcon from '@mui/icons-material/ViewList';
+import DescriptionIcon from '@mui/icons-material/Description';
 //Other libraries
 import moment from 'moment';
 import { NumericFormat } from 'react-number-format';
@@ -291,7 +292,7 @@ export default function CreateTransferPage(
 
     // Handle back to account list
     const handleBackToAccountList = () => {
-        router.push(`/${locale}/app/reports/incomes`);
+        router.push(`/${locale}/app/reports/transfers`);
     };
 
     // Handle close snackbar
@@ -311,7 +312,7 @@ export default function CreateTransferPage(
     return (
         <LocalizationProvider dateAdapter={AdapterMoment}>
         <Box sx={{ p: 2 }}>
-            <h1>Income Transactions</h1>
+            <h1><DescriptionIcon /> { (id && parseInt(id) > 0) ? t.titleUpdate : t.titleCreate}</h1>
             <Divider sx={{ marginBottom: 3 }} />
             <Button
                 variant="contained"

@@ -102,7 +102,8 @@
             }
         },
         "CategoriesForm": {
-            "title": "Nova categoria",
+            "titleCreate": "Nova categoria",
+            "titleUpdate": "Atualizar uma categoria",
             "name": "Nome",
             "type": "Tipo",
             "saveButton": "Salvar",
@@ -142,7 +143,8 @@
             }
         },
         "TransferForm": {
-            "title": "Nova transferência",
+            "titleCreate": "Nova transferência",
+            "titleUpdate": "Atualizar uma transferência",
             "from": "De",
             "amount": "Valor",
             "to": "Para",
@@ -188,7 +190,8 @@
             }
         },
         "IncomesForm": {
-            "title": "Nova receita",
+            "titleCreate": "Nova receita",
+            "titleUpdate": "Atualizar uma receita",
             "from": "Categoria",
             "amount": "Valor",
             "to": "Conta",
@@ -232,7 +235,8 @@
             }
         },
         "ExpenseForm": {
-            "title": "Nova despesa",
+            "titleCreate": "Nova despesa",
+            "titleUpdate": "Atualizar uma despesa",
             "from": "Conta",
             "amount": "Valor",
             "to": "Categoria",

@@ -24,6 +24,7 @@ import Loading from '@/components/Layout/loading';
 import { createInitialFormState } from '@/helpers/forms';
 import { valueFormatter } from '@/helpers/valueFormatter';
 import appConfig from '@/config';
+import { MdLocalAtm } from 'react-icons/md';
 
 
 //Type definitions for the account row
@@ -328,7 +329,7 @@ export default function CreateIncomePage(
     return (
         <LocalizationProvider dateAdapter={AdapterMoment}>
         <Box sx={{ p: 2 }}>
-            <h1>Income Transactions</h1>
+            <h1><MdLocalAtm /> { (id && parseInt(id) > 0) ? t.titleUpdate : t.titleCreate}</h1>
             <Divider sx={{ marginBottom: 3 }} />
             <Button
                 variant="contained"
