@@ -51,14 +51,14 @@ export function getMenuNavigation(navBarOptions: any, locale: string): Navigatio
             title: navBarOptions.reports.title,
         },
         {
-            title:  navBarOptions.reports.expenses,
-            segment: `./${locale}/app/reports/expenses/`,
-            icon: <MdOutlineReceipt />,
-        },
-        {
             title: navBarOptions.reports.incomes,
             segment: `./${locale}/app/reports/incomes/`,
             icon: <MdLocalAtm />,
+        },
+        {
+            title:  navBarOptions.reports.expenses,
+            segment: `./${locale}/app/reports/expenses/`,
+            icon: <MdOutlineReceipt />,
         },
         {
             title: navBarOptions.reports.transfers,

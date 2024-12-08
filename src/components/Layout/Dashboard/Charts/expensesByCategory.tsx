@@ -120,6 +120,7 @@ export default function ExpensesByCategory(props: ExpensesByCategoryProps) {
                     />
                 </Box>
                 <PieChart
+                    margin={{ right: 150 }}
                     series={[
                         {
                             highlightScope: { fade: 'global', highlight: 'item' },
@@ -128,8 +129,6 @@ export default function ExpensesByCategory(props: ExpensesByCategoryProps) {
                             valueFormatter: formatter
                         },
                     ]}
-                    height={350}
-                    width={500}
                 />
             </WidgetCard>
         </LocalizationProvider>

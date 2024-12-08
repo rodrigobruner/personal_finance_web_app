@@ -29,35 +29,35 @@ export default function getDatagridColumns({
             field: 'id', 
             headerName: t.datagrid.columns.id, 
             type: 'number',
-            width: 50,
+            maxWidth: 50,
             align: 'center'
         },
         { 
             field: 'from', 
             headerName: t.datagrid.columns.from, 
-            width: 150
+            minWidth: 150
         },
         { 
             field: 'to', 
             headerName: t.datagrid.columns.to, 
-            width: 150
+            minWidth: 150
         },
         { 
             field: 'amount', 
             headerName: t.datagrid.columns.amount, 
-            width: 100,
+            minWidth: 150,
             renderCell: (params) => formatColor(params.value),
         },
         {
             field: 'date',
             headerName: t.datagrid.columns.date,
             renderCell: (params) => formatDate(params.value),
-            width: 100
+            minWidth: 110,
         },
         {
             field: 'description',
             headerName: t.datagrid.columns.description,
-            width: 400
+            minWidth: 130,
         },
         {
             field: 'actions',

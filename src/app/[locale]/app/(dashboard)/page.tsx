@@ -10,6 +10,7 @@ import IncomeAndExpensesChart from "@/components/Layout/Dashboard/Charts/incomeA
 import ExpensesByCategory from "@/components/Layout/Dashboard/Charts/expensesByCategory";
 import { useMessages } from "next-intl";
 import IncomesByCategory from "@/components/Layout/Dashboard/Charts/incomesByCategory";
+import WidgetCard from "@/components/Layout/Dashboard/widgetCard";
 
 
 export default function IndexPage(

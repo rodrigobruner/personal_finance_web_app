@@ -122,6 +122,7 @@ export default function IncomesByCategory(props: IncomesByCategoryProps) {
                     />
                 </Box>
                 <PieChart
+                    margin={{ right: 150 }}
                     series={[
                         {
                             highlightScope: { fade: 'global', highlight: 'item' },
@@ -130,8 +131,6 @@ export default function IncomesByCategory(props: IncomesByCategoryProps) {
                             valueFormatter: formatter
                         },
                     ]}
-                    height={350}
-                    width={500}
                 />
             </WidgetCard>
         </LocalizationProvider>

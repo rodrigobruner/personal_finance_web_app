@@ -23,40 +23,44 @@ export default function getDatagridColumns({
             field: 'id', 
             headerName: t.datagrid.columns.id, 
             type: 'number',
-            width: 50,
-            align: 'center'
+            maxWidth: 50,
         },
         { 
             field: 'fromAccount', 
             headerName: t.datagrid.columns.from, 
-            width: 150
+            minWidth: 150,
+
         },
         { 
             field: 'toAccount', 
-            headerName: t.datagrid.columns.to, 
-            width: 150
+            headerName: t.datagrid.columns.to,
+            minWidth: 150,
+
         },
         { 
             field: 'amount', 
             headerName: t.datagrid.columns.amount, 
             renderCell: (params) => formatColor(params.value),
-            width: 100
+            minWidth: 110,
+
         },
         {
             field: 'date',
             headerName: t.datagrid.columns.date,
-            width: 100
+            minWidth: 110,
+
         },
         {
             field: 'description',
             headerName: t.datagrid.columns.description,
-            width: 400
+            minWidth: 130,
+
         },
         {
             field: 'actions',
             type: 'actions',
             headerName: 'Actions',
-            width: 100,
+
             cellClassName: 'actions',
             getActions: ({ id }) => {
                 return [

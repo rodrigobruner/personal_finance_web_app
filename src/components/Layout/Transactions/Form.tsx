@@ -224,8 +224,8 @@ export function NewTransactionForm(params: FormTransactionMessage) {
     //Return new transaction form
     return (
     <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-        <Stack alignItems="center" direction="row" gap={2}>
-            <FormControl variant="standard" sx={{ m: 1, width: "40%" }}>
+        <Stack alignItems="center" direction="row" gap={2} sx={{ width: '100%' }}>
+            <FormControl variant="standard" sx={{ m: 1, flex: 1 }}>
                 <InputLabel id="from">{params.from}</InputLabel>
                 <Select
                     labelId="from"
@@ -241,8 +241,8 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                     {formState.from.helperText}
                 </FormHelperText>
             </FormControl>
-            <ChevronRightIcon sx={{m:1, width:"5%"}}/>
-            <FormControl variant="standard" sx={{ m: 1, width: "40%" }}>
+            <ChevronRightIcon sx={{ m: 1 }} />
+            <FormControl variant="standard" sx={{ m: 1, flex: 1 }}>
                 <InputLabel id="to">{params.to}</InputLabel>
                 <Select
                     labelId="to"
@@ -265,7 +265,7 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                 name="amount"
                 value={formState.amount.value}
                 onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
-                decimalScale={2} 
+                decimalScale={2}
                 fixedDecimalScale={true}
                 thousandSeparator={params.currencyThousand}
                 decimalSeparator={params.currencyDecimal}
@@ -286,25 +286,24 @@ export function NewTransactionForm(params: FormTransactionMessage) {
                 value={formState.description.value}
                 onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
                 error={formState.description.error}
-                aria-describedby="description-helper-text"/>
+                aria-describedby="description-helper-text" />
             <FormHelperText id="description-helper-text" error={formState.description.error}>
                 {formState.description.helperText}
             </FormHelperText>
         </FormControl>
-        <Button variant="contained" color="primary" type="submit">
+        <Button variant="contained" color="primary" type="submit" sx={{ width: '100%' }}>
             {params.button}
         </Button>
-        <Snackbar   open={snackbar.open} 
-                        autoHideDuration={10000} 
-                        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                        onClose={handleCloseSnackbar}>
-
-                <Alert  onClose={handleCloseSnackbar} 
-                        severity={snackbar.severity} 
-                        sx={{ width: '100%' }}>
+        <Snackbar open={snackbar.open}
+            autoHideDuration={10000}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            onClose={handleCloseSnackbar}>
+            <Alert onClose={handleCloseSnackbar}
+                severity={snackbar.severity}
+                sx={{ width: '100%' }}>
                 {snackbar.message}
-                </Alert>
-            </Snackbar>
+            </Alert>
+        </Snackbar>
     </Box>
     );
 }

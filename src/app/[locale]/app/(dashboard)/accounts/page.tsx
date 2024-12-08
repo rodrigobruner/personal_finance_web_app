@@ -167,10 +167,10 @@ export default function ListAccountPage(
 
     // If not loading, show the page with datagrid
     return (
-        <Box>
+        <Box sx={{ width: '100%', padding: '5px' }} >
             <h1><AccountBalanceIcon /> { t.title }</h1>
             <Divider sx={{marginBottom:3}}/>
-            <Paper sx={{ height: 500, width: '100%' }}>
+            <Paper sx={{ width: { xs: '42%', sm: '87%', md: '100%' } }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}

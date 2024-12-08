@@ -168,26 +168,22 @@ export default function CategoriesPage(
     
     //Render the page
     return (
-        <Box>
+        <Box sx={{ width: '100%', padding: '5px' }} >
             <h1><CategoryIcon /> { t.title }</h1>
-
             <Divider sx={{margin:"20px"}} />
-
-            <Paper sx={{ height: 500, width: '100%' }}>
+            <Paper sx={{ width: { xs: '62%', sm: '97%', md: '100%' } }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
+                    localeText={translationForDatagrid}
+                    pagination
                     slots={{
                         toolbar: CustomToolbar,
                     }}
-                    localeText={translationForDatagrid}
-                    pagination
-                    rowSelectionModel={rowSelectionModel}
                     sx={{ border: 0 }}
                     slotProps={translationForPagination}
                 />
             </Paper>
-
         </Box>
     );
 }

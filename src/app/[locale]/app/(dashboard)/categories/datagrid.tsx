@@ -25,19 +25,18 @@ export default function getDatagridColumns({
             field: 'id', 
             headerName: t.datagrid.columns.id, 
             type: 'number',
-            width: 70,
-            align: 'center'
+            maxWidth: 50,
         },
         { 
             field: 'name', 
-            headerName: t.datagrid.columns.accountName, 
-            width: 200
+            headerName: t.datagrid.columns.categoryName, 
+            minWidth: 250,
         },
         { 
             field: 'categoryType', 
             headerName: t.datagrid.columns.categoryType, 
             renderCell: (params) => formatColor(params.value),
-            width: 200
+            minWidth: 110,
         },
         {
             field: 'actions',

@@ -6,7 +6,7 @@ import { useMessages } from "next-intl";
 //Material UI
 import { useDialogs } from "@toolpad/core/useDialogs";
 import { Box, Divider, Paper } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid,DEFAULT_GRID_AUTOSIZE_OPTIONS } from "@mui/x-data-grid";
 //Others
 import { MdOutlineRepeat } from "react-icons/md";
 //Types, components and helpers
@@ -166,25 +166,26 @@ export default function TransferListPage(
         return (<Loading />);
     }
     
+
+
     //Render the page
     return (
-        <Box>
+        <Box sx={{ width: '100%', padding: '5px' }} >
             <h1><MdOutlineRepeat /> { t.title }</h1>
-            <Divider sx={{margin:"20px"}} />
-            <Paper sx={{ height: 500, width: '100%' }}>
+            <Divider sx={{ margin: "20px 0" }} />
+            <Paper sx={{ width: { xs: '42%', sm: '87%', md: '100%' } }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}
                     localeText={translationForDatagrid}
                     pagination
                     slots={{
-                        toolbar: CustomToolbar,
+                    toolbar: CustomToolbar,
                     }}
                     sx={{ border: 0 }}
                     slotProps={translationForPagination}
                 />
             </Paper>
-
         </Box>
     );
 }

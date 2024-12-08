@@ -39,34 +39,34 @@ export default function getDatagridColumns({
             field: 'id', 
             headerName: t.datagrid.columns.id, 
             type: 'number',
-            width: 70,
-            align: 'center'
+            maxWidth: 50,
         },
         { 
             field: 'name', 
             headerName: t.datagrid.columns.accountName, 
-            width: 200
+            minWidth: 150
         },
         { 
             field: 'accountType', 
             headerName: t.datagrid.columns.types, 
-            width: 130
+            minWidth: 150
         },
         {
             field: 'initialAmount',
             headerName: t.datagrid.columns.initialAmount,
-            width: 150,
+            minWidth: 130
+
         },
         {
             field: 'updatedAmount',
             headerName: t.datagrid.columns.updatedAmount,
             renderCell: (params) => formatColor(params.value),
-            width: 150,
+            minWidth: 130
         },
         {
             field: 'status',
             headerName: t.datagrid.columns.status,
-            width: 150,
+            minWidth: 50,
             renderCell: (params) => statusIcon(params.value),
         },
         {

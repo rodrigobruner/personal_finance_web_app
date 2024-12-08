@@ -77,7 +77,9 @@ export default function IncomeAndExpensesChart(props:IncomeAndExpensesChartProps
     function formatter(value: number | null): string {
         return valueFormatter({ value: value, locale: locale, currency: currency });
     }
-    
+
+
+
     //Return
     return (
         <WidgetCard>
@@ -85,8 +87,7 @@ export default function IncomeAndExpensesChart(props:IncomeAndExpensesChartProps
                 {title}
             </Typography>
             <LineChart
-            width={570}
-            height={350}
+            
             series={[
                 { data: rows.incomes, label: labels[0], color: 'green', valueFormatter: formatter },
                 { data: rows.expenses, label: labels[1], color: 'red', valueFormatter: formatter},
